@@ -1,7 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './option.module.scss';
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
+import Paper from '@mui/material/Paper';
 import { ExercisesContext } from '../../../../../../contexts/Exercises';
 
 interface OptionProps {
@@ -49,11 +48,16 @@ export default function Option(props: OptionProps) {
 	};
 
 	return (
-		<button
-			className={styles.button + ' ' + (isSelected ? styles.selected : '')}
+		<Paper
+			component="button"
+			elevation={0}
 			onClick={() => selectOption(id)}
+			sx={{
+				width: '100%',
+				p: 2,
+			}}
 		>
 			{title}
-		</button>
+		</Paper>
 	);
 }
