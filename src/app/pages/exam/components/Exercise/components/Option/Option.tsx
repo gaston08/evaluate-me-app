@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './option.module.scss';
+import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { ExercisesContext } from '../../../../../../contexts/Exercises';
 
@@ -10,10 +11,18 @@ interface OptionProps {
 
 export default function Option(props: OptionProps) {
 	const { title, id, exerciseId } = props;
-	const { setSelected } = useContext(ExercisesContext);
+	const { setSelected: setSelectedArr, selected: selectedArr } =
+		useContext(ExercisesContext);
+	const [isSelected, setIsSelected] = useState();
+
+	useEffect(() => {
+		setIsSelected(() => {
+			return checkSelect(id);
+		});
+	}, [selectedArr]);
 
 	const selectOption = (id) => {
-		setSelected((prev) => {
+		setSelectedArr((prev) => {
 			const arr = [...prev];
 
 			const index = arr.findIndex((opt) => opt.exerciseId === exerciseId);
@@ -32,8 +41,18 @@ export default function Option(props: OptionProps) {
 		});
 	};
 
+	const checkSelect = (optionId) => {
+		const res = selectedArr.some(
+			(el) => el.optionId === optionId && el.exerciseId === exerciseId
+		);
+		return res;
+	};
+
 	return (
-		<button className={styles.button} onClick={() => selectOption(id)}>
+		<button
+			className={styles.button + ' ' + (isSelected ? styles.selected : '')}
+			onClick={() => selectOption(id)}
+		>
 			{title}
 		</button>
 	);
