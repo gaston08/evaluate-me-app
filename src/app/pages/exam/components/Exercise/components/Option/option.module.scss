@@ -17,4 +17,11 @@
 	&:hover {
 		background-color: #cccccc;
 	}
+	&:focus {
+		border: 3px solid #aaaaaa;
+	}
+}
+
+.selected {
+	background-color: #cccccc;
 }
