@@ -5,6 +5,8 @@ import TextStyle from '@tiptap/extension-text-style';
 import { EditorProvider, useCurrentEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoffee } from '@fortawesome/free-solid-svg-icons';
 
 const MenuBar = () => {
 	const { editor } = useCurrentEditor();
@@ -15,6 +17,7 @@ const MenuBar = () => {
 
 	return (
 		<>
+			<FontAwesomeIcon icon={faCoffee} />
 			<button
 				onClick={() => editor.chain().focus().toggleBold().run()}
 				disabled={!editor.can().chain().focus().toggleBold().run()}
