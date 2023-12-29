@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import Paper from '@mui/material/Paper';
+import { useEffect, useState, useContext } from 'react';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Button from '@mui/material/Button';
+import { useTheme } from '@mui/material/styles';
 import { ExercisesContext } from '../../../../../../contexts/Exercises';
 
 interface OptionProps {
@@ -13,6 +15,7 @@ export default function Option(props: OptionProps) {
 	const { setSelected: setSelectedArr, selected: selectedArr } =
 		useContext(ExercisesContext);
 	const [isSelected, setIsSelected] = useState();
+	const theme = useTheme();
 
 	useEffect(() => {
 		setIsSelected(() => {
@@ -48,16 +51,16 @@ export default function Option(props: OptionProps) {
 	};
 
 	return (
-		<Paper
-			component="button"
-			elevation={0}
+		<ListItemButton
+			selected={isSelected}
 			onClick={() => selectOption(id)}
 			sx={{
-				width: '100%',
-				p: 2,
+				'&:hover': {
+					backgroundColor: theme.palette.primary.main,
+				},
 			}}
 		>
-			{title}
-		</Paper>
+			<ListItemText primary={title} />
+		</ListItemButton>
 	);
 }

@@ -9,9 +9,7 @@ export default function Exam() {
 	return (
 		<ExercisesContext.Provider value={{ selected, setSelected }}>
 			{exercises.map((exercise) => {
-				return (
-					<Exercise key={exercise.id} exercise={exercise} sx={{ mb: 4 }} />
-				);
+				return <Exercise key={exercise.id} exercise={exercise} />;
 			})}
 		</ExercisesContext.Provider>
 	);
