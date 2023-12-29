@@ -28,7 +28,7 @@ const MenuBar = () => {
 		return null;
 	}
 
-	console.log(editor);
+	console.log(editor.getHTML());
 
 	return (
 		<div className="flexContainer">
