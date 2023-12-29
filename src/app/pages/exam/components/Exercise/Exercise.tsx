@@ -31,9 +31,13 @@ export default function Exerise(props) {
 				elevation={0}
 				sx={{ p: 2, background: theme.custom.background.light }}
 			>
-				<Typography variant="h6" gutterBottom>
-					{exercise.question}
-				</Typography>
+				<div
+					dangerouslySetInnerHTML={{
+						__html:
+							'<h1>hola mundo</h1><h2>este es un subtitulo</h2><h3><strong>A EL h3 strong</strong></h3>',
+					}}
+					className="tiptap"
+				></div>
 			</Paper>
 			<List component="nav" sx={{ pt: 0 }}>
 				{exercise.options.map((option) => {
