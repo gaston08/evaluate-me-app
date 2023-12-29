@@ -25,13 +25,11 @@ export default function Exerise(props) {
 		setSelectedIndex(index);
 	};
 
-	console.log(theme.palette.background);
-
 	return (
 		<Box sx={{ width: '100%', mb: 4 }}>
 			<Paper
 				elevation={0}
-				sx={{ p: 2, bgColor: theme.palette.background.light }}
+				sx={{ p: 2, background: theme.custom.background.light }}
 			>
 				<Typography variant="h6" gutterBottom>
 					{exercise.question}
