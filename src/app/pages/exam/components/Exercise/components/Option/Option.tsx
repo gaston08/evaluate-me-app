@@ -55,8 +55,8 @@ export default function Option(props: OptionProps) {
 			selected={isSelected}
 			onClick={() => selectOption(id)}
 			sx={{
-				'&:hover': {
-					backgroundColor: theme.palette.primary.main,
+				'&:hover, &.Mui-selected, &.Mui-selected:hover': {
+					backgroundColor: theme.custom.background.main,
 				},
 			}}
 		>
