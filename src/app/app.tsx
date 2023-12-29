@@ -1,26 +1,26 @@
 import { RouterProvider } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import { router } from './routes';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: `
-        * {
-          text-align: left;
-        }
-      `,
+  palette: {
+    background: {
+      light: '#eeeeee',
+      main: '#bbbbbb',
+      paper: '#eeeeee',
+      default: '#bbbbbb',
     },
   },
 });
 
 export default function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </>
   );
-  return;
 }
