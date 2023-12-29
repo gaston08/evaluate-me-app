@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Error from './pages/error';
 import Main from './pages/main';
-import { View } from './pages/exam';
+import { View, Create } from './pages/exam';
 
 import MainLayout from './layouts/main';
 import BlogLayout from './layouts/blog';
@@ -27,5 +27,9 @@ export const router = createBrowserRouter([
         element: <View />,
       },
     ],
+  },
+  {
+    path: '/exam/create',
+    element: <Create />,
   },
 ]);
