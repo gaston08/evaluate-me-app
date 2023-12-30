@@ -33,8 +33,7 @@ export default function Exerise(props) {
 			>
 				<div
 					dangerouslySetInnerHTML={{
-						__html:
-							'<h1>hola mundo</h1><h2>este es un subtitulo</h2><h3><strong>A EL h3 strong</strong></h3>',
+						__html: exercise.question,
 					}}
 					className="tiptap"
 				></div>
