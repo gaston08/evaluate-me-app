@@ -4,7 +4,7 @@
   min-width: 100vw;
   background: red;
 
-  button {
+  button:not(.MuiButton-root) {
     background: none;
     color: inherit;
     border: none;
@@ -26,16 +26,13 @@
     background: #ccc;
   }
 
-  button:hover:not(.disabled-btn) {
+  button:hover:not(.disabled-btn, .MuiButton-root) {
     background-color: lightblue;
     filter: brightness(80%);
   }
 
   .MuiGrid-container {
     border: 1px solid red;
-  }
-  .MuiGrid-item {
-    border: 1px solid black;
   }
 
   .flexContainer {

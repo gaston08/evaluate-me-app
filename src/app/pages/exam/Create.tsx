@@ -7,6 +7,9 @@ import { EditorProvider, useCurrentEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 import {
 	faBold,
 	faItalic,
@@ -229,28 +232,12 @@ const extensions = [
 ];
 
 export default () => {
+	const [option, setOption] = useState('');
 	const [exercise, setExercise] = useState(() => {
 		return {
 			id: self.crypto.randomUUID(),
 			question: '',
-			options: [
-				{
-					id: self.crypto.randomUUID(),
-					title: '',
-				},
-				{
-					id: self.crypto.randomUUID(),
-					title: '',
-				},
-				{
-					id: self.crypto.randomUUID(),
-					title: '',
-				},
-				{
-					id: self.crypto.randomUUID(),
-					title: '',
-				},
-			],
+			options: [],
 		};
 	});
 
@@ -263,9 +250,29 @@ export default () => {
 		});
 	};
 
+	const handleSubmitOption = (e) => {
+		e.preventDefault();
+		setExercise((prev) => {
+			const optArr = [...prev.options];
+			optArr.push({
+				id: self.crypto.randomUUID(),
+				title: option,
+			});
+			return {
+				...prev,
+				options: optArr,
+			};
+		});
+		setOption('');
+	};
+
+	const handleChange = (e) => {
+		setOption(e.target.value);
+	};
+
 	return (
 		<div className="tiptapAppCreateExam">
-			<Grid container spacing={0}>
+			<Grid container spacing={1}>
 				{/** this is a helper **/}
 				<Grid item xs={12} md={4} lg={4}></Grid>
 				<Grid
@@ -282,9 +289,24 @@ export default () => {
 						injectCSS={true}
 						onUpdate={update}
 					></EditorProvider>
+					<Typography variant="h6" gutterBottom sx={{ ml: 2, mt: 2 }}>
+						Añade más de una opción.
+					</Typography>
+					<form action="post" onSubmit={handleSubmitOption}>
+						<TextField
+							multiline
+							rows={4}
+							sx={{ mt: 0, width: '100%' }}
+							value={option}
+							onChange={handleChange}
+						/>
+						<Button variant="outlined" type="submit" sx={{ mt: 3 }}>
+							Agregar opción
+						</Button>
+					</form>
 				</Grid>
 				<Grid item xs={12} md={8} lg={8} className="previewContainer">
-					<Exercise exercise={exercise} />
+					<Exercise exercise={exercise} canSelect={false} />
 				</Grid>
 			</Grid>
 		</div>

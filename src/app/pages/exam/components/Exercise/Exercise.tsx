@@ -14,7 +14,7 @@ import DraftsIcon from '@mui/icons-material/Drafts';
 import Option from './components/Option';
 
 export default function Exerise(props) {
-	const { exercise, sx } = props;
+	const { exercise, sx, canSelect } = props;
 	const [selectedIndex, setSelectedIndex] = React.useState(1);
 	const theme = useTheme();
 
@@ -46,6 +46,7 @@ export default function Exerise(props) {
 							exerciseId={exercise.id}
 							id={option.id}
 							title={option.title}
+							canSelect={canSelect}
 						/>
 					);
 				})}

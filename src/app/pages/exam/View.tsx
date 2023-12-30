@@ -13,7 +13,9 @@ export default function Exam() {
 	return (
 		<>
 			{exercises.map((exercise) => {
-				return <Exercise key={exercise.id} exercise={exercise} />;
+				return (
+					<Exercise key={exercise.id} exercise={exercise} canSelect={true} />
+				);
 			})}
 		</>
 	);
