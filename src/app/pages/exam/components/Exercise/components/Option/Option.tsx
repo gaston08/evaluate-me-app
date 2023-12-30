@@ -11,7 +11,7 @@ interface OptionProps {
 }
 
 export default function Option(props: OptionProps) {
-	const { title, id, exerciseId } = props;
+	const { title, id, exerciseId, canSelect } = props;
 	const { setSelected: setSelectedArr, selected: selectedArr } =
 		useContext(ExercisesContext);
 	const [isSelected, setIsSelected] = useState();
@@ -53,7 +53,11 @@ export default function Option(props: OptionProps) {
 	return (
 		<ListItemButton
 			selected={isSelected}
-			onClick={() => selectOption(id)}
+			onClick={() => {
+				if (canSelect) {
+					selectOption(id);
+				}
+			}}
 			sx={{
 				'&:hover, &.Mui-selected, &.Mui-selected:hover': {
 					backgroundColor: theme.custom.background.main,
