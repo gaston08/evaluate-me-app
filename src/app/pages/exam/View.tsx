@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useContext } from 'react';
 import Exercise from './components/Exercise';
-import { exercises } from './exercises';
+import { exercises as mockedData } from './exercises';
 import { ExercisesContext } from '../../contexts/Exercises';
 
 export default function Exam() {
-	const [selected, setSelected] = useState([]);
+	const { exercises, setExercises } = useContext(ExercisesContext);
+
+	useEffect(() => {
+		setExercises(mockedData);
+	}, []);
 
 	return (
-		<ExercisesContext.Provider value={{ selected, setSelected }}>
+		<>
 			{exercises.map((exercise) => {
 				return <Exercise key={exercise.id} exercise={exercise} />;
 			})}
-		</ExercisesContext.Provider>
+		</>
 	);
 }

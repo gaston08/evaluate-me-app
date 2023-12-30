@@ -1,3 +1,4 @@
+import { useState, useContext } from 'react';
 import './create.scss';
 import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
@@ -20,6 +21,8 @@ import {
 	faParagraph,
 } from '@fortawesome/free-solid-svg-icons';
 import Grid from '@mui/material/Grid';
+import Exercise from './components/Exercise';
+import { ExercisesContext } from '../../contexts/Exercises';
 
 const MenuBar = () => {
 	const { editor } = useCurrentEditor();
@@ -27,8 +30,6 @@ const MenuBar = () => {
 	if (!editor) {
 		return null;
 	}
-
-	console.log(editor.getHTML());
 
 	return (
 		<div className="flexContainer">
@@ -228,19 +229,62 @@ const extensions = [
 ];
 
 export default () => {
+	const [exercise, setExercise] = useState(() => {
+		return {
+			id: self.crypto.randomUUID(),
+			question: '',
+			options: [
+				{
+					id: self.crypto.randomUUID(),
+					title: '',
+				},
+				{
+					id: self.crypto.randomUUID(),
+					title: '',
+				},
+				{
+					id: self.crypto.randomUUID(),
+					title: '',
+				},
+				{
+					id: self.crypto.randomUUID(),
+					title: '',
+				},
+			],
+		};
+	});
+
+	const update = ({ editor }) => {
+		setExercise((prev) => {
+			return {
+				...prev,
+				question: editor.getHTML(),
+			};
+		});
+	};
+
 	return (
 		<div className="tiptapAppCreateExam">
-			<Grid container spacing={4}>
-				<Grid item xs={12} md={4} lg={4}>
+			<Grid container spacing={0}>
+				{/** this is a helper **/}
+				<Grid item xs={12} md={4} lg={4}></Grid>
+				<Grid
+					item
+					xs={12}
+					md={4}
+					lg={4}
+					sx={{ position: 'fixed', width: '100%' }}
+				>
 					<EditorProvider
 						slotBefore={<MenuBar />}
 						extensions={extensions}
 						content={''}
 						injectCSS={true}
+						onUpdate={update}
 					></EditorProvider>
 				</Grid>
-				<Grid item xs={12} md={8} lg={8}>
-					B
+				<Grid item xs={12} md={8} lg={8} className="previewContainer">
+					<Exercise exercise={exercise} />
 				</Grid>
 			</Grid>
 		</div>
