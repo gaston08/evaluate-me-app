@@ -33,15 +33,6 @@ function Copyright(props: any) {
 }
 
 export default function SignUp() {
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-		event.preventDefault();
-		const data = new FormData(event.currentTarget);
-		console.log({
-			email: data.get('email'),
-			password: data.get('password'),
-		});
-	};
-
 	return (
 		<Formik
 			initialValues={{
@@ -87,11 +78,8 @@ export default function SignUp() {
 				return errors;
 			}}
 			onSubmit={(values, { setSubmitting }) => {
-				setTimeout(() => {
-					alert(JSON.stringify(values, null, 2));
-
-					setSubmitting(false);
-				}, 400);
+				console.log(values);
+				setSubmitting(false);
 			}}
 		>
 			{({
