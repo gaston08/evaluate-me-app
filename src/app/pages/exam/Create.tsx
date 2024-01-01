@@ -25,7 +25,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Grid from '@mui/material/Grid';
 import Exercise from './components/Exercise';
-import View from './View';
+import Exercises from './components/Exercises';
 import { ExercisesContext } from '../../contexts/Exercises';
 
 const MenuBar = () => {
@@ -314,7 +314,7 @@ export default () => {
 						<Exercise exercise={exercise} canSelect={false} />
 					</div>
 					<div></div>
-					<View />
+					<Exercises />
 				</Grid>
 			</Grid>
 		</div>
