@@ -25,6 +25,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Grid from '@mui/material/Grid';
 import Exercise from './components/Exercise';
+import View from './View';
 import { ExercisesContext } from '../../contexts/Exercises';
 
 const MenuBar = () => {
@@ -236,8 +237,11 @@ export default () => {
 	const [exercise, setExercise] = useState(() => {
 		return {
 			id: self.crypto.randomUUID(),
-			question: '',
-			options: [],
+			question:
+				'<p>Escribe tu pregunta aquí. Puedes estilizar este texto con el editor!</p>',
+			options: [
+				{ id: self.crypto.randomUUID(), title: 'Esta opción debe eliminarse.' },
+			],
 		};
 	});
 
@@ -305,8 +309,12 @@ export default () => {
 						</Button>
 					</form>
 				</Grid>
-				<Grid item xs={12} md={8} lg={8} className="previewContainer">
-					<Exercise exercise={exercise} canSelect={false} />
+				<Grid item xs={12} md={8} lg={8} className="gridRight">
+					<div className="previewContainer">
+						<Exercise exercise={exercise} canSelect={false} />
+					</div>
+					<div></div>
+					<View />
 				</Grid>
 			</Grid>
 		</div>

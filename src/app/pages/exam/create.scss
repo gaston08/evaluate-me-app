@@ -50,6 +50,10 @@
   }
 
   .previewContainer {
+    min-height: 400px;
+  }
+
+  .gridRight {
     .tiptap {
       min-height: 40px;
       height: auto !important;
@@ -57,6 +61,5 @@
       border: none !important;
       overflow: inherit !important;
     }
-    height: 2000px;
   }
 }
