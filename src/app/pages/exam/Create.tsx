@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import './create.scss';
 import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
@@ -26,7 +26,6 @@ import {
 import Grid from '@mui/material/Grid';
 import Exercise from './components/Exercise';
 import Exercises from './components/Exercises';
-import { ExercisesContext } from '../../contexts/Exercises';
 
 const MenuBar = () => {
 	const { editor } = useCurrentEditor();
@@ -236,11 +235,14 @@ export default () => {
 	const [option, setOption] = useState('');
 	const [exercise, setExercise] = useState(() => {
 		return {
-			id: self.crypto.randomUUID(),
+			id: window.self.crypto.randomUUID(),
 			question:
 				'<p>Escribe tu pregunta aquí. Puedes estilizar este texto con el editor!</p>',
 			options: [
-				{ id: self.crypto.randomUUID(), title: 'Esta opción debe eliminarse.' },
+				{
+					id: window.self.crypto.randomUUID(),
+					title: 'Esta opción debe eliminarse.',
+				},
 			],
 		};
 	});
@@ -259,7 +261,7 @@ export default () => {
 		setExercise((prev) => {
 			const optArr = [...prev.options];
 			optArr.push({
-				id: self.crypto.randomUUID(),
+				id: window.self.crypto.randomUUID(),
 				title: option,
 			});
 			return {

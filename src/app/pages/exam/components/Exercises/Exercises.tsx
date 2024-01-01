@@ -8,6 +8,7 @@ export default function Exam() {
 
 	useEffect(() => {
 		setExercises(mockedData);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

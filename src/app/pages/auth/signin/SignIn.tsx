@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 
-function Copyright(props: any) {
+function Copyright(props) {
 	return (
 		<Typography
 			variant="body2"
