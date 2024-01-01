@@ -130,7 +130,6 @@ export default function SignUp() {
 									<TextField
 										error={errors.firstName && touched.firstName}
 										helperText={errors.firstName}
-										required
 										onChange={handleChange}
 										onBlur={handleBlur}
 										value={values.firstName}
@@ -144,7 +143,6 @@ export default function SignUp() {
 									<TextField
 										error={errors.lastName && touched.lastName}
 										helperText={errors.lastName}
-										required
 										onChange={handleChange}
 										onBlur={handleBlur}
 										value={values.lastName}
@@ -157,7 +155,6 @@ export default function SignUp() {
 									<TextField
 										error={errors.email && touched.email}
 										helperText={errors.email}
-										required
 										onChange={handleChange}
 										onBlur={handleBlur}
 										value={values.email}
@@ -170,7 +167,6 @@ export default function SignUp() {
 									<TextField
 										error={errors.password && touched.password}
 										helperText={errors.password}
-										required
 										onChange={handleChange}
 										onBlur={handleBlur}
 										value={values.password}
@@ -184,7 +180,6 @@ export default function SignUp() {
 									<TextField
 										error={errors.confirmPassword && touched.confirmPassword}
 										helperText={errors.confirmPassword}
-										required
 										onChange={handleChange}
 										onBlur={handleBlur}
 										value={values.confirmPassword}
@@ -213,7 +208,7 @@ export default function SignUp() {
 							</Button>
 							<Grid container justifyContent="flex-end">
 								<Grid item>
-									<LinkMui variant="body">
+									<LinkMui variant="body" component="div">
 										<Link to="/login" style={{ textDecoration: 'none' }}>
 											¿Ya tienes una cuenta? Inicia sesión
 										</Link>
