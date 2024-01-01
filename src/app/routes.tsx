@@ -1,6 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Error from './pages/error';
-import Main from './pages/main';
 import { View, Create } from './pages/exam';
 import { SignUp, SignIn } from './pages/auth';
 

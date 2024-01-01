@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
 import { ExercisesContext } from '../../../../../../contexts/Exercises';
 
@@ -17,12 +16,12 @@ export default function Option(props: OptionProps) {
 	const [isSelected, setIsSelected] = useState();
 	const theme = useTheme();
 
-	useEffect(() => {
-		setIsSelected(() => {
-			return checkSelect(id);
-		});
-	}, [selectedArr]);
-
+	const checkSelect = (optionId) => {
+		const res = selectedArr.some(
+			(el) => el.optionId === optionId && el.exerciseId === exerciseId
+		);
+		return res;
+	};
 	const selectOption = (id) => {
 		setSelectedArr((prev) => {
 			const arr = [...prev];
@@ -43,12 +42,11 @@ export default function Option(props: OptionProps) {
 		});
 	};
 
-	const checkSelect = (optionId) => {
-		const res = selectedArr.some(
-			(el) => el.optionId === optionId && el.exerciseId === exerciseId
-		);
-		return res;
-	};
+	useEffect(() => {
+		setIsSelected(() => {
+			return checkSelect(id);
+		});
+	}, [id, selectedArr, checkSelect]);
 
 	return (
 		<ListItemButton

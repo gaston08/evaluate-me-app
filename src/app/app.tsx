@@ -46,22 +46,20 @@ export default function App() {
   const [currentExercise, setCurrentExercise] = useState({});
 
   return (
-    <>
-      <ExercisesContext.Provider
-        value={{
-          selected,
-          setSelected,
-          exercises,
-          setExercises,
-          currentExercise,
-          setCurrentExercise,
-        }}
-      >
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <RouterProvider router={router} />
-        </ThemeProvider>
-      </ExercisesContext.Provider>
-    </>
+    <ExercisesContext.Provider
+      value={{
+        selected,
+        setSelected,
+        exercises,
+        setExercises,
+        currentExercise,
+        setCurrentExercise,
+      }}
+    >
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </ExercisesContext.Provider>
   );
 }
