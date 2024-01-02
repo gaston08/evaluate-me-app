@@ -4,6 +4,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { router } from './routes';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ExercisesContext } from './contexts/Exercises';
+import { AuthContext } from './contexts/Auth';
 
 declare module '@mui/material/styles' {
   interface Theme {
@@ -44,22 +45,33 @@ export default function App() {
   const [selected, setSelected] = useState([]);
   const [exercises, setExercises] = useState([]);
   const [currentExercise, setCurrentExercise] = useState({});
+  const [auth, setAuth] = useState({
+    isLogged: false,
+    user: {},
+  });
 
   return (
-    <ExercisesContext.Provider
+    <AuthContext.Provider
       value={{
-        selected,
-        setSelected,
-        exercises,
-        setExercises,
-        currentExercise,
-        setCurrentExercise,
+        auth,
+        setAuth,
       }}
     >
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </ExercisesContext.Provider>
+      <ExercisesContext.Provider
+        value={{
+          selected,
+          setSelected,
+          exercises,
+          setExercises,
+          currentExercise,
+          setCurrentExercise,
+        }}
+      >
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <RouterProvider router={router} />
+        </ThemeProvider>
+      </ExercisesContext.Provider>
+    </AuthContext.Provider>
   );
 }
