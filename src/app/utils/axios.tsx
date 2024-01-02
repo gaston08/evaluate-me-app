@@ -11,13 +11,15 @@ export const axiosPost = async (
 	data: object | null
 ): axiosPostResponse => {
 	const response = {};
-	console.log(data);
 	try {
 		const result = await axios.post(
 			`${import.meta.env.VITE_API_ROUTE}/${route}`,
 			data
 		);
 		response.ok = true;
+		if (result.data) {
+			response.data = result.data;
+		}
 	} catch (err) {
 		if (err.response) {
 			if (err.response.data.message) {
