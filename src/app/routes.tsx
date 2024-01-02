@@ -3,21 +3,10 @@ import Error from './pages/error';
 import { View, Create } from './pages/exam';
 import { SignUp, SignIn } from './pages/auth';
 
-import MainLayout from './layouts/main';
 import BlogLayout from './layouts/blog';
+import { RequireAuth, NoRequireAuth } from './layouts/auth';
 
 export const router = createBrowserRouter([
-  {
-    path: '/main',
-    element: <MainLayout />,
-    errorElement: <Error />,
-    children: [
-      {
-        path: '/main/index',
-        element: <h1>Hola mundo</h1>,
-      },
-    ],
-  },
   {
     path: '/blog',
     element: <BlogLayout />,
@@ -29,15 +18,29 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: '/exam/create',
-    element: <Create />,
+    path: '/admin/',
+    errorElement: <Error />,
+    element: <RequireAuth />,
+    children: [
+      {
+        path: '/admin/exam/create',
+        element: <Create />,
+      },
+    ],
   },
   {
-    path: '/signup',
-    element: <SignUp />,
-  },
-  {
-    path: '/login',
-    element: <SignIn />,
+    path: '/auth',
+    errorElement: <Error />,
+    element: <NoRequireAuth />,
+    children: [
+      {
+        path: '/auth/signup',
+        element: <SignUp />,
+      },
+      {
+        path: '/auth/login',
+        element: <SignIn />,
+      },
+    ],
   },
 ]);

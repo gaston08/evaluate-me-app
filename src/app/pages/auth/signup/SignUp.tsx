@@ -90,7 +90,7 @@ export default function SignUp() {
 				};
 				const result = await axiosPost('signup', data);
 				if (result.ok) {
-					navigate('/login', { state: { signup: true } });
+					navigate('/auth/login', { state: { signup: true } });
 				} else {
 					setError(result.error);
 					if (result.errors) {
@@ -223,7 +223,7 @@ export default function SignUp() {
 							<Grid container justifyContent="flex-end">
 								<Grid item>
 									<LinkMui variant="body" component="div">
-										<Link to="/login" style={{ textDecoration: 'none' }}>
+										<Link to="/auth/login" style={{ textDecoration: 'none' }}>
 											¿Ya tienes una cuenta? Inicia sesión
 										</Link>
 									</LinkMui>

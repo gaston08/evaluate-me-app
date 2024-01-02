@@ -188,7 +188,7 @@ export default function SignIn() {
 							<Grid container justifyContent="flex-start">
 								<Grid item>
 									<LinkMui variant="body" component="div">
-										<Link to="/signup" style={{ textDecoration: 'none' }}>
+										<Link to="/auth/signup" style={{ textDecoration: 'none' }}>
 											¿No tienes una cuenta? Create una
 										</Link>
 									</LinkMui>
@@ -196,7 +196,7 @@ export default function SignIn() {
 								<Grid item>
 									<LinkMui variant="body" component="div">
 										<Link
-											to="/forgot-password"
+											to="/auth/forgot-password"
 											style={{ textDecoration: 'none' }}
 										>
 											¿Olvidaste tu contraseña?
