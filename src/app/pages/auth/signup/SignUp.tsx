@@ -1,16 +1,18 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import LinkMui from '@mui/material/Link';
 import Container from '@mui/material/Container';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import { axiosPost } from '../../../utils/axios';
 
 function Copyright(props) {
 	return (
@@ -31,14 +33,16 @@ function Copyright(props) {
 }
 
 export default function SignUp() {
+	const [error, setError] = useState('');
+
 	return (
 		<Formik
 			initialValues={{
-				email: '',
-				password: '',
-				confirmPassword: '',
-				firstName: '',
-				lastName: '',
+				email: 'gaston@gmail.com',
+				password: 'abcd1234',
+				confirmPassword: 'abcd1234',
+				firstName: 'gaston',
+				lastName: 'pedraza',
 			}}
 			validate={(values) => {
 				const errors = {};
@@ -73,10 +77,22 @@ export default function SignUp() {
 					errors.confirmPassword = 'Las contraseñas no coinciden';
 				}
 
-				return errors;
+				//return errors;
+				return {};
 			}}
-			onSubmit={(values, { setSubmitting }) => {
-				console.log(values);
+			onSubmit={async (values, { setSubmitting }) => {
+				const data = {
+					email: values.email,
+					password: values.password,
+					confirmPassword: values.confirmPassword,
+				};
+				const result = await axiosPost('signup', data);
+				if (result.ok) {
+					console.log('creado');
+				} else {
+					setError(result.error);
+					console.log(result.error);
+				}
 				setSubmitting(false);
 			}}
 		>
@@ -175,6 +191,11 @@ export default function SignUp() {
 										name="confirmPassword"
 									/>
 								</Grid>
+								{error !== '' ? (
+									<Grid item xs={12}>
+										<Alert severity="error">{error}</Alert>
+									</Grid>
+								) : null}
 								{/**<Grid item xs={12}>
 								<FormControlLabel
 									control={
