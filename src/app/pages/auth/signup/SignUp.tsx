@@ -13,6 +13,7 @@ import Container from '@mui/material/Container';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { axiosPost } from '../../../utils/axios';
+import { useNavigate } from 'react-router-dom';
 
 function Copyright(props) {
 	return (
@@ -34,6 +35,7 @@ function Copyright(props) {
 
 export default function SignUp() {
 	const [error, setError] = useState('');
+	const navigate = useNavigate();
 
 	return (
 		<Formik
@@ -88,7 +90,7 @@ export default function SignUp() {
 				};
 				const result = await axiosPost('signup', data);
 				if (result.ok) {
-					console.log('creado');
+					navigate('/login', { state: { signup: true } });
 				} else {
 					setError(result.error);
 					if (result.errors) {
