@@ -1,6 +1,15 @@
 import axios from 'axios';
 
-export const axiosPost = async (route, data) => {
+interface axiosPostResponse {
+	ok: boolean;
+	error: string;
+	errors: Array[object];
+}
+
+export const axiosPost = async (
+	route: string,
+	data: object | null
+): axiosPostResponse => {
 	const response = {};
 	console.log(data);
 	try {
@@ -15,6 +24,10 @@ export const axiosPost = async (route, data) => {
 				response.error = err.response.data.message;
 			} else {
 				response.error = err.response.statusText;
+			}
+
+			if (err.response.data.errors) {
+				response.errors = err.response.data.errors;
 			}
 		} else if (err.request) {
 			response.error = 'Can not connect to the server';

@@ -80,7 +80,7 @@ export default function SignUp() {
 				//return errors;
 				return {};
 			}}
-			onSubmit={async (values, { setSubmitting }) => {
+			onSubmit={async (values, obj) => {
 				const data = {
 					email: values.email,
 					password: values.password,
@@ -91,9 +91,14 @@ export default function SignUp() {
 					console.log('creado');
 				} else {
 					setError(result.error);
-					console.log(result.error);
+					if (result.errors) {
+						result.errors.forEach(async (err) => {
+							await obj.setFieldTouched(err.path, true);
+							await obj.setFieldError(err.path, err.msg);
+						});
+					}
 				}
-				setSubmitting(false);
+				obj.setSubmitting(false);
 			}}
 		>
 			{({
