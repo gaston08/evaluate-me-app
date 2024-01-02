@@ -16,7 +16,7 @@
       ]
     },
     "@nx/vite:test": {
-      "cache": true,
+      "cache": false,
       "inputs": ["default", "^production"]
     }
   },
