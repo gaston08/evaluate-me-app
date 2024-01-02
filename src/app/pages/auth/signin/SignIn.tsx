@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +14,8 @@ import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { axiosPost } from '../../../utils/axios';
 
 function Copyright(props) {
 	return (
@@ -36,12 +37,14 @@ function Copyright(props) {
 
 export default function SignIn() {
 	const location = useLocation();
+	const [error, setError] = useState('');
+	const navigate = useNavigate();
 	return (
 		<Formik
 			initialValues={{
 				email: '',
 				password: '',
-				rememberLogin: false,
+				rememberLogin: true,
 			}}
 			validate={(values) => {
 				const errors = {};
@@ -62,9 +65,28 @@ export default function SignIn() {
 
 				return errors;
 			}}
-			onSubmit={(values, { setSubmitting }) => {
-				console.log(values);
-				setSubmitting(false);
+			onSubmit={async (values, obj) => {
+				const data = {
+					email: values.email,
+					password: values.password,
+				};
+
+				const result = await axiosPost('login', data);
+				if (result.ok) {
+					if (values.rememberLogin) {
+						localStorage.setItem('access_token', result.data.token);
+					}
+					navigate('/blog/exam');
+				} else {
+					setError(result.error);
+					if (result.errors) {
+						result.errors.forEach(async (err) => {
+							await obj.setFieldTouched(err.path, true);
+							await obj.setFieldError(err.path, err.msg);
+						});
+					}
+				}
+				obj.setSubmitting(false);
 			}}
 		>
 			{({
@@ -137,13 +159,23 @@ export default function SignIn() {
 								</Grid>
 								<Grid item xs={12}>
 									<FormControlLabel
-										control={<Checkbox color="primary" />}
+										control={
+											<Checkbox
+												color="primary"
+												checked={values.rememberLogin}
+											/>
+										}
 										label="Recordar inicio de sesión"
 										onChange={(val) =>
 											setFieldValue('rememberLogin', val.target.checked)
 										}
 									/>
 								</Grid>
+								{error !== '' ? (
+									<Grid item xs={12}>
+										<Alert severity="error">{error}</Alert>
+									</Grid>
+								) : null}
 							</Grid>
 							<Button
 								type="submit"
