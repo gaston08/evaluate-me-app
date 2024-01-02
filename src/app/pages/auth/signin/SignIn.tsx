@@ -11,8 +11,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import LinkMui from '@mui/material/Link';
 import Container from '@mui/material/Container';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 function Copyright(props) {
 	return (
@@ -33,6 +35,7 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
+	const location = useLocation();
 	return (
 		<Formik
 			initialValues={{
@@ -97,6 +100,16 @@ export default function SignIn() {
 							sx={{ mt: 3 }}
 						>
 							<Grid container spacing={2}>
+								{location && location.state && location.state.signup ? (
+									<Grid item xs={12}>
+										<Alert severity="success">
+											<AlertTitle>Correcto</AlertTitle>
+											Usuario creado con éxito.{' '}
+											<strong>Ahora puedes iniciar sesión.</strong>
+										</Alert>
+									</Grid>
+								) : null}
+
 								<Grid item xs={12}>
 									<TextField
 										error={errors.email && touched.email}
