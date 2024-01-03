@@ -22,7 +22,7 @@ export default function RequireAuth() {
 	};
 
 	useEffect(() => {
-		checkAuth();
+		checkAuth().catch(console.error);
 	}, []);
 
 	return <>{isLoading ? <h1>Loading...</h1> : <Outlet />}</>;

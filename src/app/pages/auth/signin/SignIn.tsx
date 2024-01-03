@@ -16,6 +16,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { axiosPost } from '../../../utils/axios';
+import { apiPostResponse } from 'app/shared/interfaces/api-response';
 
 function Copyright(props) {
 	return (
@@ -37,7 +38,7 @@ function Copyright(props) {
 
 export default function SignIn() {
 	const location = useLocation();
-	const [error, setError] = useState('');
+	const [error, setError] = useState<string>('');
 	const navigate = useNavigate();
 	return (
 		<Formik
@@ -71,7 +72,7 @@ export default function SignIn() {
 					password: values.password,
 				};
 
-				const result = await axiosPost('login', data);
+				const result: apiPostResponse = await axiosPost('login', data);
 				if (result.ok) {
 					if (values.rememberLogin) {
 						localStorage.setItem('access_token', result.data.token);
@@ -80,10 +81,16 @@ export default function SignIn() {
 				} else {
 					setError(result.error);
 					if (result.errors) {
-						result.errors.forEach(async (err) => {
-							await obj.setFieldTouched(err.path, true);
-							await obj.setFieldError(err.path, err.msg);
-						});
+						result.errors.forEach(
+							(err: { path: string; msg: string }): void => {
+								obj
+									.setFieldTouched(err.path, true)
+									.then(() => {
+										obj.setFieldError(err.path, err.msg);
+									})
+									.catch(console.error);
+							}
+						);
 					}
 				}
 				obj.setSubmitting(false);
@@ -96,7 +103,6 @@ export default function SignIn() {
 				handleChange,
 				handleBlur,
 				handleSubmit,
-				isSubmitting,
 				setFieldValue,
 			}) => (
 				<Container component="main" maxWidth="xs">
@@ -122,7 +128,7 @@ export default function SignIn() {
 							sx={{ mt: 3 }}
 						>
 							<Grid container spacing={2}>
-								{location && location.state && location.state.signup ? (
+								{location.state && location.state.signup ? (
 									<Grid item xs={12}>
 										<Alert severity="success">
 											<AlertTitle>Correcto</AlertTitle>

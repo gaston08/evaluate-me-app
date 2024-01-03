@@ -1,15 +1,11 @@
 import axios from 'axios';
 
-interface axiosPostResponse {
-	ok: boolean;
-	error: string;
-	errors: Array[object];
-}
+import { apiPostResponse } from 'app/shared/interfaces/api-response';
 
 export const axiosPost = async (
 	route: string,
 	data: object | null
-): axiosPostResponse => {
+): Promise<apiPostResponse> => {
 	const response = {};
 	try {
 		const result = await axios.post(
