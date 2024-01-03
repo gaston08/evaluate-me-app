@@ -1,6 +1,25 @@
 import axios from 'axios';
 
-import { apiPostResponse } from 'app/shared/interfaces/api-response';
+import {
+	apiPostResponse,
+	expressError,
+} from 'app/shared/interfaces/api-response';
+
+interface axiosPostInterface {
+	data?: object;
+}
+
+interface axiosPostErrorInterface {
+	response?: {
+		data: {
+			message?: string;
+			errors?: Array<expressError>;
+		};
+		statusText: string;
+	};
+	request?: object;
+	message: string;
+}
 
 export const axiosPost = async (
 	route: string,
@@ -8,7 +27,7 @@ export const axiosPost = async (
 ): Promise<apiPostResponse> => {
 	const response = {};
 	try {
-		const result = await axios.post(
+		const result: axiosPostInterface = await axios.post(
 			`${import.meta.env.VITE_API_ROUTE}/${route}`,
 			data
 		);
@@ -16,7 +35,8 @@ export const axiosPost = async (
 		if (result.data) {
 			response.data = result.data;
 		}
-	} catch (err) {
+	} catch (error) {
+		const err: axiosPostErrorInterface = error as axiosPostErrorInterface;
 		if (err.response) {
 			if (err.response.data.message) {
 				response.error = err.response.data.message;

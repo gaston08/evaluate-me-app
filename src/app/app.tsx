@@ -5,6 +5,7 @@ import { router } from './routes';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ExercisesContext } from './contexts/Exercises';
 import { AuthContext } from './contexts/Auth';
+import { exerciseType } from 'app/shared/interfaces/exercise';
 
 declare module '@mui/material/styles' {
   interface Theme {
@@ -41,9 +42,14 @@ const theme = createTheme({
   },
 });
 
+interface selectedOption {
+  optionId: string;
+  exerciseId: string;
+}
+
 export default function App() {
-  const [selected, setSelected] = useState([]);
-  const [exercises, setExercises] = useState([]);
+  const [selected, setSelected] = useState<Array<selectedOption>>([]);
+  const [exercises, setExercises] = useState<Array<exerciseType>>([]);
   const [currentExercise, setCurrentExercise] = useState({});
   const [auth, setAuth] = useState({
     isLogged: false,

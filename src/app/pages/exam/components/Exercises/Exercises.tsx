@@ -2,18 +2,20 @@ import { useEffect, useContext } from 'react';
 import Exercise from '../Exercise';
 import { exercises as mockedData } from '../../exercises';
 import { ExercisesContext } from '../../../../contexts/Exercises';
+import { exerciseType, contextExercises } from 'app/shared/interfaces/exercise';
 
 export default function Exam() {
-	const { exercises, setExercises } = useContext(ExercisesContext);
+	const { exercises, setExercises } = useContext(
+		ExercisesContext
+	) as contextExercises;
 
 	useEffect(() => {
 		setExercises(mockedData);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (
 		<>
-			{exercises.map((exercise) => {
+			{exercises.map((exercise: exerciseType) => {
 				return (
 					<Exercise key={exercise.id} exercise={exercise} canSelect={true} />
 				);

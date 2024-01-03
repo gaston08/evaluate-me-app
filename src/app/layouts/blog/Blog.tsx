@@ -53,6 +53,10 @@ const featuredPosts = [
 	},
 ];
 
+function Icon() {
+	return <p></p>;
+}
+
 const sidebar = {
 	title: 'About',
 	description:
@@ -75,9 +79,9 @@ const sidebar = {
 		//{ name: 'X', icon: XIcon },
 		//{ name: 'Facebook', icon: FacebookIcon },
 
-		{ name: 'GitHub', icon: <></> },
-		{ name: 'X', icon: <></> },
-		{ name: 'Facebook', icon: <></> },
+		{ name: 'GitHub', icon: Icon },
+		{ name: 'X', icon: Icon },
+		{ name: 'Facebook', icon: Icon },
 	],
 };
 

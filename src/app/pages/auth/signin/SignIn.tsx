@@ -16,7 +16,17 @@ import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { axiosPost } from '../../../utils/axios';
-import { apiPostResponse } from 'app/shared/interfaces/api-response';
+import {
+	apiPostResponse,
+	expressError,
+} from 'app/shared/interfaces/api-response';
+import { RouteComponentProps } from 'react-router';
+
+interface UserPageProps extends RouteComponentProps {
+	state: {
+		signup?: boolean | undefined;
+	};
+}
 
 function Copyright(props) {
 	return (
@@ -37,7 +47,7 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
-	const location = useLocation();
+	const location: UserPageProps = useLocation();
 	const [error, setError] = useState<string>('');
 	const navigate = useNavigate();
 	return (
@@ -81,16 +91,14 @@ export default function SignIn() {
 				} else {
 					setError(result.error);
 					if (result.errors) {
-						result.errors.forEach(
-							(err: { path: string; msg: string }): void => {
-								obj
-									.setFieldTouched(err.path, true)
-									.then(() => {
-										obj.setFieldError(err.path, err.msg);
-									})
-									.catch(console.error);
-							}
-						);
+						result.errors.forEach((err: expressError): void => {
+							obj
+								.setFieldTouched(err.path, true)
+								.then(() => {
+									obj.setFieldError(err.path, err.msg);
+								})
+								.catch(console.error);
+						});
 					}
 				}
 				obj.setSubmitting(false);
@@ -128,7 +136,7 @@ export default function SignIn() {
 							sx={{ mt: 3 }}
 						>
 							<Grid container spacing={2}>
-								{location.state && location.state.signup ? (
+								{location.state.signup ? (
 									<Grid item xs={12}>
 										<Alert severity="success">
 											<AlertTitle>Correcto</AlertTitle>
@@ -172,7 +180,7 @@ export default function SignIn() {
 											/>
 										}
 										label="Recordar inicio de sesión"
-										onChange={(val) =>
+										onChange={(val): void =>
 											setFieldValue('rememberLogin', val.target.checked)
 										}
 									/>
