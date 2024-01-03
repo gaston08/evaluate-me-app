@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useState } from 'react';
 import './create.scss';
 import { Color } from '@tiptap/extension-color';
@@ -5,7 +6,6 @@ import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
 import { EditorProvider, useCurrentEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -26,8 +26,9 @@ import {
 import Grid from '@mui/material/Grid';
 import Exercise from './components/Exercise';
 import Exercises from './components/Exercises';
+import { exerciseType } from 'app/shared/interfaces/exercise';
 
-const MenuBar = () => {
+function MenuBar() {
 	const { editor } = useCurrentEditor();
 
 	if (!editor) {
@@ -214,7 +215,7 @@ const MenuBar = () => {
 			</div>
 		</div>
 	);
-};
+}
 
 const extensions = [
 	Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -222,18 +223,18 @@ const extensions = [
 	StarterKit.configure({
 		bulletList: {
 			keepMarks: true,
-			keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+			keepAttributes: false,
 		},
 		orderedList: {
 			keepMarks: true,
-			keepAttributes: false, // TODO : Making this as `false` becase marks are not preserved when I try to preserve attrs, awaiting a bit of help
+			keepAttributes: false,
 		},
 	}),
 ];
 
-export default () => {
-	const [option, setOption] = useState('');
-	const [exercise, setExercise] = useState(() => {
+export default function Create() {
+	const [option, setOption] = useState<string>('');
+	const [exercise, setExercise] = useState<exerciseType>(() => {
 		return {
 			id: window.self.crypto.randomUUID(),
 			question:
@@ -247,7 +248,8 @@ export default () => {
 		};
 	});
 
-	const update = ({ editor }) => {
+	const update = (props: { editor: object }) => {
+		const editor: { getHTML: () => string } = props.editor;
 		setExercise((prev) => {
 			return {
 				...prev,
@@ -256,7 +258,7 @@ export default () => {
 		});
 	};
 
-	const handleSubmitOption = (e) => {
+	const handleSubmitOption = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setExercise((prev) => {
 			const optArr = [...prev.options];
@@ -272,7 +274,7 @@ export default () => {
 		setOption('');
 	};
 
-	const handleChange = (e) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setOption(e.target.value);
 	};
 
@@ -321,4 +323,4 @@ export default () => {
 			</Grid>
 		</div>
 	);
-};
+}

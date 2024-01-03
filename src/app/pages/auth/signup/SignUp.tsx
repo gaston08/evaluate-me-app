@@ -14,6 +14,7 @@ import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { axiosPost } from '../../../utils/axios';
 import { useNavigate } from 'react-router-dom';
+import { expressError } from 'app/shared/interfaces/api-response';
 
 function Copyright(props) {
 	return (
@@ -94,9 +95,13 @@ export default function SignUp() {
 				} else {
 					setError(result.error);
 					if (result.errors) {
-						result.errors.forEach(async (err) => {
-							await obj.setFieldTouched(err.path, true);
-							await obj.setFieldError(err.path, err.msg);
+						result.errors.forEach((err: expressError): void => {
+							obj
+								.setFieldTouched(err.path, true)
+								.then(() => {
+									obj.setFieldError(err.path, err.msg);
+								})
+								.catch(console.error);
 						});
 					}
 				}
@@ -110,7 +115,6 @@ export default function SignUp() {
 				handleChange,
 				handleBlur,
 				handleSubmit,
-				isSubmitting,
 			}) => (
 				<Container component="main" maxWidth="xs">
 					<CssBaseline />

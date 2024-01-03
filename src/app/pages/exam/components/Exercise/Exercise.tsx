@@ -5,9 +5,16 @@ import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
+import { exerciseType } from 'app/shared/interfaces/exercise';
 
-export default function Exerise(props) {
-	const { exercise, canSelect } = props;
+interface ExerciseProps {
+	exercise: exerciseType;
+	canSelect: boolean;
+}
+
+export default function Exercise(props: ExerciseProps) {
+	const exercise: exerciseType = props.exercise;
+	const canSelect: boolean = props.canSelect;
 	const theme = useTheme();
 
 	return (

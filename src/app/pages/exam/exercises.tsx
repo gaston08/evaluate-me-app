@@ -1,4 +1,6 @@
-export const exercises = [
+import { exerciseType } from 'app/shared/interfaces/exercise';
+
+export const exercises: Array<exerciseType> = [
 	{
 		id: window.self.crypto.randomUUID(),
 		question: `Determine cuál de los siguientes fragmentos es un argumento.
