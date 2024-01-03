@@ -19,10 +19,10 @@
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "types": ["vite/client", "vitest"]
+    "types": ["vite/client", "@types/node"]
   },
   "files": [],
-  "include": [],
+  "include": ["babel.config.ts", "jest.config.ts"],
   "references": [
     {
       "path": "./tsconfig.app.json"
