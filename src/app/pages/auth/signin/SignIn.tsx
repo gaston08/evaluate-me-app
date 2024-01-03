@@ -7,7 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+//import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import LinkMui from '@mui/material/Link';
 import Container from '@mui/material/Container';
@@ -110,7 +110,7 @@ export default function SignIn() {
 						}}
 					>
 						<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-							<LockOutlinedIcon />
+							{/**<LockOutlinedIcon />**/}
 						</Avatar>
 						<Typography component="h1" variant="h5">
 							Inicio de sesión
