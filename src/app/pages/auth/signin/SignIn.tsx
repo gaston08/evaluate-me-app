@@ -15,7 +15,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { axiosPost } from '../../../utils/axios';
+import { axiosPost } from 'app/utils/axios';
 import {
 	apiPostResponse,
 	expressError,

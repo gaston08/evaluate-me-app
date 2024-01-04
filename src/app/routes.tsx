@@ -1,10 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Error from './pages/error';
-import { View, Create } from './pages/exam';
-import { SignUp, SignIn } from './pages/auth';
+import Error from 'app/pages/error';
+import { View, Create } from 'app/pages/exam';
+import { SignUp, SignIn } from 'app/pages/auth';
 
-import BlogLayout from './layouts/blog';
-import { RequireAuth, NoRequireAuth } from './layouts/auth';
+import BlogLayout from 'app/layouts/blog';
+import { RequireAuth, NoRequireAuth } from 'app/layouts/auth';
 
 export const router = createBrowserRouter([
   {

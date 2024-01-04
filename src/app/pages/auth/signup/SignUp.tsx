@@ -12,7 +12,7 @@ import LinkMui from '@mui/material/Link';
 import Container from '@mui/material/Container';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
-import { axiosPost } from '../../../utils/axios';
+import { axiosPost } from 'app/utils/axios';
 import { useNavigate } from 'react-router-dom';
 import { expressError } from 'app/shared/interfaces/api-response';
 

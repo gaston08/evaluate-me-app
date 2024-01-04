@@ -1,7 +1,7 @@
 import { useEffect, useContext } from 'react';
 import Exercise from '../Exercise';
 import { exercises as mockedData } from '../../exercises';
-import { ExercisesContext } from '../../../../contexts/Exercises';
+import { ExercisesContext } from 'app/contexts/Exercises';
 import { exerciseType, contextExercises } from 'app/shared/interfaces/exercise';
 
 export default function Exam() {
