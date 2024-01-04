@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { useTheme } from '@mui/material/styles';
-import { ExercisesContext } from '../../../../../../contexts/Exercises';
+import { ExercisesContext } from 'app/contexts/Exercises';
 import {
 	contextExercises,
 	selectedInterface,

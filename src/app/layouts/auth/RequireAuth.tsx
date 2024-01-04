@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { axiosPost } from '../../utils/axios';
+import { axiosPost } from 'app/utils/axios';
 import axios from 'axios';
 
 export default function RequireAuth() {
