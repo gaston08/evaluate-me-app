@@ -20,13 +20,6 @@ import {
 	apiPostResponse,
 	expressError,
 } from 'app/shared/interfaces/api-response';
-import { RouteComponentProps } from 'react-router';
-
-interface UserPageProps extends RouteComponentProps {
-	state: {
-		signup?: boolean | undefined;
-	};
-}
 
 function Copyright(props) {
 	return (
@@ -47,7 +40,7 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
-	const location: UserPageProps = useLocation();
+	const location = useLocation() as { state: { signup: string } };
 	const [error, setError] = useState<string>('');
 	const navigate = useNavigate();
 	return (
@@ -136,7 +129,7 @@ export default function SignIn() {
 							sx={{ mt: 3 }}
 						>
 							<Grid container spacing={2}>
-								{location.state?.signup ? (
+								{location.state.signup ? (
 									<Grid item xs={12}>
 										<Alert severity="success">
 											<AlertTitle>Correcto</AlertTitle>

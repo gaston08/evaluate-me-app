@@ -1,7 +1,7 @@
 // Imports
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom/server';
 import { unmountComponentAtNode } from 'react-dom';
 
 // To Test
@@ -24,9 +24,11 @@ afterEach(() => {
 describe('SignIn render', async () => {
   it('should render SignIn page', async () => {
     render(
-      <MemoryRouter initialEntries={['/auth/login']}>
+      <StaticRouter
+        location={{ pathname: '/auth/login', state: { signup: false } }}
+      >
         <SignIn />
-      </MemoryRouter>
+      </StaticRouter>
     );
 
     const text = await screen.queryByText('Inicio de sesión');
