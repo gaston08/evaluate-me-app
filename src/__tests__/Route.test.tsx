@@ -112,7 +112,7 @@ describe('App render', async () => {
       });
     });
 
-    it('should redirect to /blog/exam', async () => {
+    it('should redirect to /blog/exam when trying to access /auth/login and /auth/signup as a logged in user', async () => {
       axios.post.mockResolvedValue({
         data: { ok: true },
       });
@@ -131,6 +131,7 @@ describe('App render', async () => {
         expect(router.state.location.pathname).toBe('/blog/exam');
       });
       unmount();
+      localStorage.removeItem('access_token', access_token);
     });
   });
 });
