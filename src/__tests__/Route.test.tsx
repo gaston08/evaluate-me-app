@@ -11,8 +11,14 @@ import {
 import App from '../app/app';
 import { arrRoutes } from '../app/routes';
 import ThemeWrapper from '../app/components/ThemeWrapper';
+import { axiosPost } from 'app/utils/axios';
 
-vi.mock('axios');
+import { ClipboardEventMock, DragEventMock } from './richTextTestUtils';
+
+(global as any).ClipboardEvent = ClipboardEventMock;
+(global as any).DragEvent = DragEventMock;
+
+vi.mock('app/utils/axios');
 
 const access_token =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTk4ODczNjM5YTI2NTAxNGExNjQwNzUiLCJlbWFpbCI6Imdhc3RpQGdtYWlsLmNvbSIsInRva2VucyI6W10sImNyZWF0ZWRBdCI6IjIwMjQtMDEtMDVUMjI6NDg6MjIuNjA4WiIsInVwZGF0ZWRBdCI6IjIwMjQtMDEtMDVUMjI6NDg6MjIuNjA4WiIsIl9fdiI6MCwiaWF0IjoxNzA0NDk0OTEwLCJleHAiOjE3MDQ3MTA5MTB9.otU8ll9U55MRwcCd_ghuw1VjQBQK__vlFK-5iJ6V4UI';
@@ -86,26 +92,25 @@ describe('App render', async () => {
   });*/
 
   describe('testing redirect auth protection', async () => {
-    /*it('should redirect to /auth/login', async () => {
+    it('should redirect to /auth/login when trying to access /admin/exam/create as a not logged in user', async () => {
       const { router, unmount } = setupAuthPages('/admin/exam/create');
 
       await waitFor(() => {
         expect(router.state.location.pathname).toBe('/auth/login');
       });
 
-      localStorage.setItem('access_token', access_token);
-      axios.post.mockResolvedValue({
-        data: { ok: false },
-      });
-
       act(() => {
+        localStorage.setItem('access_token', access_token);
+        axiosPost.mockResolvedValue({
+          data: { ok: false },
+        });
         router.navigate('/admin/exam/create');
       });
 
       await waitFor(() => {
         expect(router.state.location.pathname).toBe('/auth/login');
       });
-    });*/
+    });
 
     it('should redirect to /blog/exam', async () => {
       axios.post.mockResolvedValue({
