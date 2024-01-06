@@ -129,7 +129,7 @@ export default function SignIn() {
 							sx={{ mt: 3 }}
 						>
 							<Grid container spacing={2}>
-								{location.state.signup ? (
+								{location.state?.signup ? (
 									<Grid item xs={12}>
 										<Alert severity="success">
 											<AlertTitle>Correcto</AlertTitle>
