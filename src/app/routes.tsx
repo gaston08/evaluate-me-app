@@ -6,7 +6,7 @@ import { SignUp, SignIn } from 'app/pages/auth';
 import BlogLayout from 'app/layouts/blog';
 import { RequireAuth, NoRequireAuth } from 'app/layouts/auth';
 
-export const router = createBrowserRouter([
+export const arrRoutes = [
   {
     path: '/blog',
     element: <BlogLayout />,
@@ -43,4 +43,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+export const router = createBrowserRouter(arrRoutes);
