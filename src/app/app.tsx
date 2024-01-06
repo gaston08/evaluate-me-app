@@ -1,46 +1,10 @@
 import { useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
-import CssBaseline from '@mui/material/CssBaseline';
 import { router } from './routes';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ExercisesContext } from './contexts/Exercises';
 import { AuthContext } from './contexts/Auth';
 import { exerciseType } from 'app/shared/interfaces/exercise';
-
-declare module '@mui/material/styles' {
-  interface Theme {
-    custom: {
-      background: {
-        light: string;
-        main: string;
-      };
-    };
-  }
-  // allow configuration using `createTheme`
-  interface ThemeOptions {
-    custom?: {
-      background?: {
-        light?: string;
-        main?: string;
-      };
-    };
-  }
-}
-
-const theme = createTheme({
-  palette: {
-    background: {
-      paper: '#eeeeee',
-      default: '#bbbbbb',
-    },
-  },
-  custom: {
-    background: {
-      light: '#eeeeee',
-      main: '#bbbbbb',
-    },
-  },
-});
+import ThemeWrapper from 'app/components/ThemeWrapper';
 
 interface selectedOption {
   optionId: string;
@@ -73,10 +37,9 @@ export default function App() {
           setCurrentExercise,
         }}
       >
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
+        <ThemeWrapper>
           <RouterProvider router={router} />
-        </ThemeProvider>
+        </ThemeWrapper>
       </ExercisesContext.Provider>
     </AuthContext.Provider>
   );
