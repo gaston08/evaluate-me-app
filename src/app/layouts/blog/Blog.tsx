@@ -85,13 +85,9 @@ const sidebar = {
 	],
 };
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
-
 export default function Blog() {
 	return (
-		<ThemeProvider theme={defaultTheme}>
-			<CssBaseline />
+		<>
 			<Container maxWidth="lg">
 				<Header title="Blog" sections={sections} />
 				<main>
@@ -116,6 +112,6 @@ export default function Blog() {
 				title="Footer"
 				description="Something here to give the footer a purpose!"
 			/>
-		</ThemeProvider>
+		</>
 	);
 }
