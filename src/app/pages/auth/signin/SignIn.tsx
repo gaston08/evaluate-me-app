@@ -40,7 +40,7 @@ function Copyright(props) {
 }
 
 export default function SignIn() {
-	const location = useLocation() as { state: { signup: string } };
+	const location = useLocation() as { state?: { signup: string } };
 	const [error, setError] = useState<string>('');
 	const navigate = useNavigate();
 	return (

@@ -1,22 +1,16 @@
 // Imports
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { act, render, screen, waitFor } from '@testing-library/react';
-import axios from 'axios';
-import {
-  MemoryRouter,
-  createMemoryRouter,
-  RouterProvider,
-} from 'react-router-dom';
+import { act, render, waitFor } from '@testing-library/react';
+import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 // To Test
-import App from '../app/app';
 import { arrRoutes } from '../app/routes';
 import ThemeWrapper from '../app/components/ThemeWrapper';
 import { axiosPost } from 'app/utils/axios';
 
 import { ClipboardEventMock, DragEventMock } from './richTextTestUtils';
 
-(global as any).ClipboardEvent = ClipboardEventMock;
-(global as any).DragEvent = DragEventMock;
+(global as { ClipboardEvent: object }).ClipboardEvent = ClipboardEventMock;
+(global as { DragEvent: object }).DragEvent = DragEventMock;
 
 vi.mock('app/utils/axios');
 
@@ -43,7 +37,7 @@ const setupAuthPages = (initialRoute) => {
 };
 
 // Tests
-describe('App render', async () => {
+describe('App render', () => {
   /*
   describe('/auth/login', async () => {
     it('should render SignIn page withtout after creation message', async () => {
@@ -91,7 +85,7 @@ describe('App render', async () => {
     });
   });*/
 
-  describe('testing redirect auth protection', async () => {
+  describe('testing redirect auth protection', () => {
     it('should redirect to /auth/login when trying to access /admin/exam/create as a not logged in user', async () => {
       const { router, unmount } = setupAuthPages('/admin/exam/create');
 
@@ -99,21 +93,23 @@ describe('App render', async () => {
         expect(router.state.location.pathname).toBe('/auth/login');
       });
 
-      act(() => {
+      await act(async () => {
         localStorage.setItem('access_token', access_token);
-        axiosPost.mockResolvedValue({
+        vi.mocked(axiosPost).mockResolvedValue({
           ok: false,
         });
-        router.navigate('/admin/exam/create');
+        await router.navigate('/admin/exam/create');
       });
 
       await waitFor(() => {
         expect(router.state.location.pathname).toBe('/auth/login');
       });
+
+      unmount();
     });
 
     it('should redirect to /blog/exam when trying to access /auth/login and /auth/signup as a logged in user', async () => {
-      axiosPost.mockResolvedValue({
+      vi.mocked(axiosPost).mockResolvedValue({
         ok: true,
       });
       localStorage.setItem('access_token', access_token);
@@ -123,8 +119,8 @@ describe('App render', async () => {
         expect(router.state.location.pathname).toBe('/blog/exam');
       });
 
-      act(() => {
-        router.navigate('/auth/signup');
+      await act(async () => {
+        await router.navigate('/auth/signup');
       });
 
       await waitFor(() => {

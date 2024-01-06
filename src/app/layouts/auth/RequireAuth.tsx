@@ -10,7 +10,8 @@ export default function RequireAuth() {
 	const checkAuth = async () => {
 		const access_token = localStorage.getItem('access_token');
 		if (!access_token) {
-			return navigate('/auth/login');
+			navigate('/auth/login');
+			return;
 		}
 		axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 		const result = await axiosPost('auth', {});
