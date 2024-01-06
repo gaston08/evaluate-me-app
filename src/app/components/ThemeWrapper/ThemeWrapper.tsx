@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import React from 'react';
 
 declare module '@mui/material/styles' {
 	interface Theme {
