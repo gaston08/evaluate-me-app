@@ -102,7 +102,7 @@ describe('App render', async () => {
       act(() => {
         localStorage.setItem('access_token', access_token);
         axiosPost.mockResolvedValue({
-          data: { ok: false },
+          ok: false,
         });
         router.navigate('/admin/exam/create');
       });
@@ -113,8 +113,8 @@ describe('App render', async () => {
     });
 
     it('should redirect to /blog/exam when trying to access /auth/login and /auth/signup as a logged in user', async () => {
-      axios.post.mockResolvedValue({
-        data: { ok: true },
+      axiosPost.mockResolvedValue({
+        ok: true,
       });
       localStorage.setItem('access_token', access_token);
       const { router, unmount } = setupAuthPages('/auth/login');
