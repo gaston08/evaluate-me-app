@@ -1,6 +1,6 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
+import React from 'react';
 
 declare module '@mui/material/styles' {
 	interface Theme {
@@ -37,7 +37,7 @@ const theme = createTheme({
 	},
 });
 
-export default function ThemeWrapper({ children }: any) {
+export default function ThemeWrapper({ children }) {
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
