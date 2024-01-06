@@ -36,6 +36,7 @@ export const axiosPost = async (
 			response.data = result.data;
 		}
 	} catch (error) {
+		response.ok = false;
 		const err: axiosPostErrorInterface = error as axiosPostErrorInterface;
 		if (err.response) {
 			if (err.response.data.message) {
