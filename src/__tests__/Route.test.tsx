@@ -10,6 +10,7 @@ import {
 // To Test
 import App from '../app/app';
 import { arrRoutes } from '../app/routes';
+import ThemeWrapper from '../app/components/ThemeWrapper';
 
 vi.mock('axios');
 
@@ -26,7 +27,11 @@ const setupAuthPages = (initialRoute) => {
     initialIndex: 0,
   });
 
-  const { unmount } = render(<RouterProvider router={router} />);
+  const { unmount } = render(
+    <ThemeWrapper>
+      <RouterProvider router={router} />
+    </ThemeWrapper>
+  );
 
   return { router, unmount };
 };
@@ -81,9 +86,30 @@ describe('App render', async () => {
   });*/
 
   describe('testing redirect auth protection', async () => {
+    /*it('should redirect to /auth/login', async () => {
+      const { router, unmount } = setupAuthPages('/admin/exam/create');
+
+      await waitFor(() => {
+        expect(router.state.location.pathname).toBe('/auth/login');
+      });
+
+      localStorage.setItem('access_token', access_token);
+      axios.post.mockResolvedValue({
+        data: { ok: false },
+      });
+
+      act(() => {
+        router.navigate('/admin/exam/create');
+      });
+
+      await waitFor(() => {
+        expect(router.state.location.pathname).toBe('/auth/login');
+      });
+    });*/
+
     it('should redirect to /blog/exam', async () => {
       axios.post.mockResolvedValue({
-        data: { ok: true, test: true },
+        data: { ok: true },
       });
       localStorage.setItem('access_token', access_token);
       const { router, unmount } = setupAuthPages('/auth/login');
