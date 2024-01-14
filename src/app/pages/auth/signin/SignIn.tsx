@@ -75,7 +75,7 @@ export default function SignIn() {
 					password: values.password,
 				};
 
-				const result: apiPostResponse = await axiosPost('login', data);
+				const result: apiPostResponse = await axiosPost('api/login', data);
 				if (result.ok) {
 					if (values.rememberLogin) {
 						localStorage.setItem('access_token', result.data.token);
@@ -105,6 +105,7 @@ export default function SignIn() {
 				handleBlur,
 				handleSubmit,
 				setFieldValue,
+				isValid,
 			}) => (
 				<Container component="main" maxWidth="xs">
 					<CssBaseline />
@@ -189,6 +190,7 @@ export default function SignIn() {
 								fullWidth
 								variant="contained"
 								sx={{ mt: 3, mb: 2 }}
+								disabled={!isValid}
 							>
 								Iniciar sesión
 							</Button>
@@ -203,7 +205,7 @@ export default function SignIn() {
 								<Grid item>
 									<LinkMui variant="body" component="div">
 										<Link
-											to="/auth/forgot-password"
+											to="/auth/forgot/password"
 											style={{ textDecoration: 'none' }}
 										>
 											¿Olvidaste tu contraseña?

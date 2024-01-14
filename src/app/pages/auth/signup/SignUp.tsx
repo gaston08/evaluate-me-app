@@ -41,7 +41,7 @@ export default function SignUp() {
 	return (
 		<Formik
 			initialValues={{
-				email: 'gaston@gmail.com',
+				email: 'gaston08pedraza@gmail.com',
 				password: 'abcd1234',
 				confirmPassword: 'abcd1234',
 				firstName: 'gaston',
@@ -80,16 +80,17 @@ export default function SignUp() {
 					errors.confirmPassword = 'Las contraseñas no coinciden';
 				}
 
-				//return errors;
-				return {};
+				return errors;
 			}}
 			onSubmit={async (values, obj) => {
 				const data = {
 					email: values.email,
 					password: values.password,
 					confirmPassword: values.confirmPassword,
+					firstName: values.firstName,
+					lastName: values.lastName,
 				};
-				const result = await axiosPost('signup', data);
+				const result = await axiosPost('api/signup', data);
 				if (result.ok) {
 					navigate('/auth/login', { state: { signup: true } });
 				} else {
@@ -115,6 +116,7 @@ export default function SignUp() {
 				handleChange,
 				handleBlur,
 				handleSubmit,
+				isValid,
 			}) => (
 				<Container component="main" maxWidth="xs">
 					<CssBaseline />
@@ -207,20 +209,13 @@ export default function SignUp() {
 										<Alert severity="error">{error}</Alert>
 									</Grid>
 								) : null}
-								{/**<Grid item xs={12}>
-								<FormControlLabel
-									control={
-										<Checkbox value="allowExtraEmails" color="primary" />
-									}
-									label="I want to receive inspiration, marketing promotions and updates via email."
-								/>
-							</Grid>**/}
 							</Grid>
 							<Button
 								type="submit"
 								fullWidth
 								variant="contained"
 								sx={{ mt: 3, mb: 2 }}
+								disabled={!isValid}
 							>
 								Crear usuario
 							</Button>

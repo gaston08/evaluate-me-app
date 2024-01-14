@@ -14,6 +14,7 @@ interface axiosPostErrorInterface {
 		data: {
 			message?: string;
 			errors?: Array<expressError>;
+			error?: string;
 		};
 		statusText: string;
 	};
@@ -23,13 +24,13 @@ interface axiosPostErrorInterface {
 
 export const axiosPost = async (
 	route: string,
-	data: object | null
+	data: object | null,
 ): Promise<apiPostResponse> => {
-	const response = {};
+	const response: apiPostResponse = {};
 	try {
 		const result: axiosPostInterface = await axios.post(
 			`${import.meta.env.VITE_API_ROUTE}/${route}`,
-			data
+			data,
 		);
 		response.ok = true;
 		if (result.data) {
@@ -39,8 +40,8 @@ export const axiosPost = async (
 		response.ok = false;
 		const err: axiosPostErrorInterface = error as axiosPostErrorInterface;
 		if (err.response) {
-			if (err.response.data.message) {
-				response.error = err.response.data.message;
+			if (err.response.data.error) {
+				response.error = err.response.data.error;
 			} else {
 				response.error = err.response.statusText;
 			}
