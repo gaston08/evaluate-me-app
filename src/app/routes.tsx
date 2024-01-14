@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Error from 'app/pages/error';
 import { View, Create } from 'app/pages/exam';
 import { SignUp, SignIn, ForgotPassword } from 'app/pages/auth';
@@ -7,6 +7,10 @@ import BlogLayout from 'app/layouts/blog';
 import { RequireAuth, NoRequireAuth } from 'app/layouts/auth';
 
 export const arrRoutes = [
+  {
+    path: '/',
+    element: <Navigate to="/auth/login" replace />,
+  },
   {
     path: '/blog',
     element: <BlogLayout />,
