@@ -46,8 +46,8 @@ export default function SignIn() {
 	return (
 		<Formik
 			initialValues={{
-				email: '',
-				password: '',
+				email: 'gaston08pedraza@gmail.com',
+				password: 'abcd1234',
 				rememberLogin: true,
 			}}
 			validate={(values) => {
@@ -77,10 +77,20 @@ export default function SignIn() {
 
 				const result: apiPostResponse = await axiosPost('api/login', data);
 				if (result.ok) {
+					let access_token_expires_in: number = new Date().getTime();
+					const hour = 1000 * 60 * 60;
 					if (values.rememberLogin) {
-						localStorage.setItem('access_token', result.data.token);
+						const week = hour * 24 * 7;
+						access_token_expires_in += week;
+					} else {
+						access_token_expires_in += hour * 5;
 					}
-					navigate('/blog/exam');
+					localStorage.setItem('access_token', result.data.token);
+					localStorage.setItem(
+						'access_token_expires_in',
+						access_token_expires_in,
+					);
+					navigate('/admin/exam/create');
 				} else {
 					setError(result.error);
 					if (result.errors) {
