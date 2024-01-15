@@ -16,6 +16,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { axiosPost } from 'app/utils/axios';
+import { getExpireTime, enumTime, setToken } from 'app/utils/common';
 import {
 	apiPostResponse,
 	expressError,
@@ -59,19 +60,13 @@ export default function SignIn() {
 
 				const result: apiPostResponse = await axiosPost('api/login', data);
 				if (result.ok) {
-					let access_token_expires_in: number = new Date().getTime();
-					const hour = 1000 * 60 * 60;
+					let access_token_expires_in: number;
 					if (values.rememberLogin) {
-						const week = hour * 24 * 7;
-						access_token_expires_in += week;
+						access_token_expires_in = getExpireTime(7, enumTime.DAY);
 					} else {
-						access_token_expires_in += hour * 5;
+						access_token_expires_in = getExpireTime(5, enumTime.HOUR);
 					}
-					localStorage.setItem('access_token', result.data.token);
-					localStorage.setItem(
-						'access_token_expires_in',
-						access_token_expires_in,
-					);
+					setToken(result.data.token, access_token_expires_in);
 					navigate('/admin/exam/create');
 				} else {
 					setError(result.error);
