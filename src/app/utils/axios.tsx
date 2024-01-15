@@ -50,7 +50,7 @@ export const axiosPost = async (
 				response.errors = err.response.data.errors;
 			}
 		} else if (err.request) {
-			response.error = 'Can not connect to the server';
+			response.error = 'No se pudo conectar con el servidor.';
 		} else {
 			response.error = err.message;
 		}
