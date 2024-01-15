@@ -9,6 +9,8 @@ import {
 	isTokenExpired,
 	setToken,
 } from 'app/utils/common';
+import { Link } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
 
 export default function RequireAuth() {
 	const [isLoading, setIsLoading] = useState(true);
@@ -45,5 +47,28 @@ export default function RequireAuth() {
 		checkAuth().catch(console.error);
 	}, []);
 
-	return <>{isLoading ? <h1>Loading...</h1> : <Outlet />}</>;
+	return (
+		<>
+			{isLoading ? <h1>Loading...</h1> : <Outlet />}
+			<Copyright sx={{ mt: 5 }} />
+		</>
+	);
+}
+
+function Copyright(props) {
+	return (
+		<Typography
+			variant="body2"
+			color="text.secondary"
+			align="center"
+			{...props}
+		>
+			{'Copyright © '}
+			<Link color="inherit" href="https://mui.com/">
+				Evaluate.me
+			</Link>{' '}
+			{new Date().getFullYear()}
+			{'.'}
+		</Typography>
+	);
 }

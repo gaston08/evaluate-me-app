@@ -16,24 +16,6 @@ import { axiosPost } from 'app/utils/axios';
 import { useNavigate } from 'react-router-dom';
 import { expressError } from 'app/shared/interfaces/api-response';
 
-function Copyright(props) {
-	return (
-		<Typography
-			variant="body2"
-			color="text.secondary"
-			align="center"
-			{...props}
-		>
-			{'Copyright © '}
-			<Link color="inherit" href="https://mui.com/">
-				Evaluate.me
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
-
 export default function SignUp() {
 	const [error, setError] = useState('');
 	const navigate = useNavigate();
@@ -230,7 +212,6 @@ export default function SignUp() {
 							</Grid>
 						</Box>
 					</Box>
-					<Copyright sx={{ mt: 5 }} />
 				</Container>
 			)}
 		</Formik>

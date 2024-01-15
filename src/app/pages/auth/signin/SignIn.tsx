@@ -21,24 +21,6 @@ import {
 	expressError,
 } from 'app/shared/interfaces/api-response';
 
-function Copyright(props) {
-	return (
-		<Typography
-			variant="body2"
-			color="text.secondary"
-			align="center"
-			{...props}
-		>
-			{'Copyright © '}
-			<Link color="inherit" href="https://mui.com/">
-				Evaluate.me
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
-
 export default function SignIn() {
 	const location = useLocation() as { state?: { signup: string } };
 	const [error, setError] = useState<string>('');
@@ -225,7 +207,6 @@ export default function SignIn() {
 							</Grid>
 						</Box>
 					</Box>
-					<Copyright sx={{ mt: 5 }} />
 				</Container>
 			)}
 		</Formik>

@@ -10,25 +10,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import { Formik } from 'formik';
-import { Link } from 'react-router-dom';
-
-function Copyright(props) {
-	return (
-		<Typography
-			variant="body2"
-			color="text.secondary"
-			align="center"
-			{...props}
-		>
-			{'Copyright © '}
-			<Link color="inherit" href="https://mui.com/">
-				Evaluate.me
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
 
 export default function ForgotPassword() {
 	const [error] = useState<string>('');
@@ -127,7 +108,6 @@ export default function ForgotPassword() {
 							</Grid>
 						</Box>
 					</Box>
-					<Copyright sx={{ mt: 5 }} />
 				</Container>
 			)}
 		</Formik>
