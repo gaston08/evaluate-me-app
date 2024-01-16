@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 //import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
 import {
 	apiPostResponse,
@@ -16,7 +17,8 @@ import { axiosPost } from 'app/utils/axios';
 
 export default function ForgotPassword() {
 	const [error, setError] = useState<string>('');
-	const [emailSended] = useState<boolean>(false);
+	const [emailSended, setEmailSended] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(false);
 	return (
 		<Formik
 			initialValues={{
@@ -36,18 +38,17 @@ export default function ForgotPassword() {
 				return errors;
 			}}
 			onSubmit={async (values, obj) => {
+				setLoading(true);
 				const data = {
 					email: values.email,
 				};
 
-				//return setEmailSended(true);
-
 				const result: apiPostResponse = await axiosPost(
-					'api/forgot-password',
+					'api/user/forgot/password',
 					data,
 				);
 				if (result.ok) {
-					// here
+					setEmailSended(true);
 				} else {
 					setError(result.error);
 					if (result.errors) {
@@ -62,6 +63,7 @@ export default function ForgotPassword() {
 					}
 				}
 
+				setLoading(false);
 				obj.setSubmitting(false);
 			}}
 		>
@@ -124,7 +126,11 @@ export default function ForgotPassword() {
 								</Grid>
 								<Grid container spacing={2} justifyContent="flex-end">
 									<Grid item>
-										<Button variant="outlined" sx={{ mt: 3, mb: 2 }}>
+										<Button
+											variant="outlined"
+											sx={{ mt: 3, mb: 2 }}
+											disabled={loading}
+										>
 											Cancelar
 										</Button>
 									</Grid>
@@ -133,6 +139,7 @@ export default function ForgotPassword() {
 											type="submit"
 											variant="contained"
 											sx={{ mt: 3, mb: 2 }}
+											disabled={loading}
 										>
 											Buscar
 										</Button>
@@ -155,7 +162,9 @@ function EmailSended(props: IEmailSended) {
 	const { email } = props;
 	return (
 		<Alert severity="success">
-			Se ha enviado un email a tu dirección de correo electrónico: {email}
+			<AlertTitle>Email enviado con éxito!</AlertTitle>
+			Se ha enviado un email a tu dirección de correo electrónico: {email}.
+			Sigue las instrucciones detalladas en el email para recuperar tu cuenta.
 		</Alert>
 	);
 }
