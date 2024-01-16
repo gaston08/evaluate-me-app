@@ -1,12 +1,12 @@
+interface optionType {
+	id: string;
+	title: string;
+}
+
 export interface exerciseType {
 	id: string;
 	question: string;
 	options: Array<optionType>;
-}
-
-interface optionType {
-	id: string;
-	title: string;
 }
 
 export interface selectedInterface {
@@ -19,6 +19,9 @@ export interface contextExercises {
 	setSelected: () => void;
 	exercises: Array<exerciseType>;
 	setExercises: () => void;
-	currentExercise: currentExercise;
+}
+
+export interface contextExercise {
+	currentExercise: exerciseType;
 	setCurrentExercise: () => void;
 }
