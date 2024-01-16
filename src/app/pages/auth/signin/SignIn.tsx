@@ -123,6 +123,16 @@ export default function SignIn() {
 								</Grid>
 							) : null}
 
+							{location.state?.reset ? (
+								<Grid item xs={12}>
+									<Alert severity="success">
+										<AlertTitle>Correcto</AlertTitle>
+										La contraseña ha cambiado.{' '}
+										<strong>Ahora puedes iniciar sesión.</strong>
+									</Alert>
+								</Grid>
+							) : null}
+
 							<Grid item xs={12}>
 								<TextField
 									error={errors.email && touched.email}

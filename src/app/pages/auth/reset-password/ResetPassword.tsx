@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -7,46 +6,27 @@ import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 //import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import LinkMui from '@mui/material/Link';
 import { Formik } from 'formik';
-import { Link } from 'react-router-dom';
 import { axiosPost } from 'app/utils/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { expressError } from 'app/shared/interfaces/api-response';
 
-export default function SignUp() {
-	const [error, setError] = useState('');
+export default function ResetPassword() {
+	const [error, setError] = useState<string>('');
+	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
+	const params = useParams();
+
+	const token: string = params.token;
 
 	return (
 		<Formik
 			initialValues={{
-				email: 'gaston08pedraza@gmail.com',
 				password: 'abcd1234',
 				confirmPassword: 'abcd1234',
-				firstName: 'gaston',
-				lastName: 'pedraza',
 			}}
 			validate={(values) => {
 				const errors = {};
-
-				if (!values.firstName) {
-					errors.firstName = 'El campo es obligatorio';
-				} else if (values.firstName.length < 3) {
-					errors.firstName = 'El nombre debe poseer al menos 3 caracteres';
-				}
-
-				if (!values.lastName) {
-					errors.lastName = 'El campo es obligatorio';
-				}
-
-				if (!values.email) {
-					errors.email = 'El campo es obligatorio';
-				} else if (
-					!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-				) {
-					errors.email = 'Dirección de correo electrónico no válida';
-				}
 
 				if (!values.password) {
 					errors.password = 'El campo es obligatorio';
@@ -63,16 +43,17 @@ export default function SignUp() {
 				return errors;
 			}}
 			onSubmit={async (values, obj) => {
+				setLoading(true);
 				const data = {
-					email: values.email,
 					password: values.password,
 					confirmPassword: values.confirmPassword,
-					firstName: values.firstName,
-					lastName: values.lastName,
 				};
-				const result = await axiosPost('api/signup', data);
+				const result = await axiosPost(
+					`api/user/reset/password/${token}`,
+					data,
+				);
 				if (result.ok) {
-					navigate('/auth/login', { state: { signup: true, reset: false } });
+					navigate('/auth/login', { state: { signup: false, reset: true } });
 				} else {
 					setError(result.error);
 					if (result.errors) {
@@ -87,6 +68,7 @@ export default function SignUp() {
 					}
 				}
 				obj.setSubmitting(false);
+				setLoading(false);
 			}}
 		>
 			{({
@@ -106,11 +88,8 @@ export default function SignUp() {
 						alignItems: 'center',
 					}}
 				>
-					<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-						{/**<LockOutlinedIcon />**/}
-					</Avatar>
 					<Typography component="h1" variant="h5">
-						Crear usuario
+						Ingresa tu nueva contraseña
 					</Typography>
 					<Box
 						component="form"
@@ -119,43 +98,6 @@ export default function SignUp() {
 						sx={{ mt: 3 }}
 					>
 						<Grid container spacing={2}>
-							<Grid item xs={12} sm={6}>
-								<TextField
-									error={errors.firstName && touched.firstName}
-									helperText={errors.firstName}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									value={values.firstName}
-									fullWidth
-									label="Nombre"
-									name="firstName"
-									autoFocus
-								/>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<TextField
-									error={errors.lastName && touched.lastName}
-									helperText={errors.lastName}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									value={values.lastName}
-									fullWidth
-									label="Apellido"
-									name="lastName"
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<TextField
-									error={errors.email && touched.email}
-									helperText={errors.email}
-									onChange={handleChange}
-									onBlur={handleBlur}
-									value={values.email}
-									fullWidth
-									label="Correo electrónico"
-									name="email"
-								/>
-							</Grid>
 							<Grid item xs={12}>
 								<TextField
 									error={errors.password && touched.password}
@@ -193,19 +135,10 @@ export default function SignUp() {
 							fullWidth
 							variant="contained"
 							sx={{ mt: 3, mb: 2 }}
-							disabled={!isValid}
+							disabled={!!(!isValid | loading)}
 						>
-							Crear usuario
+							Cambiar contraseña
 						</Button>
-						<Grid container justifyContent="flex-end">
-							<Grid item>
-								<LinkMui variant="body" component="div">
-									<Link to="/auth/login" style={{ textDecoration: 'none' }}>
-										¿Ya tienes una cuenta? Inicia sesión
-									</Link>
-								</LinkMui>
-							</Grid>
-						</Grid>
 					</Box>
 				</Box>
 			)}
