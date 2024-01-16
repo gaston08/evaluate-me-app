@@ -11,6 +11,9 @@ import {
 } from 'app/utils/common';
 import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
 
 export default function RequireAuth() {
 	const [isLoading, setIsLoading] = useState(true);
@@ -49,8 +52,24 @@ export default function RequireAuth() {
 
 	return (
 		<>
-			{isLoading ? <h1>Loading...</h1> : <Outlet />}
-			<Copyright sx={{ mt: 5 }} />
+			{isLoading ? (
+				<h1>Loading...</h1>
+			) : (
+				<Container component="main" maxWidth="xs">
+					<CssBaseline />
+					<Box
+						sx={{
+							minHeight: '100vh',
+							display: 'flex',
+							flexDirection: 'column',
+							justifyContent: 'space-around',
+						}}
+					>
+						<Outlet />
+						<Copyright sx={{ mt: 5 }} />
+					</Box>
+				</Container>
+			)}
 		</>
 	);
 }

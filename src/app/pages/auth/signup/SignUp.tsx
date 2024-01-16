@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -9,7 +8,6 @@ import Alert from '@mui/material/Alert';
 //import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import LinkMui from '@mui/material/Link';
-import Container from '@mui/material/Container';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { axiosPost } from 'app/utils/axios';
@@ -100,119 +98,116 @@ export default function SignUp() {
 				handleSubmit,
 				isValid,
 			}) => (
-				<Container component="main" maxWidth="xs">
-					<CssBaseline />
+				<Box
+					sx={{
+						marginTop: 8,
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+					}}
+				>
+					<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+						{/**<LockOutlinedIcon />**/}
+					</Avatar>
+					<Typography component="h1" variant="h5">
+						Crear usuario
+					</Typography>
 					<Box
-						sx={{
-							marginTop: 8,
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-						}}
+						component="form"
+						noValidate
+						onSubmit={handleSubmit}
+						sx={{ mt: 3 }}
 					>
-						<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-							{/**<LockOutlinedIcon />**/}
-						</Avatar>
-						<Typography component="h1" variant="h5">
-							Crear usuario
-						</Typography>
-						<Box
-							component="form"
-							noValidate
-							onSubmit={handleSubmit}
-							sx={{ mt: 3 }}
+						<Grid container spacing={2}>
+							<Grid item xs={12} sm={6}>
+								<TextField
+									error={errors.firstName && touched.firstName}
+									helperText={errors.firstName}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									value={values.firstName}
+									fullWidth
+									label="Nombre"
+									name="firstName"
+									autoFocus
+								/>
+							</Grid>
+							<Grid item xs={12} sm={6}>
+								<TextField
+									error={errors.lastName && touched.lastName}
+									helperText={errors.lastName}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									value={values.lastName}
+									fullWidth
+									label="Apellido"
+									name="lastName"
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									error={errors.email && touched.email}
+									helperText={errors.email}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									value={values.email}
+									fullWidth
+									label="Correo electrónico"
+									name="email"
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									error={errors.password && touched.password}
+									helperText={errors.password}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									value={values.password}
+									fullWidth
+									label="Contraseña"
+									type="password"
+									name="password"
+								/>
+							</Grid>
+							<Grid item xs={12}>
+								<TextField
+									error={errors.confirmPassword && touched.confirmPassword}
+									helperText={errors.confirmPassword}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									value={values.confirmPassword}
+									fullWidth
+									label="Repetir contraseña"
+									type="password"
+									name="confirmPassword"
+								/>
+							</Grid>
+							{error !== '' ? (
+								<Grid item xs={12}>
+									<Alert severity="error">{error}</Alert>
+								</Grid>
+							) : null}
+						</Grid>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							sx={{ mt: 3, mb: 2 }}
+							disabled={!isValid}
 						>
-							<Grid container spacing={2}>
-								<Grid item xs={12} sm={6}>
-									<TextField
-										error={errors.firstName && touched.firstName}
-										helperText={errors.firstName}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										value={values.firstName}
-										fullWidth
-										label="Nombre"
-										name="firstName"
-										autoFocus
-									/>
-								</Grid>
-								<Grid item xs={12} sm={6}>
-									<TextField
-										error={errors.lastName && touched.lastName}
-										helperText={errors.lastName}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										value={values.lastName}
-										fullWidth
-										label="Apellido"
-										name="lastName"
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										error={errors.email && touched.email}
-										helperText={errors.email}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										value={values.email}
-										fullWidth
-										label="Correo electrónico"
-										name="email"
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										error={errors.password && touched.password}
-										helperText={errors.password}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										value={values.password}
-										fullWidth
-										label="Contraseña"
-										type="password"
-										name="password"
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										error={errors.confirmPassword && touched.confirmPassword}
-										helperText={errors.confirmPassword}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										value={values.confirmPassword}
-										fullWidth
-										label="Repetir contraseña"
-										type="password"
-										name="confirmPassword"
-									/>
-								</Grid>
-								{error !== '' ? (
-									<Grid item xs={12}>
-										<Alert severity="error">{error}</Alert>
-									</Grid>
-								) : null}
+							Crear usuario
+						</Button>
+						<Grid container justifyContent="flex-end">
+							<Grid item>
+								<LinkMui variant="body" component="div">
+									<Link to="/auth/login" style={{ textDecoration: 'none' }}>
+										¿Ya tienes una cuenta? Inicia sesión
+									</Link>
+								</LinkMui>
 							</Grid>
-							<Button
-								type="submit"
-								fullWidth
-								variant="contained"
-								sx={{ mt: 3, mb: 2 }}
-								disabled={!isValid}
-							>
-								Crear usuario
-							</Button>
-							<Grid container justifyContent="flex-end">
-								<Grid item>
-									<LinkMui variant="body" component="div">
-										<Link to="/auth/login" style={{ textDecoration: 'none' }}>
-											¿Ya tienes una cuenta? Inicia sesión
-										</Link>
-									</LinkMui>
-								</Grid>
-							</Grid>
-						</Box>
+						</Grid>
 					</Box>
-				</Container>
+				</Box>
 			)}
 		</Formik>
 	);

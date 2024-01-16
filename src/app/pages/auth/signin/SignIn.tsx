@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
@@ -10,7 +9,6 @@ import Box from '@mui/material/Box';
 //import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import LinkMui from '@mui/material/Link';
-import Container from '@mui/material/Container';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
@@ -94,115 +92,109 @@ export default function SignIn() {
 				setFieldValue,
 				isValid,
 			}) => (
-				<Container component="main" maxWidth="xs">
-					<CssBaseline />
+				<Box
+					sx={{
+						marginTop: 8,
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+					}}
+				>
+					<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+						{/**<LockOutlinedIcon />**/}
+					</Avatar>
+					<Typography component="h1" variant="h5">
+						Inicio de sesión
+					</Typography>
 					<Box
-						sx={{
-							marginTop: 8,
-							display: 'flex',
-							flexDirection: 'column',
-							alignItems: 'center',
-						}}
+						component="form"
+						noValidate
+						onSubmit={handleSubmit}
+						sx={{ mt: 3 }}
 					>
-						<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-							{/**<LockOutlinedIcon />**/}
-						</Avatar>
-						<Typography component="h1" variant="h5">
-							Inicio de sesión
-						</Typography>
-						<Box
-							component="form"
-							noValidate
-							onSubmit={handleSubmit}
-							sx={{ mt: 3 }}
-						>
-							<Grid container spacing={2}>
-								{location.state?.signup ? (
-									<Grid item xs={12}>
-										<Alert severity="success">
-											<AlertTitle>Correcto</AlertTitle>
-											Usuario creado con éxito.{' '}
-											<strong>Ahora puedes iniciar sesión.</strong>
-										</Alert>
-									</Grid>
-								) : null}
+						<Grid container spacing={2}>
+							{location.state?.signup ? (
+								<Grid item xs={12}>
+									<Alert severity="success">
+										<AlertTitle>Correcto</AlertTitle>
+										Usuario creado con éxito.{' '}
+										<strong>Ahora puedes iniciar sesión.</strong>
+									</Alert>
+								</Grid>
+							) : null}
 
-								<Grid item xs={12}>
-									<TextField
-										error={errors.email && touched.email}
-										helperText={errors.email}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										value={values.email}
-										fullWidth
-										label="Correo electrónico"
-										name="email"
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<TextField
-										error={errors.password && touched.password}
-										helperText={errors.password}
-										onChange={handleChange}
-										onBlur={handleBlur}
-										value={values.password}
-										fullWidth
-										label="Contraseña"
-										type="password"
-										name="password"
-									/>
-								</Grid>
-								<Grid item xs={12}>
-									<FormControlLabel
-										control={
-											<Checkbox
-												color="primary"
-												checked={values.rememberLogin}
-											/>
-										}
-										label="Recordar inicio de sesión"
-										onChange={(val): void =>
-											setFieldValue('rememberLogin', val.target.checked)
-										}
-									/>
-								</Grid>
-								{error !== '' ? (
-									<Grid item xs={12}>
-										<Alert severity="error">{error}</Alert>
-									</Grid>
-								) : null}
+							<Grid item xs={12}>
+								<TextField
+									error={errors.email && touched.email}
+									helperText={errors.email}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									value={values.email}
+									fullWidth
+									label="Correo electrónico"
+									name="email"
+								/>
 							</Grid>
-							<Button
-								type="submit"
-								fullWidth
-								variant="contained"
-								sx={{ mt: 3, mb: 2 }}
-								disabled={!isValid}
-							>
-								Iniciar sesión
-							</Button>
-							<Grid container justifyContent="flex-start">
-								<Grid item>
-									<LinkMui variant="body" component="div">
-										<Link to="/auth/signup" style={{ textDecoration: 'none' }}>
-											¿No tienes una cuenta? Create una
-										</Link>
-									</LinkMui>
-								</Grid>
-								<Grid item>
-									<LinkMui variant="body" component="div">
-										<Link
-											to="/auth/forgot/password"
-											style={{ textDecoration: 'none' }}
-										>
-											¿Olvidaste tu contraseña?
-										</Link>
-									</LinkMui>
-								</Grid>
+							<Grid item xs={12}>
+								<TextField
+									error={errors.password && touched.password}
+									helperText={errors.password}
+									onChange={handleChange}
+									onBlur={handleBlur}
+									value={values.password}
+									fullWidth
+									label="Contraseña"
+									type="password"
+									name="password"
+								/>
 							</Grid>
-						</Box>
+							<Grid item xs={12}>
+								<FormControlLabel
+									control={
+										<Checkbox color="primary" checked={values.rememberLogin} />
+									}
+									label="Recordar inicio de sesión"
+									onChange={(val): void =>
+										setFieldValue('rememberLogin', val.target.checked)
+									}
+								/>
+							</Grid>
+							{error !== '' ? (
+								<Grid item xs={12}>
+									<Alert severity="error">{error}</Alert>
+								</Grid>
+							) : null}
+						</Grid>
+						<Button
+							type="submit"
+							fullWidth
+							variant="contained"
+							sx={{ mt: 3, mb: 2 }}
+							disabled={!isValid}
+						>
+							Iniciar sesión
+						</Button>
+						<Grid container justifyContent="flex-start">
+							<Grid item>
+								<LinkMui variant="body" component="div">
+									<Link to="/auth/signup" style={{ textDecoration: 'none' }}>
+										¿No tienes una cuenta? Create una
+									</Link>
+								</LinkMui>
+							</Grid>
+							<Grid item>
+								<LinkMui variant="body" component="div">
+									<Link
+										to="/auth/forgot/password"
+										style={{ textDecoration: 'none' }}
+									>
+										¿Olvidaste tu contraseña?
+									</Link>
+								</LinkMui>
+							</Grid>
+						</Grid>
 					</Box>
-				</Container>
+				</Box>
 			)}
 		</Formik>
 	);
