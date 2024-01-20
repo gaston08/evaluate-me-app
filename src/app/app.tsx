@@ -4,8 +4,11 @@ import { router } from './routes';
 import { ExercisesContext } from './contexts/Exercises';
 import { ExerciseContext, defaultCurrentExercise } from './contexts/Exercise';
 import { AuthContext } from './contexts/Auth';
+import { ExamContext } from './contexts/Exam';
 import { exerciseType } from 'app/shared/interfaces/exercise';
+import { examType } from 'app/shared/interfaces/exam';
 import ThemeWrapper from 'app/components/ThemeWrapper';
+import { exercises as mockedData } from 'app/pages/exam/exercises';
 
 interface selectedOption {
   optionId: string;
@@ -23,6 +26,12 @@ export default function App() {
     user: {},
   });
 
+  const [exam, setExam] = useState<examType>({
+    exercises: mockedData,
+  });
+
+  console.log(exam);
+
   return (
     <AuthContext.Provider
       value={{
@@ -30,25 +39,27 @@ export default function App() {
         setAuth,
       }}
     >
-      <ExercisesContext.Provider
-        value={{
-          selected,
-          setSelected,
-          exercises,
-          setExercises,
-        }}
-      >
-        <ExerciseContext.Provider
+      <ExamContext.Provider value={{ exam, setExam }}>
+        <ExercisesContext.Provider
           value={{
-            currentExercise,
-            setCurrentExercise,
+            selected,
+            setSelected,
+            exercises,
+            setExercises,
           }}
         >
-          <ThemeWrapper>
-            <RouterProvider router={router} />
-          </ThemeWrapper>
-        </ExerciseContext.Provider>
-      </ExercisesContext.Provider>
+          <ExerciseContext.Provider
+            value={{
+              currentExercise,
+              setCurrentExercise,
+            }}
+          >
+            <ThemeWrapper>
+              <RouterProvider router={router} />
+            </ThemeWrapper>
+          </ExerciseContext.Provider>
+        </ExercisesContext.Provider>
+      </ExamContext.Provider>
     </AuthContext.Provider>
   );
 }
