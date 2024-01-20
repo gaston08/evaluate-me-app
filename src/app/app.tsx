@@ -30,7 +30,7 @@ export default function App() {
     exercises: mockedData,
   });
 
-  console.log(exam);
+  console.log(currentExercise);
 
   return (
     <AuthContext.Provider
