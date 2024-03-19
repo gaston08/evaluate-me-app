@@ -5,7 +5,7 @@ import { ExercisesContext } from './contexts/Exercises';
 import { ExerciseContext, defaultCurrentExercise } from './contexts/Exercise';
 import { AuthContext } from './contexts/Auth';
 import { ExamContext } from './contexts/Exam';
-import { exerciseType } from 'app/shared/interfaces/exercise';
+import { exerciseType, contextExercise } from 'app/shared/interfaces/exercise';
 import { examType } from 'app/shared/interfaces/exam';
 import ThemeWrapper from 'app/components/ThemeWrapper';
 import { exercises as mockedData } from 'app/pages/exam/exercises';
@@ -18,7 +18,7 @@ interface selectedOption {
 export default function App() {
   const [selected, setSelected] = useState<Array<selectedOption>>([]);
   const [exercises, setExercises] = useState<Array<exerciseType>>([]);
-  const [currentExercise, setCurrentExercise] = useState(
+  const [currentExercise, setCurrentExercise] = useState<contextExercise>(
     defaultCurrentExercise,
   );
   const [auth, setAuth] = useState({

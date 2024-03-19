@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface optionType {
 	id: string;
 	title: string;
@@ -23,5 +25,5 @@ export interface contextExercises {
 
 export interface contextExercise {
 	currentExercise: exerciseType;
-	setCurrentExercise: () => void;
+	setCurrentExercise: React.Dispatch<React.SetStateAction<exerciseType>>;
 }
