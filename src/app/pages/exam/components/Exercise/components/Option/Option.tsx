@@ -1,36 +1,26 @@
 import { useEffect, useState, useContext } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
-import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import { ExercisesContext } from 'app/contexts/Exercises';
 import {
 	contextExercises,
-	contextExercise,
 	selectedInterface,
-	exerciseType,
 } from 'app/shared/interfaces/exercise';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ExerciseContext } from 'app/contexts/Exercise';
 
 interface OptionProps {
 	id: number;
 	title: string;
 	canSelect: boolean;
 	exerciseId: string;
-	canEdit: boolean;
 }
 
 export default function Option(props: OptionProps) {
-	const { title, id, exerciseId, canSelect, canEdit } = props;
+	const { title, id, exerciseId, canSelect } = props;
 	const { setSelected: setSelectedArr, selected: selectedArr } = useContext(
 		ExercisesContext,
 	) as contextExercises;
 	const [isSelected, setIsSelected] = useState();
 	const theme = useTheme();
-	const myContextExercise: contextExercise = useContext(ExerciseContext);
-	const setCurrentExercise: React.Dispatch<React.SetStateAction<exerciseType>> =
-		myContextExercise.setCurrentExercise;
 
 	const checkSelect = (optionId) => {
 		const res: boolean = selectedArr.some(
@@ -61,18 +51,6 @@ export default function Option(props: OptionProps) {
 		});
 	};
 
-	const deleteOption = () => {
-		setCurrentExercise((prev: exerciseType) => {
-			const optArr = prev.options.filter((obj) => {
-				return obj.id !== id;
-			});
-			return {
-				...prev,
-				options: optArr,
-			};
-		});
-	};
-
 	useEffect(() => {
 		setIsSelected(() => {
 			return checkSelect(id);
@@ -91,17 +69,11 @@ export default function Option(props: OptionProps) {
 				'&:hover, &.Mui-selected, &.Mui-selected:hover': {
 					backgroundColor: theme.custom.background.main,
 				},
+				display: 'flex',
+				justifyContent: 'space-between',
 			}}
 		>
 			<div dangerouslySetInnerHTML={{ __html: title }}></div>
-			{/**<ListItemText primary={title} />**/}
-			<>
-				{canEdit ? (
-					<IconButton onClick={deleteOption}>
-						<FontAwesomeIcon icon={faTrash} id="deleteIcon" />
-					</IconButton>
-				) : null}
-			</>
 		</ListItemButton>
 	);
 }

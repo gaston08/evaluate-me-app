@@ -5,6 +5,7 @@ import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
+import AdminOption from 'app/pages/exam/components/Exercise/components/AdminOption';
 import { exerciseType } from 'app/shared/interfaces/exercise';
 
 interface ExerciseProps {
@@ -34,16 +35,29 @@ export default function Exercise(props: ExerciseProps) {
 			</Paper>
 			<List component="nav" sx={{ pt: 0 }}>
 				{exercise.options.map((option) => {
-					return (
-						<Option
-							key={option.id}
-							exerciseId={exercise.id}
-							id={option.id}
-							title={option.title}
-							canSelect={canSelect}
-							canEdit={canEdit}
-						/>
-					);
+					if (canEdit) {
+						return (
+							<AdminOption
+								key={option.id}
+								exerciseId={exercise.id}
+								id={option.id}
+								title={option.title}
+								canSelect={canSelect}
+								canEdit={canEdit}
+							/>
+						);
+					} else {
+						return (
+							<Option
+								key={option.id}
+								exerciseId={exercise.id}
+								id={option.id}
+								title={option.title}
+								canSelect={canSelect}
+								canEdit={canEdit}
+							/>
+						);
+					}
 				})}
 			</List>
 		</Box>

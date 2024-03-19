@@ -9,6 +9,7 @@ export interface exerciseType {
 	id: string;
 	question: string;
 	options: Array<optionType>;
+	correctOptions: Array<number>;
 }
 
 export interface selectedInterface {
