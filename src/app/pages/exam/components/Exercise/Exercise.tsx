@@ -39,7 +39,7 @@ export default function Exercise(props: ExerciseProps) {
 						return (
 							<AdminOption
 								key={option.id}
-								exerciseId={exercise.id}
+								exercise={exercise}
 								id={option.id}
 								title={option.title}
 								canSelect={canSelect}
