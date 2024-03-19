@@ -4,11 +4,11 @@ import { router } from './routes';
 import { ExercisesContext } from './contexts/Exercises';
 import { ExerciseContext, defaultCurrentExercise } from './contexts/Exercise';
 import { AuthContext } from './contexts/Auth';
-import { ExamContext } from './contexts/Exam';
+import { ExamContext, defaultCurrentExam } from './contexts/Exam';
 import { exerciseType, contextExercise } from 'app/shared/interfaces/exercise';
-import { examType } from 'app/shared/interfaces/exam';
+import { contextExam } from 'app/shared/interfaces/exam';
+
 import ThemeWrapper from 'app/components/ThemeWrapper';
-import { exercises as mockedData } from 'app/pages/exam/exercises';
 
 interface selectedOption {
   optionId: string;
@@ -26,9 +26,7 @@ export default function App() {
     user: {},
   });
 
-  const [exam, setExam] = useState<examType>({
-    exercises: mockedData,
-  });
+  const [exam, setExam] = useState<contextExam>(defaultCurrentExam);
 
   return (
     <AuthContext.Provider

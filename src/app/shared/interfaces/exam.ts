@@ -1,17 +1,15 @@
+import React from 'react';
+
 export interface optionType {
 	id: string;
 	title: string;
 }
 
-export interface correctOptionsType {
-	optionId: string;
-	text: string;
-}
-
 export interface exerciseType {
+	id: string;
 	question: string;
 	options: optionType[];
-	correctOptions: correctOptionsType[];
+	correctOptions: string[];
 }
 
 export interface examType {
@@ -23,4 +21,9 @@ export interface examType {
 export interface createExam {
 	exam: examType;
 	setExam: () => void;
+}
+
+export interface contextExam {
+	exam: examType;
+	setExam: React.Dispatch<React.SetStateAction<examType>>;
 }

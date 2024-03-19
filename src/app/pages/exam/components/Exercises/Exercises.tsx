@@ -1,21 +1,15 @@
-import { useEffect, useContext } from 'react';
+import { useContext } from 'react';
 import Exercise from '../Exercise';
-import { exercises as mockedData } from '../../exercises';
-import { ExercisesContext } from 'app/contexts/Exercises';
-import { exerciseType, contextExercises } from 'app/shared/interfaces/exercise';
+import { exerciseType } from 'app/shared/interfaces/exercise';
+import { ExamContext } from 'app/contexts/Exam';
+import { contextExam } from 'app/shared/interfaces/exam';
 
 export default function Exam() {
-	const { exercises, setExercises } = useContext(
-		ExercisesContext
-	) as contextExercises;
-
-	useEffect(() => {
-		setExercises(mockedData);
-	}, []);
+	const { exam } = useContext<contextExam>(ExamContext);
 
 	return (
 		<>
-			{exercises.map((exercise: exerciseType) => {
+			{exam.exercises.map((exercise: exerciseType) => {
 				return (
 					<Exercise key={exercise.id} exercise={exercise} canSelect={true} />
 				);
