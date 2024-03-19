@@ -1,6 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import { ExercisesContext } from 'app/contexts/Exercises';
@@ -19,19 +18,17 @@ interface OptionProps {
 	title: string;
 	canSelect: boolean;
 	exerciseId: string;
-	canDelete: boolean;
+	canEdit: boolean;
 }
 
 export default function Option(props: OptionProps) {
-	const { title, id, exerciseId, canSelect, canDelete } = props;
+	const { title, id, exerciseId, canSelect, canEdit } = props;
 	const { setSelected: setSelectedArr, selected: selectedArr } = useContext(
 		ExercisesContext,
 	) as contextExercises;
 	const [isSelected, setIsSelected] = useState();
 	const theme = useTheme();
-	const myContextExercise: contextExercise = useContext(
-		ExerciseContext,
-	) ;
+	const myContextExercise: contextExercise = useContext(ExerciseContext);
 	const setCurrentExercise: React.Dispatch<React.SetStateAction<exerciseType>> =
 		myContextExercise.setCurrentExercise;
 
@@ -96,9 +93,10 @@ export default function Option(props: OptionProps) {
 				},
 			}}
 		>
-			<ListItemText primary={title} />
+			<div dangerouslySetInnerHTML={{ __html: title }}></div>
+			{/**<ListItemText primary={title} />**/}
 			<>
-				{canDelete ? (
+				{canEdit ? (
 					<IconButton onClick={deleteOption}>
 						<FontAwesomeIcon icon={faTrash} id="deleteIcon" />
 					</IconButton>

@@ -10,13 +10,13 @@ import { exerciseType } from 'app/shared/interfaces/exercise';
 interface ExerciseProps {
 	exercise: exerciseType;
 	canSelect: boolean;
-	canDelete: boolean;
+	canEdit: boolean;
 }
 
 export default function Exercise(props: ExerciseProps) {
 	const exercise: exerciseType = props.exercise;
 	const canSelect: boolean = props.canSelect;
-	const canDelete: boolean = props.canDelete;
+	const canEdit: boolean = props.canEdit;
 	const theme = useTheme();
 
 	return (
@@ -41,7 +41,7 @@ export default function Exercise(props: ExerciseProps) {
 							id={option.id}
 							title={option.title}
 							canSelect={canSelect}
-							canDelete={canDelete}
+							canEdit={canEdit}
 						/>
 					);
 				})}
