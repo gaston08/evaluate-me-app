@@ -13,7 +13,7 @@ export interface exerciseType {
 }
 
 export interface examType {
-	name: string;
+	year: number;
 	category: string;
 	exercises: exerciseType[];
 }
