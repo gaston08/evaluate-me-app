@@ -12,5 +12,5 @@ export const defaultCurrentExam = {
 	category: '',
 	exercises: [],
 	type: '',
-	exam_number: 1,
+	exam_number: '',
 };
