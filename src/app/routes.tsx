@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Error from 'app/pages/error';
-import { View, Create } from 'app/pages/exam';
+import { View, Create, Subjects, SubjectExams } from 'app/pages/exam';
 import { SignUp, SignIn, ForgotPassword, ResetPassword } from 'app/pages/auth';
 
 import BlogLayout from 'app/layouts/blog';
@@ -12,12 +12,22 @@ export const arrRoutes = [
     element: <Navigate to="/auth/login" replace />,
   },
   {
-    path: '/test/exam',
+    path: '/test',
     element: <BlogLayout />,
     children: [
       {
-        path: '/test/exam/:id',
-        element: <View />,
+        path: '/test/subjects',
+        element: <Subjects />,
+      },
+      {
+        path: '/test/:subject',
+        element: <SubjectExams />,
+        children: [
+          {
+            path: '/test/:subject/:id',
+            element: <View />,
+          },
+        ],
       },
     ],
   },
