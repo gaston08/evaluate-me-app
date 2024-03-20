@@ -1,3 +1,5 @@
+import { examType } from './exam';
+
 export interface expressError {
 	type: string;
 	msg: string;
@@ -19,4 +21,10 @@ export interface apiGetResponse {
 	data: object;
 	error: string | null;
 	errors: Array<expressError> | null;
+}
+
+export interface apiGetAllSubjects extends apiGetResponse {
+	data: {
+		exams: Array<examType>;
+	};
 }

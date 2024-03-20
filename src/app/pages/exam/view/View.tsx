@@ -21,7 +21,6 @@ export default function Exam() {
 			const result: apiGetResponse = await axiosGet(
 				`api/exam/find:${params.id}`,
 			);
-			console.log(result);
 			if (result.ok) {
 				setExam(result.data.exam);
 				setLoading(false);

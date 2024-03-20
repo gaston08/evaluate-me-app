@@ -12,19 +12,19 @@ export const arrRoutes = [
     element: <Navigate to="/auth/login" replace />,
   },
   {
-    path: '/test',
+    path: '/tests',
     element: <BlogLayout />,
     children: [
       {
-        path: '/test/subjects',
+        path: '/tests',
         element: <Subjects />,
       },
       {
-        path: '/test/:subject',
+        path: '/tests/:subject',
         element: <SubjectExams />,
         children: [
           {
-            path: '/test/:subject/:id',
+            path: '/tests/:subject/:id',
             element: <View />,
           },
         ],

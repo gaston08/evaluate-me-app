@@ -8,9 +8,7 @@ export default function Subjects() {
 			{categories.map((category) => {
 				return (
 					<div key={category.value}>
-						<Link to={category.value.replaceAll(' ', '-')}>
-							{category.label}
-						</Link>
+						<Link to={category.value}>{category.label}</Link>
 					</div>
 				);
 			})}
