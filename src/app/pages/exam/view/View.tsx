@@ -53,7 +53,7 @@ export default function Exam() {
 						<>
 							<Box sx={{ mb: 5 }}>
 								<Typography variant="h5" sx={{ mb: 2 }}>
-									{exam.category}, {exam.year}
+									{exam.subject}, {exam.year}
 								</Typography>
 								<Typography variant="h5">
 									{exam.type}, TEMA {exam.exam_number}

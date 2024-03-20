@@ -1,4 +1,4 @@
-export const categories = [
+export const subjects = [
 	{ label: 'ÁLGEBRA', value: 'algebra' },
 	{ label: 'ANÁLISIS MATEMÁTICO', value: 'analisis-matematico' },
 	{
