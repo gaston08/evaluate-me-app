@@ -1,19 +1,15 @@
 import React from 'react';
+import { exerciseType } from './exercise';
 
 export interface optionType {
 	id: string;
 	title: string;
 }
 
-export interface exerciseType {
-	id: string;
-	question: string;
-	options: optionType[];
-	correctOptions: string[];
-}
-
 export interface examType {
 	year: number;
+	type: string;
+	exam_number: number;
 	category: string;
 	exercises: exerciseType[];
 }

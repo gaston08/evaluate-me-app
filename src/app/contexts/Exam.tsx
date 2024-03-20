@@ -8,7 +8,9 @@ export const ExamContext = createContext<contextExam>({
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const defaultCurrentExam = {
-	year: 2024,
+	year: '',
 	category: '',
 	exercises: [],
+	type: '',
+	exam_number: 1,
 };

@@ -10,6 +10,7 @@ export interface exerciseType {
 	question: string;
 	options: Array<optionType>;
 	correctOptions: Array<string>;
+	argument: string;
 }
 
 export interface selectedInterface {
