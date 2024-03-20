@@ -13,3 +13,10 @@ export interface apiPostResponse {
 	error: string | null;
 	errors: Array<expressError> | null;
 }
+
+export interface apiGetResponse {
+	ok: boolean;
+	data: object;
+	error: string | null;
+	errors: Array<expressError> | null;
+}
