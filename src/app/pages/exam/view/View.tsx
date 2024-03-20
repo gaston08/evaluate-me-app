@@ -32,6 +32,8 @@ export default function Exam() {
 					});
 
 					setErrors(errorsArr);
+				} else if (result.error) {
+					setErrors([result.error]);
 				}
 				setLoading(false);
 			}
