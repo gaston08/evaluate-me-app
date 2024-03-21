@@ -2,10 +2,9 @@ import { useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './routes';
 import { ExercisesContext } from './contexts/Exercises';
-import { ExerciseContext, defaultCurrentExercise } from './contexts/Exercise';
 import { AuthContext } from './contexts/Auth';
 import { ExamContext, defaultCurrentExam } from './contexts/Exam';
-import { exerciseType, contextExercise } from 'app/shared/interfaces/exercise';
+import { exerciseType } from 'app/shared/interfaces/exercise';
 import { contextExam } from 'app/shared/interfaces/exam';
 
 import ThemeWrapper from 'app/components/ThemeWrapper';
@@ -18,9 +17,7 @@ interface selectedOption {
 export default function App() {
   const [selected, setSelected] = useState<Array<selectedOption>>([]);
   const [exercises, setExercises] = useState<Array<exerciseType>>([]);
-  const [currentExercise, setCurrentExercise] = useState<contextExercise>(
-    defaultCurrentExercise,
-  );
+
   const [auth, setAuth] = useState({
     isLogged: false,
     user: {},
@@ -44,16 +41,9 @@ export default function App() {
             setExercises,
           }}
         >
-          <ExerciseContext.Provider
-            value={{
-              currentExercise,
-              setCurrentExercise,
-            }}
-          >
-            <ThemeWrapper>
-              <RouterProvider router={router} />
-            </ThemeWrapper>
-          </ExerciseContext.Provider>
+          <ThemeWrapper>
+            <RouterProvider router={router} />
+          </ThemeWrapper>
         </ExercisesContext.Provider>
       </ExamContext.Provider>
     </AuthContext.Provider>

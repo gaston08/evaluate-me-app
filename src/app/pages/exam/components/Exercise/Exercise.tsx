@@ -5,19 +5,16 @@ import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
-import AdminOption from 'app/pages/exam/components/Exercise/components/AdminOption';
 import { exerciseType } from 'app/shared/interfaces/exercise';
 
 interface ExerciseProps {
 	exercise: exerciseType;
 	canSelect: boolean;
-	canEdit: boolean;
 }
 
 export default function Exercise(props: ExerciseProps) {
 	const exercise: exerciseType = props.exercise;
 	const canSelect: boolean = props.canSelect;
-	const canEdit: boolean = props.canEdit;
 	const theme = useTheme();
 
 	return (
@@ -35,30 +32,15 @@ export default function Exercise(props: ExerciseProps) {
 			</Paper>
 			<List component="nav" sx={{ pt: 0 }}>
 				{exercise.options.map((option) => {
-					if (canEdit) {
-						return (
-							<AdminOption
-								key={option.id}
-								exercise={exercise}
-								id={option.id}
-								title={option.title}
-								feedback={option.feedback}
-								canSelect={canSelect}
-								canEdit={canEdit}
-							/>
-						);
-					} else {
-						return (
-							<Option
-								key={option.id}
-								exerciseId={exercise.id}
-								id={option.id}
-								title={option.title}
-								canSelect={canSelect}
-								canEdit={canEdit}
-							/>
-						);
-					}
+					return (
+						<Option
+							key={option.id}
+							exerciseId={exercise.id}
+							id={option.id}
+							title={option.title}
+							canSelect={canSelect}
+						/>
+					);
 				})}
 			</List>
 		</Box>
