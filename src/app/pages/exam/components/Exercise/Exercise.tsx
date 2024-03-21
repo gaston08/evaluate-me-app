@@ -42,6 +42,7 @@ export default function Exercise(props: ExerciseProps) {
 								exercise={exercise}
 								id={option.id}
 								title={option.title}
+								feedback={option.feedback}
 								canSelect={canSelect}
 								canEdit={canEdit}
 							/>
