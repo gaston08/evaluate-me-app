@@ -18,7 +18,9 @@ export interface apiPostResponse {
 
 export interface apiGetResponse {
 	ok: boolean;
-	data: object;
+	data: {
+		exam: examType;
+	};
 	error: string | null;
 	errors: Array<expressError> | null;
 }

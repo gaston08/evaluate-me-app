@@ -7,13 +7,15 @@ import { axiosGet } from 'app/utils/axios';
 import NoExamFound from './NoExamFound';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
-import { createExam } from 'app/shared/interfaces/exam';
+import { createExam, examType } from 'app/shared/interfaces/exam';
+import { subjects } from 'app/shared/data/exam';
 
 export default function Exam() {
 	const params = useParams();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const { exam, setExam } = useContext<createExam>(ExamContext);
+	const [subject, setSubject] = useState<string>('');
 
 	useEffect(() => {
 		async function fetchData() {
@@ -22,6 +24,10 @@ export default function Exam() {
 				`api/exam/find:${params.id}`,
 			);
 			if (result.ok) {
+				setSubject(() => {
+					const ex: examType = result.data.exam;
+					return subjects.find((sub) => sub.value === ex.subject).label;
+				});
 				setExam(result.data.exam);
 				setLoading(false);
 			} else {
@@ -53,7 +59,7 @@ export default function Exam() {
 						<>
 							<Box sx={{ mb: 5 }}>
 								<Typography variant="h5" sx={{ mb: 2 }}>
-									{exam.subject}, {exam.year}
+									{subject}, {exam.year}
 								</Typography>
 								<Typography variant="h5">
 									{exam.type}, TEMA {exam.exam_number}
