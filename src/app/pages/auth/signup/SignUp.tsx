@@ -69,6 +69,7 @@ export default function SignUp() {
 					confirmPassword: values.confirmPassword,
 					firstName: values.firstName,
 					lastName: values.lastName,
+					role: 'user',
 				};
 				const result = await axiosPost('api/signup', data);
 				if (result.ok) {
