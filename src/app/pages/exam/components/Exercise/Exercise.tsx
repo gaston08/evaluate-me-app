@@ -5,7 +5,7 @@ import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
-import { exerciseType } from 'app/shared/interfaces/exercise';
+import { exerciseType, optionType } from 'app/shared/interfaces/exercise';
 
 interface ExerciseProps {
 	exercise: exerciseType;
@@ -18,31 +18,37 @@ export default function Exercise(props: ExerciseProps) {
 	const theme = useTheme();
 
 	return (
-		<Box sx={{ width: '100%', mb: 4 }}>
-			<Paper
-				elevation={0}
-				sx={{ p: 2, background: theme.custom.background.light }}
-			>
-				<div
-					dangerouslySetInnerHTML={{
-						__html: exercise.question,
-					}}
-					className="tiptap"
-				></div>
-			</Paper>
-			<List component="nav" sx={{ pt: 0 }}>
-				{exercise.options.map((option) => {
-					return (
-						<Option
-							key={option.id}
-							exerciseId={exercise.id}
-							id={option.id}
-							title={option.title}
-							canSelect={canSelect}
-						/>
-					);
-				})}
-			</List>
+		<Box sx={{ width: '100%', mb: 5 }}>
+			{Array.from(Array(exercise.question.length), (e, i) => {
+				return (
+					<Box key={i}>
+						<Paper
+							elevation={0}
+							sx={{ p: 2, background: theme.custom.background.light }}
+						>
+							<div
+								dangerouslySetInnerHTML={{
+									__html: exercise.question[i],
+								}}
+								className="tiptap"
+							></div>
+						</Paper>
+						<List component="nav" sx={{ pt: 0, pb: 0 }}>
+							{exercise.options[i].map((option: optionType) => {
+								return (
+									<Option
+										key={option.id}
+										exerciseId={exercise.id}
+										id={option.id}
+										title={option.title}
+										canSelect={canSelect}
+									/>
+								);
+							})}
+						</List>
+					</Box>
+				);
+			})}
 		</Box>
 	);
 }

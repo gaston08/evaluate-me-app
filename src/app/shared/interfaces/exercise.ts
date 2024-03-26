@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface optionType {
+export interface optionType {
 	id: string;
 	title: string;
 	feedback: string;
@@ -8,20 +8,14 @@ interface optionType {
 
 export interface exerciseType {
 	id: string;
-	question: string;
-	options: Array<optionType>;
+	question: Array<string>;
+	options: Array<Array<optionType>>;
 	correctOptions: Array<string>;
 	argument: string;
-}
-
-export interface selectedInterface {
-	optionId: string;
-	exerciseId;
+	pts: string;
 }
 
 export interface contextExercises {
-	selected: Array<selectedInterface>;
-	setSelected: () => void;
 	exercises: Array<exerciseType>;
 	setExercises: () => void;
 }

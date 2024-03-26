@@ -9,13 +9,7 @@ import { contextExam } from 'app/shared/interfaces/exam';
 
 import ThemeWrapper from 'app/components/ThemeWrapper';
 
-interface selectedOption {
-  optionId: string;
-  exerciseId: string;
-}
-
 export default function App() {
-  const [selected, setSelected] = useState<Array<selectedOption>>([]);
   const [exercises, setExercises] = useState<Array<exerciseType>>([]);
 
   const [auth, setAuth] = useState({
@@ -35,8 +29,6 @@ export default function App() {
       <ExamContext.Provider value={{ exam, setExam }}>
         <ExercisesContext.Provider
           value={{
-            selected,
-            setSelected,
             exercises,
             setExercises,
           }}
