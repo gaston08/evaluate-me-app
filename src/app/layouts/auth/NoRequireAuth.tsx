@@ -39,7 +39,7 @@ export default function RequireAuth() {
 		if (result.ok) {
 			const expire_time = getExpireTime(1, enumTime.HOUR);
 			setToken(result.data.token, expire_time);
-			navigate('/blog/exam');
+			navigate('/tests');
 		} else {
 			cleanStorage();
 			setIsLoading(false);
