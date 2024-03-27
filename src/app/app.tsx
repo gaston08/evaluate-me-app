@@ -11,6 +11,9 @@ import ThemeWrapper from 'app/components/ThemeWrapper';
 
 export default function App() {
   const [exercises, setExercises] = useState<Array<exerciseType>>([]);
+  const [selectedOptions, setSelectedOptions] = useState<Array<Array<string>>>(
+    [],
+  );
 
   const [auth, setAuth] = useState({
     isLogged: false,
@@ -31,6 +34,8 @@ export default function App() {
           value={{
             exercises,
             setExercises,
+            selectedOptions,
+            setSelectedOptions,
           }}
         >
           <ThemeWrapper>

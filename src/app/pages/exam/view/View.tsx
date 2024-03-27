@@ -7,14 +7,17 @@ import { axiosGet } from 'app/utils/axios';
 import NoExamFound from './NoExamFound';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
+import { ExercisesContext } from 'app/contexts/Exercises';
 import { createExam, examType } from 'app/shared/interfaces/exam';
 import { subjects } from 'app/shared/data/exam';
+import { contextExercise } from 'app/shared/interfaces/exercise';
 
 export default function Exam() {
 	const params = useParams();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const { exam, setExam } = useContext<createExam>(ExamContext);
+	const { setSelectedOptions } = useContext<contextExercise>(ExercisesContext);
 	const [subject, setSubject] = useState<string>('');
 
 	useEffect(() => {
@@ -28,7 +31,25 @@ export default function Exam() {
 					const ex: examType = result.data.exam;
 					return subjects.find((sub) => sub.value === ex.subject).label;
 				});
+
+				const exArr = Array.from(
+					{ length: result.data.exam.exercises.length },
+					() => [],
+				);
+
+				for (let i = 0; i < exArr.length; i++) {
+					exArr[i] = Array.from(
+						{
+							length: result.data.exam.exercises[i].options.length,
+						},
+						() => [],
+					);
+				}
+
+				setSelectedOptions(exArr);
+
 				setExam(result.data.exam);
+				console.log(result.data.exam);
 				setLoading(false);
 			} else {
 				if (result.errors) {

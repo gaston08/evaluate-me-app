@@ -9,9 +9,14 @@ export default function Exam() {
 
 	return (
 		<>
-			{exam.exercises.map((exercise: exerciseType) => {
+			{exam.exercises.map((exercise: exerciseType, idx: number) => {
 				return (
-					<Exercise key={exercise.id} exercise={exercise} canSelect={true} />
+					<Exercise
+						key={exercise.id}
+						idx={idx}
+						exercise={exercise}
+						canSelect={true}
+					/>
 				);
 			})}
 		</>

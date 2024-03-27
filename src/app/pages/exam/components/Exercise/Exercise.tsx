@@ -5,21 +5,28 @@ import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
-import { exerciseType, optionType } from 'app/shared/interfaces/exercise';
+import {
+	contextExercise,
+	exerciseType,
+	optionType,
+} from 'app/shared/interfaces/exercise';
+import { ExercisesContext } from 'app/contexts/Exercises';
 
 interface ExerciseProps {
 	exercise: exerciseType;
-	canSelect: boolean;
+	idx: number;
 }
 
 export default function Exercise(props: ExerciseProps) {
 	const exercise: exerciseType = props.exercise;
-	const canSelect: boolean = props.canSelect;
+	const exerciseIdx: number = props.idx;
+	const { selectedOptions } =
+		React.useContext<contextExercise>(ExercisesContext);
 	const theme = useTheme();
 
 	return (
 		<Box sx={{ width: '100%', mb: 5 }}>
-			{Array.from(Array(exercise.question.length), (e, i) => {
+			{Array.from(Array(exercise.question.length), (e, i: number) => {
 				return (
 					<Box key={i}>
 						<Paper
@@ -41,7 +48,12 @@ export default function Exercise(props: ExerciseProps) {
 										exerciseId={exercise.id}
 										id={option.id}
 										title={option.title}
-										canSelect={canSelect}
+										correctOptionsLength={exercise.correctOptions[i].length}
+										exerciseIdx={exerciseIdx}
+										optionsIdx={i}
+										isSelected={selectedOptions[exerciseIdx][i].includes(
+											option.id,
+										)}
 									/>
 								);
 							})}
