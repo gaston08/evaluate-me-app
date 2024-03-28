@@ -7,6 +7,7 @@ export interface optionType {
 }
 
 export interface examType {
+	_id?: string;
 	year: number;
 	type: string;
 	exam_number: number;

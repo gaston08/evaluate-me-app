@@ -4,7 +4,8 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { apiGetResponse } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
-import NoExamFound from './NoExamFound';
+import NoExamFound from './components/NoExamFound';
+import CreateResultButton from './components/CreateResultButton';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
 import { ExercisesContext } from 'app/contexts/Exercises';
@@ -87,6 +88,15 @@ export default function Exam() {
 								</Typography>
 							</Box>
 							<Exercises />
+							<Box sx={{ m: 3 }}>
+								<CreateResultButton
+									examId={exam._id}
+									examYear={exam.year}
+									examType={exam.type}
+									examNumber={exam.exam_number}
+									examSubject={exam.subject}
+								/>
+							</Box>
 						</>
 					)}
 				</>

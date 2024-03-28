@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
+import axios from 'axios';
 import { router } from './routes';
 import { ExercisesContext } from './contexts/Exercises';
 import { AuthContext } from './contexts/Auth';
@@ -21,6 +22,11 @@ export default function App() {
   });
 
   const [exam, setExam] = useState<contextExam>(defaultCurrentExam);
+
+  const access_token: string = localStorage.getItem('access_token');
+  if (access_token !== '') {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+  }
 
   return (
     <AuthContext.Provider
