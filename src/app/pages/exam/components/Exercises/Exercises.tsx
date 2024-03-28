@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import Exercise from '../Exercise';
-import { exerciseType } from 'app/shared/interfaces/exercise';
+import { exerciseType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import { contextExam } from 'app/shared/interfaces/exam';
 

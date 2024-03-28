@@ -8,17 +8,15 @@ import NoExamFound from './components/NoExamFound';
 import CreateResultButton from './components/CreateResultButton';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
-import { ExercisesContext } from 'app/contexts/Exercises';
-import { createExam, examType } from 'app/shared/interfaces/exam';
+import { contextExam, examType } from 'app/shared/interfaces/exam';
 import { subjects } from 'app/shared/data/exam';
-import { contextExercise } from 'app/shared/interfaces/exercise';
 
 export default function Exam() {
 	const params = useParams();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
-	const { exam, setExam } = useContext<createExam>(ExamContext);
-	const { setSelectedOptions } = useContext<contextExercise>(ExercisesContext);
+	const { exam, setExam, setSelectedOptions } =
+		useContext<contextExam>(ExamContext);
 	const [subject, setSubject] = useState<string>('');
 
 	useEffect(() => {

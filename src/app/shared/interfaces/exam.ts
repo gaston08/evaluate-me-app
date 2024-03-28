@@ -1,9 +1,18 @@
 import React from 'react';
-import { exerciseType } from './exercise';
 
 export interface optionType {
 	id: string;
 	title: string;
+	feedback: string;
+}
+
+export interface exerciseType {
+	id: string;
+	question: Array<string>;
+	options: Array<Array<optionType>>;
+	correctOptions: Array<Array<string>>;
+	argument: string;
+	pts: string;
 }
 
 export interface examType {
@@ -15,12 +24,13 @@ export interface examType {
 	exercises: exerciseType[];
 }
 
-export interface createExam {
-	exam: examType;
-	setExam: () => void;
-}
-
 export interface contextExam {
 	exam: examType;
 	setExam: React.Dispatch<React.SetStateAction<examType>>;
+	exercises: Array<exerciseType>;
+	setExercises: React.Dispatch<React.SetStateAction<Array<exerciseType>>>;
+	selectedOptions: Array<Array<Array<string>>>;
+	setSelectedOptions: React.Dispatch<
+		React.SetStateAction<Array<Array<Array<string>>>>
+	>;
 }

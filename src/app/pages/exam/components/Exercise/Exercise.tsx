@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -6,11 +6,11 @@ import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
 import {
-	contextExercise,
+	contextExam,
 	exerciseType,
 	optionType,
-} from 'app/shared/interfaces/exercise';
-import { ExercisesContext } from 'app/contexts/Exercises';
+} from 'app/shared/interfaces/exam';
+import { ExamContext } from 'app/contexts/Exam';
 
 interface ExerciseProps {
 	exercise: exerciseType;
@@ -20,9 +20,8 @@ interface ExerciseProps {
 export default function Exercise(props: ExerciseProps) {
 	const exercise: exerciseType = props.exercise;
 	const exerciseIdx: number = props.idx;
-	const { selectedOptions } =
-		React.useContext<contextExercise>(ExercisesContext);
 	const theme = useTheme();
+	const { selectedOptions } = useContext<contextExam>(ExamContext);
 
 	return (
 		<Box sx={{ width: '100%', mb: 5 }}>

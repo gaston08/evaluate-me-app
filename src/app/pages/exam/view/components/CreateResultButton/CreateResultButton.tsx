@@ -6,8 +6,8 @@ import {
 	expressError,
 } from 'app/shared/interfaces/api-response';
 import { axiosPost } from 'app/utils/axios';
-import { contextExercise } from 'app/shared/interfaces/exercise';
-import { ExercisesContext } from 'app/contexts/Exercises';
+import { contextExam } from 'app/shared/interfaces/exam';
+import { ExamContext } from 'app/contexts/Exam';
 
 interface CreateResultButtonProps {
 	examId: string;
@@ -19,7 +19,7 @@ interface CreateResultButtonProps {
 
 export default function CreateResultButton(props: CreateResultButtonProps) {
 	const { examId, examYear, examType, examNumber, examSubject } = props;
-	const { selectedOptions } = useContext<contextExercise>(ExercisesContext);
+	const { selectedOptions } = useContext<contextExam>(ExamContext);
 	const [loading, setLoading] = useState<boolean>(false);
 
 	const sendResult = async () => {

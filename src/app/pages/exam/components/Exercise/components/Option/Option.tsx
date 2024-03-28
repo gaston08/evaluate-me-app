@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useTheme } from '@mui/material/styles';
-import { contextExercise } from 'app/shared/interfaces/exercise';
-import { ExercisesContext } from 'app/contexts/Exercises';
+import { contextExam } from 'app/shared/interfaces/exam';
+import { ExamContext } from 'app/contexts/Exam';
 
 interface OptionProps {
 	id: string;
@@ -23,7 +23,7 @@ export default function Option(props: OptionProps) {
 		exerciseIdx,
 		isSelected,
 	} = props;
-	const { setSelectedOptions } = useContext<contextExercise>(ExercisesContext);
+	const { setSelectedOptions } = useContext<contextExam>(ExamContext);
 	const theme = useTheme();
 
 	const selectOption = () => {
