@@ -10,6 +10,7 @@ import {
 import { contextExam, exerciseFeedback } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import { axiosPost } from 'app/utils/axios';
+import { useNavigate } from 'react-router-dom';
 
 interface CreateResultButtonProps {
 	examId: string;
@@ -29,6 +30,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 	} = useContext<contextExam>(ExamContext);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>('');
+	const navigate = useNavigate();
 
 	const sendResult = async (): void => {
 		setLoading(true);
@@ -69,21 +71,12 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 			setLoading(false);
 		} else {
 			for (let i = 0; i < exercises.length; i++) {
-				// each exercises
 				const isCorrect = exercises[i].correctOptions.every((arrOpt, a) => {
 					if (
 						arrOpt.sort().join(',') === selectedOptions[i][a].sort().join(',')
 					) {
-						newErrArr[i] = {
-							error: '',
-							success: exercises[i].argument,
-						};
 						return true;
 					} else {
-						newErrArr[i] = {
-							error: exercises[i].argument,
-							success: '',
-						};
 						return false;
 					}
 				});
@@ -105,12 +98,12 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 				exam_subject: examSubject,
 			};
 			const result: apiPostResponse = await axiosPost(
-				'api/result/create',
+				'api/results/create',
 				data,
 			);
 			if (result.ok) {
-				setExercisesFeedback(newErrArr);
 				setLoading(false);
+				navigate(`/tests/${examSubject}/results/${result.data._id}`);
 			} else {
 				setError(result.error);
 				if (result.errors) {
