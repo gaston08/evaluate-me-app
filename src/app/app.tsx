@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import axios from 'axios';
 import { router } from './routes';
-import { AuthContext } from './contexts/Auth';
-import { ExamContext, defaultCurrentExam } from './contexts/Exam';
+import { AuthContext } from 'app/contexts/Auth';
+import { ExamContext, defaultCurrentExam } from 'app/contexts/Exam';
+import { UiContext, defaultExamsUi } from 'app/contexts/Ui';
 import { contextExam, exerciseFeedback } from 'app/shared/interfaces/exam';
+import { contextUi } from 'app/shared/interfaces/ui';
 
 import ThemeWrapper from 'app/components/ThemeWrapper';
 
@@ -19,6 +21,7 @@ export default function App() {
     isLogged: false,
     user: {},
   });
+  const [examsUi, setExamsUi] = useState<contextUi>(defaultExamsUi);
 
   const [exam, setExam] = useState<contextExam>(defaultCurrentExam);
 
@@ -28,26 +31,28 @@ export default function App() {
   }
 
   return (
-    <AuthContext.Provider
-      value={{
-        auth,
-        setAuth,
-      }}
-    >
-      <ExamContext.Provider
+    <UiContext.Provider value={{ examsUi, setExamsUi }}>
+      <AuthContext.Provider
         value={{
-          exam,
-          setExam,
-          selectedOptions,
-          setSelectedOptions,
-          exercisesFeedback,
-          setExercisesFeedback,
+          auth,
+          setAuth,
         }}
       >
-        <ThemeWrapper>
-          <RouterProvider router={router} />
-        </ThemeWrapper>
-      </ExamContext.Provider>
-    </AuthContext.Provider>
+        <ExamContext.Provider
+          value={{
+            exam,
+            setExam,
+            selectedOptions,
+            setSelectedOptions,
+            exercisesFeedback,
+            setExercisesFeedback,
+          }}
+        >
+          <ThemeWrapper>
+            <RouterProvider router={router} />
+          </ThemeWrapper>
+        </ExamContext.Provider>
+      </AuthContext.Provider>
+    </UiContext.Provider>
   );
 }

@@ -9,6 +9,8 @@ import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
 import { contextExam, examType } from 'app/shared/interfaces/exam';
 import { subjects } from 'app/shared/data/exam';
+import { contextUi } from 'app/shared/interfaces/ui';
+import { UiContext } from 'app/contexts/Ui';
 
 export default function ViewResult() {
 	const params = useParams();
@@ -17,6 +19,7 @@ export default function ViewResult() {
 	const [subject, setSubject] = useState<string>('');
 	const { exam, setExam, setSelectedOptions, setExercisesFeedback } =
 		useContext<contextExam>(ExamContext);
+	const { setExamsUi } = useContext<contextUi>(UiContext);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -60,6 +63,13 @@ export default function ViewResult() {
 				}
 
 				setExercisesFeedback(exArr);
+
+				setExamsUi((prev) => {
+					return {
+						...prev,
+						canSelect: false,
+					};
+				});
 
 				setExam(result.data.results.examId);
 

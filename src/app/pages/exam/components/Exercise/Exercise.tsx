@@ -25,8 +25,6 @@ export default function Exercise(props: ExerciseProps) {
 	const exerciseIdx: number = props.idx;
 	const exerciseFeedback: exerciseFeedback = props.exerciseFeedback;
 
-	console.log(exerciseFeedback);
-
 	const theme = useTheme();
 	const { selectedOptions } = useContext<contextExam>(ExamContext);
 
