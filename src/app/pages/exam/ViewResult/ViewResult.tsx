@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { apiGetResponse } from 'app/shared/interfaces/api-response';
+import { apiGetResponse, resultType } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
 import NoExamFound from '../components/NoExamFound';
 import Exercises from '../components/Exercises';
@@ -20,6 +20,8 @@ export default function ViewResult() {
 	const { exam, setExam, setSelectedOptions, setExercisesFeedback } =
 		useContext<contextExam>(ExamContext);
 	const { setExamsUi } = useContext<contextUi>(UiContext);
+	const [result, setResult] = useState<resultType>({});
+	const [date, setDate] = useState<string>('');
 
 	useEffect(() => {
 		async function fetchData() {
@@ -72,8 +74,18 @@ export default function ViewResult() {
 				});
 
 				setExam(result.data.results.examId);
+				setResult(result.data.results);
 
-				console.log(result.data.results);
+				// make date
+				const a = new Date(result.data.results.date);
+				const day = a.getDate();
+				const month = new Intl.DateTimeFormat('es', { month: 'long' }).format(
+					a,
+				);
+				const upperMonth = month.charAt(0).toUpperCase() + month.slice(1);
+				const year = a.getFullYear();
+				const fullDate = day + ' de ' + upperMonth + ' de ' + year;
+				setDate(fullDate);
 
 				setLoading(false);
 			} else {
@@ -103,12 +115,20 @@ export default function ViewResult() {
 						<NoExamFound errors={errors} />
 					) : (
 						<>
-							<Box sx={{ mb: 5 }}>
+							<Box sx={{ mb: 3 }}>
 								<Typography variant="h5" sx={{ mb: 2 }}>
 									{subject}, {exam.year}
 								</Typography>
 								<Typography variant="h5">
 									{exam.type}, TEMA {exam.exam_number}
+								</Typography>
+							</Box>
+							<Box sx={{ mb: 3 }}>
+								<Typography variant="h6" color="gray">
+									{date}
+								</Typography>
+								<Typography variant="h5" color="#424242">
+									NOTA: {result.score}/10
 								</Typography>
 							</Box>
 							<Exercises />

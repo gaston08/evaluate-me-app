@@ -71,7 +71,7 @@ export default function Exercise(props: ExerciseProps) {
 				<Box sx={{ pl: 2, mt: 2 }}>
 					<>
 						{exerciseFeedback.success !== '' ? (
-							<Typography color="primary">
+							<Typography color="#689f38">
 								{exerciseFeedback.success}
 							</Typography>
 						) : null}
