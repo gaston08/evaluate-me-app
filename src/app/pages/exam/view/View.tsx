@@ -15,7 +15,7 @@ export default function Exam() {
 	const params = useParams();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
-	const { exam, setExam, setSelectedOptions } =
+	const { exam, setExam, setSelectedOptions, setExercisesFeedback } =
 		useContext<contextExam>(ExamContext);
 	const [subject, setSubject] = useState<string>('');
 
@@ -45,7 +45,21 @@ export default function Exam() {
 					);
 				}
 
-				setSelectedOptions(exArr);
+				setSelectedOptions(
+					JSON.parse(JSON.stringify(exArr)) as Array<Array<Array<string>>>,
+				);
+
+				const exercisesFeedbackArr = Array.from(
+					{ length: result.data.exam.exercises.length },
+					() => {
+						return {
+							success: '',
+							error: '',
+						};
+					},
+				);
+
+				setExercisesFeedback(exercisesFeedbackArr);
 
 				setExam(result.data.exam);
 				console.log(result.data.exam);

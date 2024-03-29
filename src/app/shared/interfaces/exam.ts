@@ -24,13 +24,20 @@ export interface examType {
 	exercises: exerciseType[];
 }
 
+export interface exerciseFeedback {
+	error: string;
+	success: string;
+}
+
 export interface contextExam {
 	exam: examType;
 	setExam: React.Dispatch<React.SetStateAction<examType>>;
-	exercises: Array<exerciseType>;
-	setExercises: React.Dispatch<React.SetStateAction<Array<exerciseType>>>;
 	selectedOptions: Array<Array<Array<string>>>;
 	setSelectedOptions: React.Dispatch<
 		React.SetStateAction<Array<Array<Array<string>>>>
+	>;
+	exercisesFeedback: Array<exerciseFeedback>;
+	setExercisesFeedback: React.Dispatch<
+		React.SetStateAction<Array<exerciseFeedback>>
 	>;
 }

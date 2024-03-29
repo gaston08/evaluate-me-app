@@ -4,10 +4,10 @@ import { contextExam } from 'app/shared/interfaces/exam';
 export const ExamContext = createContext<contextExam>({
 	exam: {},
 	setExam: () => {},
-	exercises: [],
-	setExercises: () => {},
 	selectedOptions: [],
 	setSelectedOptions: () => {},
+	exercisesFeedback: [],
+	setExercisesFeedback: () => {},
 });
 
 // eslint-disable-next-line react-refresh/only-export-components

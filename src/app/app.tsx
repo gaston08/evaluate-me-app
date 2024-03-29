@@ -4,16 +4,17 @@ import axios from 'axios';
 import { router } from './routes';
 import { AuthContext } from './contexts/Auth';
 import { ExamContext, defaultCurrentExam } from './contexts/Exam';
-import { contextExam, exerciseType } from 'app/shared/interfaces/exam';
+import { contextExam, exerciseFeedback } from 'app/shared/interfaces/exam';
 
 import ThemeWrapper from 'app/components/ThemeWrapper';
 
 export default function App() {
-  const [exercises, setExercises] = useState<Array<exerciseType>>([]);
   const [selectedOptions, setSelectedOptions] = useState<Array<Array<string>>>(
     [],
   );
-
+  const [exercisesFeedback, setExercisesFeedback] = useState<
+    Array<exerciseFeedback>
+  >([]);
   const [auth, setAuth] = useState({
     isLogged: false,
     user: {},
@@ -37,10 +38,10 @@ export default function App() {
         value={{
           exam,
           setExam,
-          exercises,
-          setExercises,
           selectedOptions,
           setSelectedOptions,
+          exercisesFeedback,
+          setExercisesFeedback,
         }}
       >
         <ThemeWrapper>
