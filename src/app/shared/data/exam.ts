@@ -1,5 +1,5 @@
 export const subjects = [
-	{ label: 'ÁLGEBRA', value: 'algebra' },
+	/*{ label: 'ÁLGEBRA', value: 'algebra' },
 	{ label: 'ANÁLISIS MATEMÁTICO', value: 'analisis-matematico' },
 	{
 		label: 'ANÁLISIS MATEMÁTICO PARA CS. ECONÓMICAS',
@@ -22,8 +22,9 @@ export const subjects = [
 		value: 'historia-economica-social-y-general',
 	},
 	{ label: 'MATEMÁTICA', value: 'matematica' },
-	{ label: 'MATEMÁTICA PARA AGRONOMÍA', value: 'matematica-para-agronomia' },
+	{ label: 'MATEMÁTICA PARA AGRONOMÍA', value: 'matematica-para-agronomia' },*/
 	{ label: 'PENSAMIENTO CIENTÍFICO', value: 'pensamiento-cientifico' },
+	/*
 	{ label: 'PENSAMIENTO COMPUTACIONAL', value: 'pensamiento-computacional' },
 	{
 		label: 'PRINCIPIOS GENERALES DE DERECHO PRIVADO',
@@ -32,9 +33,12 @@ export const subjects = [
 	{ label: 'PSICOLOGÍA', value: 'psicologia' },
 	{ label: 'QUÍMICA', value: 'quimica' },
 	{ label: 'SEMIOLOGÍA', value: 'semiologia' },
+	*/
 	{ label: 'SOCIEDAD Y ESTADO', value: 'sociedad-y-estado' },
+	/*
 	{ label: 'SOCIOLOGÍA', value: 'sociologia' },
 	{ label: 'TRABAJO Y SOCIEDAD', value: 'trabajo-y-sociedad' },
+	*/
 ];
 
 export const years = [
