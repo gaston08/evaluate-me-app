@@ -5,7 +5,7 @@ import { exerciseType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import { contextExam } from 'app/shared/interfaces/exam';
 
-export default function Exam() {
+export default function Exercises() {
 	const { exam, exercisesFeedback } = useContext<contextExam>(ExamContext);
 
 	return (

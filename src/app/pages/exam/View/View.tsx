@@ -4,14 +4,14 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { apiGetResponse } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
-import NoExamFound from './components/NoExamFound';
+import NoExamFound from '../components/NoExamFound';
 import CreateResultButton from './components/CreateResultButton';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
 import { contextExam, examType } from 'app/shared/interfaces/exam';
 import { subjects } from 'app/shared/data/exam';
 
-export default function Exam() {
+export default function View() {
 	const params = useParams();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);

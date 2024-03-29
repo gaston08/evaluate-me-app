@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Error from 'app/pages/error';
-import { View, Subjects, SubjectExams } from 'app/pages/exam';
+import { View, Subjects, SubjectExams, ViewResult } from 'app/pages/exam';
 import { SignUp, SignIn, ForgotPassword, ResetPassword } from 'app/pages/auth';
 
 import BlogLayout from 'app/layouts/blog';
@@ -23,6 +23,10 @@ export const arrRoutes = [
         path: '/tests/:subject',
         element: <SubjectExams />,
         children: [
+          {
+            path: '/tests/:subject/results/:id',
+            element: <ViewResult />,
+          },
           {
             path: '/tests/:subject/:id',
             element: <View />,
