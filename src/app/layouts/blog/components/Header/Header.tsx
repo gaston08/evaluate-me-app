@@ -1,9 +1,10 @@
 import * as React from 'react';
 import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-//import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+import MenuButton from './components/MenuButton';
 
 interface HeaderProps {
   title: string;
@@ -15,7 +16,15 @@ export default function Header(props: HeaderProps) {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Button size="small">Subscribe</Button>
+        <Box>
+          <MenuButton
+            text="Parciales"
+            menuItems={[
+              { label: 'IPC', link: 'pensamiento-cientifico' },
+              { label: 'ICSE', link: 'sociedad-y-estado' },
+            ]}
+          />
+        </Box>
         <Typography
           component="h2"
           variant="h5"
@@ -27,9 +36,13 @@ export default function Header(props: HeaderProps) {
           {title}
         </Typography>
         <IconButton>{/**<SearchIcon />**/}</IconButton>
-        <Button variant="outlined" size="small">
-          Sign up
-        </Button>
+        <Box>
+          <MenuButton
+            text="Mi perfil"
+            icon={faUser}
+            menuItems={[{ label: 'Mi perfil', link: 'https://' }]}
+          />
+        </Box>
       </Toolbar>
     </React.Fragment>
   );

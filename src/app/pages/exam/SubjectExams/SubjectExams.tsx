@@ -47,7 +47,7 @@ export default function SubjectExams() {
 		if (params.id === undefined) {
 			fetchData().then().catch(console.error);
 		}
-	}, []);
+	}, [params.subject]);
 
 	if (loading) {
 		return <Typography variant="h3">Cargando...</Typography>;

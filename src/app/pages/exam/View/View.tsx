@@ -87,7 +87,7 @@ export default function View() {
 		}
 
 		fetchData().then().catch(console.error);
-	}, []);
+	}, [params.id]);
 
 	return (
 		<>
