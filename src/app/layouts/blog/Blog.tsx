@@ -1,3 +1,5 @@
+import { useEffect, useContext } from 'react';
+import { decodeToken } from 'react-jwt';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -5,18 +7,47 @@ import Header from './components/Header';
 import Main from './components/Main';
 import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
-
-const sidebar = {
-	title: 'About',
-	description:
-		'Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.',
-	archives: [
-		{ title: 'IPC', url: '/tests/pensamiento-cientifico' },
-		{ title: 'ICSE', url: '/tests/sociedad-y-estado' },
-	],
-};
+import { subjects } from 'app/shared/data/exam';
+import { axiosPost } from 'app/utils/axios';
+import { AuthContext } from 'app/contexts/Auth';
+import { contextAuth, userType } from 'app/shared/interfaces/auth';
 
 export default function Blog() {
+	const { setAuth } = useContext<contextAuth>(AuthContext);
+
+	const checkAuth = async () => {
+		const access_token: string = localStorage.getItem('access_token');
+
+		if (!access_token) {
+			setAuth({
+				user: null,
+				isLoggedIn: false,
+			});
+			return;
+		}
+
+		const result = await axiosPost('api/refresh-token', {});
+
+		if (result.ok) {
+			localStorage.setItem('access_token', result.data.token);
+			const user = decodeToken(result.data.token) as userType;
+			setAuth({
+				user,
+				isLoggedIn: true,
+			});
+		} else {
+			localStorage.removeItem('access_token');
+			setAuth({
+				user: null,
+				isLoggedIn: false,
+			});
+		}
+	};
+
+	useEffect(() => {
+		checkAuth().catch(console.error);
+	}, []);
+
 	return (
 		<Box
 			sx={{
@@ -36,7 +67,7 @@ export default function Blog() {
 							description={
 								'Muy pronto estarán disponibles los exámenes de otras materias.'
 							}
-							archives={sidebar.archives}
+							subjects={subjects}
 						/>
 					</Grid>
 				</main>

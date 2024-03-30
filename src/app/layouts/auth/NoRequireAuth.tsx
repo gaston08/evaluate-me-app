@@ -1,16 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { axiosPost } from 'app/utils/axios';
-import axios from 'axios';
-import {
-	cleanStorage,
-	getExpireTime,
-	enumTime,
-	isTokenExpired,
-	setToken,
-} from 'app/utils/common';
-import { Link } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -21,27 +11,19 @@ export default function RequireAuth() {
 
 	const checkAuth = async () => {
 		const access_token = localStorage.getItem('access_token');
-		const access_token_expires_in = localStorage.getItem(
-			'access_token_expires_in',
-		);
 
-		const is_token_expired = isTokenExpired(access_token_expires_in);
-
-		if (is_token_expired | !access_token) {
-			cleanStorage();
+		if (!access_token) {
+			localStorage.removeItem('access_token');
 			setIsLoading(false);
 			return;
 		}
-
-		axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
 		const result = await axiosPost('api/refresh-token', {});
 
 		if (result.ok) {
-			const expire_time = getExpireTime(1, enumTime.HOUR);
-			setToken(result.data.token, expire_time);
+			localStorage.setItem('access_token', result.data.token);
 			navigate('/tests');
 		} else {
-			cleanStorage();
+			localStorage.removeItem('access_token');
 			setIsLoading(false);
 		}
 	};
@@ -66,28 +48,9 @@ export default function RequireAuth() {
 						}}
 					>
 						<Outlet />
-						<Copyright sx={{ mt: 5 }} />
 					</Box>
 				</Container>
 			)}
 		</>
-	);
-}
-
-function Copyright(props) {
-	return (
-		<Typography
-			variant="body2"
-			color="text.secondary"
-			align="center"
-			{...props}
-		>
-			{'Copyright © '}
-			<Link color="inherit" href="https://mui.com/">
-				Evaluate.me
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
 	);
 }

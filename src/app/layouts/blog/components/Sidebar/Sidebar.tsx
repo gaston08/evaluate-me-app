@@ -6,16 +6,16 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 
 interface SidebarProps {
-  archives: ReadonlyArray<{
-    url: string;
-    title: string;
+  subjects: ReadonlyArray<{
+    label: string;
+    value: string;
   }>;
   description: string;
   title: string;
 }
 
 export default function Sidebar(props: SidebarProps) {
-  const { archives, description, title } = props;
+  const { subjects, description, title } = props;
 
   return (
     <Grid item xs={12} md={4}>
@@ -27,15 +27,15 @@ export default function Sidebar(props: SidebarProps) {
           {title}
         </Link>
         <Box sx={{ ml: 2 }}>
-          {archives.map((archive) => (
+          {subjects.map((subject) => (
             <Link
               component={RouterLink}
               display="block"
               variant="body1"
-              to={archive.url}
-              key={archive.title}
+              to={subject.value}
+              key={subject.value}
             >
-              {archive.title}
+              {subject.label}
             </Link>
           ))}
         </Box>

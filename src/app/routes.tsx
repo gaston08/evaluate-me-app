@@ -4,7 +4,7 @@ import { View, Subjects, SubjectExams, ViewResult } from 'app/pages/exam';
 import { SignUp, SignIn, ForgotPassword, ResetPassword } from 'app/pages/auth';
 
 import BlogLayout from 'app/layouts/blog';
-import { /*RequireAuth,*/ NoRequireAuth } from 'app/layouts/auth';
+import { NoRequireAuth } from 'app/layouts/auth';
 
 export const arrRoutes = [
   {

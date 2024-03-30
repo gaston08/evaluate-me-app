@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -14,7 +15,6 @@ import AlertTitle from '@mui/material/AlertTitle';
 import { Formik } from 'formik';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { axiosPost } from 'app/utils/axios';
-import { getExpireTime, enumTime, setToken } from 'app/utils/common';
 import {
 	apiPostResponse,
 	expressError,
@@ -58,14 +58,10 @@ export default function SignIn() {
 
 				const result: apiPostResponse = await axiosPost('api/login', data);
 				if (result.ok) {
-					let access_token_expires_in: number;
-					if (values.rememberLogin) {
-						access_token_expires_in = getExpireTime(7, enumTime.DAY);
-					} else {
-						access_token_expires_in = getExpireTime(5, enumTime.HOUR);
-					}
-					setToken(result.data.token, access_token_expires_in);
-					navigate('/admin/exam/create');
+					localStorage.setItem('access_token', result.data.token);
+					axios.defaults.headers.common['Authorization'] =
+						`Bearer ${result.data.token}`;
+					navigate('/tests');
 				} else {
 					setError(result.error);
 					if (result.errors) {
