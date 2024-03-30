@@ -32,7 +32,8 @@ export default function Blog(props: BlogProps) {
 				isLoading: false,
 			});
 			if (requireAuth) {
-				navigate('/auth/login'); return;
+				navigate('/auth/login');
+				return;
 			}
 		}
 
@@ -54,7 +55,8 @@ export default function Blog(props: BlogProps) {
 				isLoading: false,
 			});
 			if (requireAuth) {
-				navigate('/auth/login'); return;
+				navigate('/auth/login');
+				return;
 			}
 		}
 	};
@@ -77,7 +79,7 @@ export default function Blog(props: BlogProps) {
 			}}
 		>
 			<Container maxWidth="lg">
-				<Header title="Blog" />
+				<Header />
 				<main>
 					<Grid container spacing={5} sx={{ mt: 3 }}>
 						<Main xs={12} md={showSidebar ? 8 : 12} />
@@ -93,7 +95,7 @@ export default function Blog(props: BlogProps) {
 					</Grid>
 				</main>
 			</Container>
-			<Footer title="evaluate.me" description="" />
+			<Footer />
 		</Box>
 	);
 }

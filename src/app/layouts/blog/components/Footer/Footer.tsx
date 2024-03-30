@@ -3,13 +3,14 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
+      <Link color="inherit" to="/tests" component={RouterLink}>
+        UBAPARCIALES
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -17,19 +18,12 @@ function Copyright() {
   );
 }
 
-interface FooterProps {
-  description: string;
-  title: string;
-}
-
-export default function Footer(props: FooterProps) {
-  const { description, title } = props;
-
+export default function Footer() {
   return (
     <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
       <Container maxWidth="lg">
         <Typography variant="h6" align="center" gutterBottom>
-          {title}
+          ubaparciales
         </Typography>
         <Typography
           variant="subtitle1"
@@ -37,7 +31,8 @@ export default function Footer(props: FooterProps) {
           color="text.secondary"
           component="p"
         >
-          {description}
+          Contacto:{' '}
+          <a href="mailto:ubaparciales@gmail.com">ubaparciales@gmail.com</a>
         </Typography>
         <Copyright />
       </Container>

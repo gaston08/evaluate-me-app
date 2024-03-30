@@ -46,12 +46,12 @@ export default function MenuButton(props: MenuButtonProps) {
 				anchorEl={anchorEl}
 				anchorOrigin={{
 					vertical: 'top',
-					horizontal: 'right',
+					horizontal: 'left',
 				}}
 				keepMounted
 				transformOrigin={{
 					vertical: 'top',
-					horizontal: 'right',
+					horizontal: 'left',
 				}}
 				open={Boolean(anchorEl)}
 				onClose={handleClose}

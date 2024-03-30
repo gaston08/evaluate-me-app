@@ -10,10 +10,8 @@ import MenuButton from './components/MenuButton';
 import { subjects } from 'app/shared/data/exam';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
-
-interface HeaderProps {
-  title: string;
-}
+import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
 
 const subjectsArr = subjects.map((subject) => {
   return {
@@ -22,8 +20,7 @@ const subjectsArr = subjects.map((subject) => {
   };
 });
 
-export default function Header(props: HeaderProps) {
-  const { title } = props;
+export default function Header() {
   const { auth, setAuth } = React.useContext<contextAuth>(AuthContext);
   const navigate = useNavigate();
 
@@ -55,7 +52,13 @@ export default function Header(props: HeaderProps) {
           noWrap
           sx={{ flex: 1 }}
         >
-          {title}
+          <Link
+            sx={{ textDecoration: 'none' }}
+            component={RouterLink}
+            to="/tests"
+          >
+            ubaparciales
+          </Link>
         </Typography>
         <IconButton>{/**<SearchIcon />**/}</IconButton>
         <Box>
