@@ -20,7 +20,7 @@ export interface apiGetResponse {
 	ok: boolean;
 	data: {
 		exam: examType;
-		results: resultType;
+		result: resultType;
 	};
 	error: string | null;
 	errors: Array<expressError> | null;
@@ -29,6 +29,12 @@ export interface apiGetResponse {
 export interface apiGetAllSubjects extends apiGetResponse {
 	data: {
 		exams: Array<examType>;
+	};
+}
+
+export interface apiGetAllResultsResponse extends apiGetResponse {
+	data: {
+		results: Array<resultType>;
 	};
 }
 

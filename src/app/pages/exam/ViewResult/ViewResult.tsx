@@ -30,7 +30,7 @@ export default function ViewResult() {
 				`api/results/get:${params.id}`,
 			);
 			if (result.ok) {
-				const results = result.data.results;
+				const results = result.data.result;
 				setSubject(() => {
 					const ex: examType = results.examId;
 					return subjects.find((sub) => sub.value === ex.subject).label;
@@ -73,11 +73,11 @@ export default function ViewResult() {
 					};
 				});
 
-				setExam(result.data.results.examId);
-				setResult(result.data.results);
+				setExam(result.data.result.examId);
+				setResult(result.data.result);
 
 				// make date
-				const a = new Date(result.data.results.date);
+				const a = new Date(result.data.result.date);
 				const day = a.getDate();
 				const month = new Intl.DateTimeFormat('es', { month: 'long' }).format(
 					a,

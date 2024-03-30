@@ -57,14 +57,6 @@ export default function AccountDetailsForm() {
     }
 
     setFormData(newValue);
-
-    /*const el = e.target as HTMLElement;
-    setFormData((prev: formDataType) => {
-      return {
-        ...prev,
-        [el.name]: e.target.value,
-      };
-    });*/
   };
 
   const updateProfile = async (): void => {
