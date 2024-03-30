@@ -7,6 +7,7 @@ import {
   ForgotPassword,
   ResetPassword,
   MyProfile,
+  MyExams,
 } from 'app/pages/auth';
 
 import BlogLayout from 'app/layouts/blog';
@@ -48,6 +49,10 @@ export const arrRoutes = [
       {
         path: '/profile/me',
         element: <MyProfile />,
+      },
+      {
+        path: '/profile/exams',
+        element: <MyExams />,
       },
     ],
   },
