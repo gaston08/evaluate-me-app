@@ -13,7 +13,8 @@ interface MenuButtonProps {
 	icon: React.Component | undefined;
 	menuItems: Array<{
 		label: string;
-		link: string;
+		value: string | undefined;
+		onClick: () => void;
 	}>;
 }
 
@@ -58,9 +59,13 @@ export default function MenuButton(props: MenuButtonProps) {
 				{menuItems.map((menuItem, i) => {
 					return (
 						<MenuItem key={i}>
-							<Link component={RouterLink} to={menuItem.link}>
-								{menuItem.label}
-							</Link>
+							{menuItem.value !== undefined ? (
+								<Link component={RouterLink} to={menuItem.value}>
+									{menuItem.label}
+								</Link>
+							) : (
+								<Box onClick={menuItem.onClick}>{menuItem.label}</Box>
+							)}
 						</MenuItem>
 					);
 				})}

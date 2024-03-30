@@ -4,18 +4,15 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
+import { subjects } from 'app/shared/data/exam';
 
 interface SidebarProps {
-  subjects: ReadonlyArray<{
-    label: string;
-    value: string;
-  }>;
   description: string;
   title: string;
 }
 
 export default function Sidebar(props: SidebarProps) {
-  const { subjects, description, title } = props;
+  const { description, title } = props;
 
   return (
     <Grid item xs={12} md={4}>

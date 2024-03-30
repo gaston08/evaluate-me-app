@@ -7,7 +7,6 @@ import Header from './components/Header';
 import Main from './components/Main';
 import Sidebar from './components/Sidebar';
 import Footer from './components/Footer';
-import { subjects } from 'app/shared/data/exam';
 import { axiosPost } from 'app/utils/axios';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth, userType } from 'app/shared/interfaces/auth';
@@ -67,7 +66,6 @@ export default function Blog() {
 							description={
 								'Muy pronto estarán disponibles los exámenes de otras materias.'
 							}
-							subjects={subjects}
 						/>
 					</Grid>
 				</main>
