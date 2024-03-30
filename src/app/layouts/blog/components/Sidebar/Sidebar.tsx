@@ -29,7 +29,7 @@ export default function Sidebar(props: SidebarProps) {
               component={RouterLink}
               display="block"
               variant="body1"
-              to={subject.value}
+              to={`/tests/${subject.value}`}
               key={subject.value}
             >
               {subject.label}

@@ -10,4 +10,5 @@ export const AuthContext = createContext<contextAuth>({
 export const defaultAuth = {
 	user: null,
 	isLoggedIn: false,
+	isLoading: true,
 };

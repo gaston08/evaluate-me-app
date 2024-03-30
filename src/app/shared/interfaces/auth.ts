@@ -9,6 +9,7 @@ export interface userType {
 export interface authType {
 	user: userType | null;
 	isLoggedIn: boolean;
+	isLoading: boolean;
 }
 
 export interface contextAuth {

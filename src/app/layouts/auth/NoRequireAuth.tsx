@@ -35,7 +35,7 @@ export default function RequireAuth() {
 	return (
 		<>
 			{isLoading ? (
-				<h1>Loading...</h1>
+				<h1>Cargando...</h1>
 			) : (
 				<Container component="main" maxWidth="xs">
 					<CssBaseline />

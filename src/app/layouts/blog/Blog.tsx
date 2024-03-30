@@ -1,4 +1,5 @@
 import { useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { decodeToken } from 'react-jwt';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -11,8 +12,15 @@ import { axiosPost } from 'app/utils/axios';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth, userType } from 'app/shared/interfaces/auth';
 
-export default function Blog() {
-	const { setAuth } = useContext<contextAuth>(AuthContext);
+interface BlogProps {
+	showSidebar: boolean;
+	requireAuth: boolean;
+}
+
+export default function Blog(props: BlogProps) {
+	const { showSidebar, requireAuth } = props;
+	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
+	const navigate = useNavigate();
 
 	const checkAuth = async () => {
 		const access_token: string = localStorage.getItem('access_token');
@@ -21,8 +29,11 @@ export default function Blog() {
 			setAuth({
 				user: null,
 				isLoggedIn: false,
+				isLoading: false,
 			});
-			return;
+			if (requireAuth) {
+				navigate('/auth/login'); return;
+			}
 		}
 
 		const result = await axiosPost('api/refresh-token', {});
@@ -33,19 +44,28 @@ export default function Blog() {
 			setAuth({
 				user,
 				isLoggedIn: true,
+				isLoading: false,
 			});
 		} else {
 			localStorage.removeItem('access_token');
 			setAuth({
 				user: null,
 				isLoggedIn: false,
+				isLoading: false,
 			});
+			if (requireAuth) {
+				navigate('/auth/login'); return;
+			}
 		}
 	};
 
 	useEffect(() => {
 		checkAuth().catch(console.error);
 	}, []);
+
+	if (auth.isLoading) {
+		return <h1>Cargando...</h1>;
+	}
 
 	return (
 		<Box
@@ -60,13 +80,16 @@ export default function Blog() {
 				<Header title="Blog" />
 				<main>
 					<Grid container spacing={5} sx={{ mt: 3 }}>
-						<Main />
-						<Sidebar
-							title={'Parciales.'}
-							description={
-								'Muy pronto estarán disponibles los exámenes de otras materias.'
-							}
-						/>
+						<Main xs={12} md={showSidebar ? 8 : 12} />
+
+						{showSidebar ? (
+							<Sidebar
+								title={'Parciales.'}
+								description={
+									'Muy pronto estarán disponibles los exámenes de otras materias.'
+								}
+							/>
+						) : null}
 					</Grid>
 				</main>
 			</Container>

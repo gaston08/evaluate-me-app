@@ -15,6 +15,13 @@ interface HeaderProps {
   title: string;
 }
 
+const subjectsArr = subjects.map((subject) => {
+  return {
+    label: subject.label,
+    value: '/tests/' + subject.value,
+  };
+});
+
 export default function Header(props: HeaderProps) {
   const { title } = props;
   const { auth, setAuth } = React.useContext<contextAuth>(AuthContext);
@@ -29,14 +36,16 @@ export default function Header(props: HeaderProps) {
     setAuth({
       user: null,
       isLoggedIn: false,
+      isLoading: false,
     });
+    navigate('/auth/login');
   };
 
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Box>
-          <MenuButton text="Parciales" menuItems={subjects} />
+          <MenuButton text="Parciales" menuItems={subjectsArr} />
         </Box>
         <Typography
           component="h2"
