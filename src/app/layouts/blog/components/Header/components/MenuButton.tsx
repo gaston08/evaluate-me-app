@@ -58,7 +58,12 @@ export default function MenuButton(props: MenuButtonProps) {
 				{menuItems.map((menuItem, i) => {
 					if (menuItem.value !== undefined) {
 						return (
-							<MenuItem key={i} component={RouterLink} to={menuItem.value}>
+							<MenuItem
+								key={i}
+								onClick={handleClose}
+								component={RouterLink}
+								to={menuItem.value}
+							>
 								{menuItem.label}
 							</MenuItem>
 						);
