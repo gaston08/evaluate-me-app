@@ -44,53 +44,52 @@ export default function MyExams() {
 	const [results, setResults] = React.useState<Array<resultTableInterface>>([]);
 	const [errors, setErrors] = React.useState<Array<string>>([]);
 
-	React.useEffect(() => {
-		async function getAllResults() {
-			setLoading(true);
-			const result: apiGetAllResultsResponse =
-				await axiosGet('api/results/get');
-			if (result.ok) {
-				const newArrResults = result.data.results.map((res) => {
-					const date = new Date(res.date);
-					const formatted_date = `${date.getDate()}/${
-						date.getMonth() + 1
-					}/${date.getFullYear()} ${date.toLocaleTimeString()}`;
-					const subject = subjects.find(
-						(sub) => sub.value === res.exam_subject,
-					).label;
-					return {
-						_id: res._id,
-						date: formatted_date,
-						subject,
-						exam_number: res.exam_number,
-						exam_type: res.exam_type,
-						exam_year: res.exam_year,
-						score: res.score,
-					};
-				});
-				setResults(newArrResults);
-				setLoading(false);
-			} else {
-				const errArr = [];
-				if (result.error) {
-					errArr.push(result.error);
-				}
-
-				if (result.errors) {
-					result.errors.forEach((err: expressError) => {
-						errArr.push(err.msg);
-					});
-				}
-
-				console.log(errArr);
-
-				setErrors(errArr);
-
-				setLoading(false);
+	async function getAllResults(): void {
+		setLoading(true);
+		const result: apiGetAllResultsResponse = await axiosGet('api/results/get');
+		if (result.ok) {
+			const newArrResults = result.data.results.map((res) => {
+				const date = new Date(res.date);
+				const formatted_date = `${date.getDate()}/${
+					date.getMonth() + 1
+				}/${date.getFullYear()} ${date.toLocaleTimeString()}`;
+				const subject = subjects.find(
+					(sub) => sub.value === res.exam_subject,
+				).label;
+				return {
+					_id: res._id,
+					date: formatted_date,
+					subject,
+					exam_number: res.exam_number,
+					exam_type: res.exam_type,
+					exam_year: res.exam_year,
+					score: res.score,
+				};
+			});
+			setResults(newArrResults);
+			setLoading(false);
+		} else {
+			const errArr = [];
+			if (result.error) {
+				errArr.push(result.error);
 			}
-		}
 
-		getAllResults().then().catch(console.error);
+			if (result.errors) {
+				result.errors.forEach((err: expressError) => {
+					errArr.push(err.msg);
+				});
+			}
+
+			console.log(errArr);
+
+			setErrors(errArr);
+
+			setLoading(false);
+		}
+	}
+
+	React.useEffect(() => {
+		getAllResults();
 	}, []);
 
 	const handleSort = (event: React.MouseEvent<HTMLElement>, _id: string) => {
@@ -172,6 +171,9 @@ export default function MyExams() {
 					numSelected={selected.length}
 					filterName={filterName}
 					onFilterName={handleFilterByName}
+					selected={selected}
+					getAllResults={getAllResults}
+					setSelected={setSelected}
 				/>
 
 				<Scrollbar>
@@ -191,7 +193,6 @@ export default function MyExams() {
 									{ id: 'exam_year', label: 'Año' },
 									{ id: 'score', label: 'Nota' },
 									{ id: 'date', label: 'Fecha' },
-									{ id: '' },
 								]}
 							/>
 							<TableBody>

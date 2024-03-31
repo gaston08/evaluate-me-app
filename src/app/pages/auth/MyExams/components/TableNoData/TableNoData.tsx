@@ -10,7 +10,7 @@ interface TableNoDataProps {
 export default function TableNoData({ query }: TableNoDataProps) {
   return (
     <TableRow sx={{ backgroundColor: 'white' }}>
-      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+      <TableCell align="center" colSpan={7} sx={{ py: 3 }}>
         <Paper
           sx={{
             textAlign: 'center',
