@@ -84,14 +84,7 @@ export default function Blog(props: BlogProps) {
 					<Grid container spacing={5} sx={{ mt: 3 }}>
 						<Main xs={12} md={showSidebar ? 8 : 12} />
 
-						{showSidebar ? (
-							<Sidebar
-								title={'Parciales.'}
-								description={
-									'Muy pronto estarán disponibles los exámenes de otras materias.'
-								}
-							/>
-						) : null}
+						{showSidebar ? <Sidebar /> : null}
 					</Grid>
 				</main>
 			</Container>
