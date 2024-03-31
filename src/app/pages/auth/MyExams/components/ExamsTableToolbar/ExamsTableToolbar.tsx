@@ -96,7 +96,7 @@ export default function ExamsTableToolbar({
       >
         {numSelected > 0 ? (
           <Typography component="div" variant="subtitle1">
-            {numSelected} selected
+            {numSelected} Seleccionados
           </Typography>
         ) : (
           <OutlinedInput
