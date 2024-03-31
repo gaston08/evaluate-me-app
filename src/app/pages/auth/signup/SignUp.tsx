@@ -21,11 +21,11 @@ export default function SignUp() {
 	return (
 		<Formik
 			initialValues={{
-				email: 'gaston08pedraza@gmail.com',
-				password: 'abcd1234',
-				confirmPassword: 'abcd1234',
-				firstName: 'gaston',
-				lastName: 'pedraza',
+				email: '',
+				password: '',
+				confirmPassword: '',
+				firstName: '',
+				lastName: '',
 			}}
 			validate={(values) => {
 				const errors = {};
@@ -200,10 +200,13 @@ export default function SignUp() {
 						</Button>
 						<Grid container justifyContent="flex-end">
 							<Grid item>
-								<LinkMui variant="body" component="div">
-									<Link to="/auth/login" style={{ textDecoration: 'none' }}>
-										¿Ya tienes una cuenta? Inicia sesión
-									</Link>
+								<LinkMui
+									to="/auth/login"
+									variant="body"
+									component="div"
+									component={Link}
+								>
+									¿Ya tienes una cuenta? Inicia sesión
 								</LinkMui>
 							</Grid>
 						</Grid>

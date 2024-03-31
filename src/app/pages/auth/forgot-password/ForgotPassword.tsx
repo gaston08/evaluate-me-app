@@ -14,6 +14,7 @@ import {
 	expressError,
 } from 'app/shared/interfaces/api-response';
 import { axiosPost } from 'app/utils/axios';
+import { Link as RouterLink } from 'react-router-dom';
 
 export default function ForgotPassword() {
 	const [error, setError] = useState<string>('');
@@ -102,8 +103,7 @@ export default function ForgotPassword() {
 								<Grid container spacing={2}>
 									<Grid item xs={12}>
 										<Typography component="h3" variant="h6">
-											Ingrese su correo electrónico o número de teléfono móvil
-											para buscar su cuenta.
+											Ingresá tu correo electrónico para buscar tu cuenta.
 										</Typography>
 									</Grid>
 									<Grid item xs={12}>
@@ -127,6 +127,8 @@ export default function ForgotPassword() {
 								<Grid container spacing={2} justifyContent="flex-end">
 									<Grid item>
 										<Button
+											component={RouterLink}
+											to="/auth/login"
 											variant="outlined"
 											sx={{ mt: 3, mb: 2 }}
 											disabled={loading}

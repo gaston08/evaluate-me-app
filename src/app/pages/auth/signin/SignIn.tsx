@@ -3,8 +3,6 @@ import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 //import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -27,9 +25,8 @@ export default function SignIn() {
 	return (
 		<Formik
 			initialValues={{
-				email: 'gaston08pedraza@gmail.com',
-				password: 'abcd1234',
-				rememberLogin: true,
+				email: '',
+				password: '',
 			}}
 			validate={(values) => {
 				const errors = {};
@@ -85,7 +82,6 @@ export default function SignIn() {
 				handleChange,
 				handleBlur,
 				handleSubmit,
-				setFieldValue,
 				isValid,
 			}) => (
 				<Box
@@ -123,7 +119,7 @@ export default function SignIn() {
 								<Grid item xs={12}>
 									<Alert severity="success">
 										<AlertTitle>Correcto</AlertTitle>
-										La contraseña ha cambiado.{' '}
+										Se ha cambiado la contraseña.{' '}
 										<strong>Ahora puedes iniciar sesión.</strong>
 									</Alert>
 								</Grid>
@@ -152,17 +148,6 @@ export default function SignIn() {
 									label="Contraseña"
 									type="password"
 									name="password"
-								/>
-							</Grid>
-							<Grid item xs={12}>
-								<FormControlLabel
-									control={
-										<Checkbox color="primary" checked={values.rememberLogin} />
-									}
-									label="Recordar inicio de sesión"
-									onChange={(val): void =>
-										setFieldValue('rememberLogin', val.target.checked)
-									}
 								/>
 							</Grid>
 							{error !== '' ? (

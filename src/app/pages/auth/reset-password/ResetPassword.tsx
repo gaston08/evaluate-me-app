@@ -22,8 +22,8 @@ export default function ResetPassword() {
 	return (
 		<Formik
 			initialValues={{
-				password: 'abcd1234',
-				confirmPassword: 'abcd1234',
+				password: '',
+				confirmPassword: '',
 			}}
 			validate={(values) => {
 				const errors = {};
@@ -89,7 +89,7 @@ export default function ResetPassword() {
 					}}
 				>
 					<Typography component="h1" variant="h5">
-						Ingresa tu nueva contraseña
+						Ingresá tu nueva contraseña
 					</Typography>
 					<Box
 						component="form"
