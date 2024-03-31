@@ -6,7 +6,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link as RouterLink } from 'react-router-dom';
-import Link from '@mui/material/Link';
 
 interface MenuButtonProps {
 	text: string;
@@ -57,17 +56,19 @@ export default function MenuButton(props: MenuButtonProps) {
 				onClose={handleClose}
 			>
 				{menuItems.map((menuItem, i) => {
-					return (
-						<MenuItem key={i}>
-							{menuItem.value !== undefined ? (
-								<Link component={RouterLink} to={menuItem.value}>
-									{menuItem.label}
-								</Link>
-							) : (
+					if (menuItem.value !== undefined) {
+						return (
+							<MenuItem key={i} component={RouterLink} to={menuItem.value}>
+								{menuItem.label}
+							</MenuItem>
+						);
+					} else {
+						return (
+							<MenuItem key={i}>
 								<Box onClick={menuItem.onClick}>{menuItem.label}</Box>
-							)}
-						</MenuItem>
-					);
+							</MenuItem>
+						);
+					}
 				})}
 			</Menu>
 		</div>
