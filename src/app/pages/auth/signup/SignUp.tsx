@@ -30,20 +30,20 @@ export default function SignUp() {
 			validate={(values) => {
 				const errors = {};
 
-				if (!values.firstName) {
+				if (!values.firstName.trim()) {
 					errors.firstName = 'El campo es obligatorio';
-				} else if (values.firstName.length < 3) {
+				} else if (values.firstName.trim().length < 3) {
 					errors.firstName = 'El nombre debe poseer al menos 3 caracteres';
 				}
 
-				if (!values.lastName) {
+				if (!values.lastName.trim()) {
 					errors.lastName = 'El campo es obligatorio';
 				}
 
-				if (!values.email) {
+				if (!values.email.trim()) {
 					errors.email = 'El campo es obligatorio';
 				} else if (
-					!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+					!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email.trim())
 				) {
 					errors.email = 'Dirección de correo electrónico no válida';
 				}
@@ -64,11 +64,11 @@ export default function SignUp() {
 			}}
 			onSubmit={async (values, obj) => {
 				const data = {
-					email: values.email,
+					email: values.email.trim(),
 					password: values.password,
 					confirmPassword: values.confirmPassword,
-					firstName: values.firstName,
-					lastName: values.lastName,
+					firstName: values.firstName.trim(),
+					lastName: values.lastName.trim(),
 					role: 'user',
 				};
 				const result = await axiosPost('api/signup', data);
