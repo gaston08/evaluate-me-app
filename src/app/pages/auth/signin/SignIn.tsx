@@ -31,10 +31,10 @@ export default function SignIn() {
 			validate={(values) => {
 				const errors = {};
 
-				if (!values.email) {
+				if (!values.email.trim()) {
 					errors.email = 'El campo es obligatorio';
 				} else if (
-					!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+					!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email.trim())
 				) {
 					errors.email = 'Dirección de correo electrónico no válida';
 				}
@@ -49,7 +49,7 @@ export default function SignIn() {
 			}}
 			onSubmit={async (values, obj) => {
 				const data = {
-					email: values.email,
+					email: values.email.trim(),
 					password: values.password,
 				};
 
