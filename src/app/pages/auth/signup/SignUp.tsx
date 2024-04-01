@@ -101,7 +101,7 @@ export default function SignUp() {
 			}) => (
 				<Box
 					sx={{
-						marginTop: 8,
+						marginTop: 0,
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',
@@ -130,7 +130,6 @@ export default function SignUp() {
 									fullWidth
 									label="Nombre"
 									name="firstName"
-									autoFocus
 								/>
 							</Grid>
 							<Grid item xs={12} sm={6}>
@@ -200,12 +199,7 @@ export default function SignUp() {
 						</Button>
 						<Grid container justifyContent="flex-end">
 							<Grid item>
-								<LinkMui
-									to="/auth/login"
-									variant="body"
-									component="div"
-									component={Link}
-								>
+								<LinkMui to="/auth/login" variant="body" component={Link}>
 									¿Ya tienes una cuenta? Inicia sesión
 								</LinkMui>
 							</Grid>

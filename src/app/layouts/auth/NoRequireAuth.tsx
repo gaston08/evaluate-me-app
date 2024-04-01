@@ -37,14 +37,14 @@ export default function RequireAuth() {
 			{isLoading ? (
 				<h1>Cargando...</h1>
 			) : (
-				<Container component="main" maxWidth="xs">
+				<Container component="main" maxWidth="xs" sx={{ height: 'auto' }}>
 					<CssBaseline />
 					<Box
 						sx={{
-							minHeight: '100vh',
 							display: 'flex',
 							flexDirection: 'column',
 							justifyContent: 'space-around',
+							mt: 4,
 						}}
 					>
 						<Outlet />
