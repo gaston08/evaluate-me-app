@@ -92,11 +92,13 @@ export default function Exercise(props: ExerciseProps) {
 						{exerciseFeedback.success !== '' ? (
 							<Box>
 								{exerciseFeedback.html ? (
-									<div
-										dangerouslySetInnerHTML={{
-											__html: exerciseFeedback.success,
-										}}
-									></div>
+									<Box sx={{ color: theme.palette.success.main }}>
+										<div
+											dangerouslySetInnerHTML={{
+												__html: exerciseFeedback.success,
+											}}
+										></div>
+									</Box>
 								) : (
 									<Typography color="#689f38">
 										{exerciseFeedback.success}
