@@ -5,8 +5,14 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { subjects } from 'app/shared/data/exam';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function Sidebar() {
+  const theme = useTheme();
+
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <Grid item xs={12} md={4}>
       <Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.200' }}>
@@ -26,24 +32,28 @@ export default function Sidebar() {
           <CafecitoButton />
         </Box>
       </Paper>
-      <Box sx={{ pb: 3, pt: 3 }}>
-        <Link variant="h6" component={RouterLink} to="/tests">
-          Parciales.
-        </Link>
-        <Box sx={{ ml: 2 }}>
-          {subjects.map((subject) => (
-            <Link
-              component={RouterLink}
-              display="block"
-              variant="body1"
-              to={`/tests/${subject.value}`}
-              key={subject.value}
-            >
-              {subject.label}
+      <>
+        {matches ? null : (
+          <Box sx={{ pb: 3, pt: 3 }}>
+            <Link variant="h6" component={RouterLink} to="/tests">
+              Parciales.
             </Link>
-          ))}
-        </Box>
-      </Box>
+            <Box sx={{ ml: 2 }}>
+              {subjects.map((subject) => (
+                <Link
+                  component={RouterLink}
+                  display="block"
+                  variant="body1"
+                  to={`/tests/${subject.value}`}
+                  key={subject.value}
+                >
+                  {subject.label}
+                </Link>
+              ))}
+            </Box>
+          </Box>
+        )}
+      </>
     </Grid>
   );
 }
