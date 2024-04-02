@@ -7,6 +7,7 @@ import AlertTitle from '@mui/material/AlertTitle';
 import Link from '@mui/material/Link';
 import { apiGetAllSubjects } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
+import { subjects } from 'app/shared/data/exam';
 
 interface exam {
 	[key: string]: {
@@ -54,9 +55,18 @@ export default function SubjectExams() {
 	}
 
 	return (
-		<div>
+		<Box>
 			{params.id === undefined ? (
-				<div>
+				<Box>
+					<Box>
+						<Typography variant="h5">
+							Parciales de{' '}
+							{subjects
+								.find((sub) => sub.value === params.subject)
+								.label.toLowerCase()}
+							.
+						</Typography>
+					</Box>
 					{errors.length !== 0 ? (
 						<Box>
 							<Alert severity="error">
@@ -108,10 +118,10 @@ export default function SubjectExams() {
 								})}
 						</>
 					)}
-				</div>
+				</Box>
 			) : (
 				<Outlet />
 			)}
-		</div>
+		</Box>
 	);
 }

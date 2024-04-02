@@ -14,7 +14,7 @@ export default function Sidebar() {
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Grid item xs={12} md={4}>
+    <Grid item xs={12} md={4} sx={{ mb: matches ? 3 : 0 }}>
       <Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.200' }}>
         <Typography>
           <b>ubaparciales</b> es un proyecto <b>sin fines de lucro</b> que se
