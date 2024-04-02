@@ -6,6 +6,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { useLocation } from 'react-router-dom';
 
 import Option from './components/Option';
 import {
@@ -30,6 +31,12 @@ export default function Exercise(props: ExerciseProps) {
 	const theme = useTheme();
 	const { selectedOptions } = useContext<contextExam>(ExamContext);
 
+	const location = useLocation();
+
+	const showSelectedQuantity = !new RegExp(/results/, 'gi').test(
+		location.pathname,
+	);
+
 	return (
 		<Box>
 			<>
@@ -46,12 +53,16 @@ export default function Exercise(props: ExerciseProps) {
 									}}
 									className="tiptap"
 								></div>
-								<Box sx={{ mt: 2 }}>
-									<Typography color="primary" variant="body">
-										{selectedOptions[exerciseIdx][i].length}/
-										{exercise.correctOptions[i].length} seleccionados.
-									</Typography>
-								</Box>
+								<>
+									{showSelectedQuantity ? (
+										<Box sx={{ mt: 2 }}>
+											<Typography color="primary" variant="body">
+												{selectedOptions[exerciseIdx][i].length}/
+												{exercise.correctOptions[i].length} seleccionados.
+											</Typography>
+										</Box>
+									) : null}
+								</>
 							</Paper>
 							<List component="nav" sx={{ pt: 0, pb: 0 }}>
 								{exercise.options[i].map((option: optionType) => {
@@ -79,19 +90,43 @@ export default function Exercise(props: ExerciseProps) {
 				<Box sx={{ pl: 2, mt: 2 }}>
 					<>
 						{exerciseFeedback.success !== '' ? (
-							<Typography color="#689f38">
-								{exerciseFeedback.success}
-							</Typography>
+							<Box>
+								{exerciseFeedback.html ? (
+									<div
+										dangerouslySetInnerHTML={{
+											__html: exerciseFeedback.success,
+										}}
+									></div>
+								) : (
+									<Typography color="#689f38">
+										{exerciseFeedback.success}
+									</Typography>
+								)}
+							</Box>
 						) : null}
 					</>
 					<>
 						{exerciseFeedback.error !== '' ? (
-							<Box sx={{ display: 'flex' }}>
-								<Box sx={{ mr: 1, color: 'red' }}>
-									<FontAwesomeIcon icon={faCircleExclamation} />
-								</Box>
-								<Typography color="error">{exerciseFeedback.error}</Typography>
-							</Box>
+							<>
+								{exerciseFeedback.html ? (
+									<Box sx={{ color: theme.palette.error.main }}>
+										<div
+											dangerouslySetInnerHTML={{
+												__html: exerciseFeedback.error,
+											}}
+										></div>
+									</Box>
+								) : (
+									<Box sx={{ display: 'flex' }}>
+										<Box sx={{ mr: 1, color: 'red' }}>
+											<FontAwesomeIcon icon={faCircleExclamation} />
+										</Box>
+										<Typography color="error">
+											{exerciseFeedback.error}
+										</Typography>
+									</Box>
+								)}
+							</>
 						) : null}
 					</>
 				</Box>

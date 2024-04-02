@@ -53,15 +53,17 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 						newErrArr[i] = {
 							error: `Debes seleccionar 1 respuesta.`,
 							success: '',
+							html: false,
 						};
 					} else {
 						newErrArr[i] = {
 							error: `Debes seleccionar ${exercises[i].correctOptions[j].length} respuestas.`,
 							success: '',
+							html: false,
 						};
 					}
 				} else {
-					newErrArr[i] = { error: '', success: '' };
+					newErrArr[i] = { error: '', success: '', html: false };
 				}
 			}
 		}

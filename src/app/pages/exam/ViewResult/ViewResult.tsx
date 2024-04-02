@@ -54,11 +54,13 @@ export default function ViewResult() {
 							exArr[i] = {
 								error: '',
 								success: exercises[i].argument,
+								html: true,
 							};
 						} else {
 							exArr[i] = {
 								error: exercises[i].argument,
 								success: '',
+								html: true,
 							};
 						}
 					}

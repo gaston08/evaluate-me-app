@@ -27,6 +27,7 @@ export interface examType {
 export interface exerciseFeedback {
 	error: string;
 	success: string;
+	html: boolean;
 }
 
 export interface contextExam {

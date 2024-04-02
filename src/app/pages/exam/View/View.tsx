@@ -58,6 +58,7 @@ export default function View() {
 						return {
 							success: '',
 							error: '',
+							html: false,
 						};
 					},
 				);
