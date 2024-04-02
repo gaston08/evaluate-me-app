@@ -116,15 +116,27 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 			}
 		}
 	};
+
+	console.log(exercisesFeedback);
+
 	return (
 		<Box>
+			<>
+				{exercisesFeedback.some((ex) => ex.error !== '') ? (
+					<Box sx={{ mb: 3 }}>
+						<Typography color="error">
+							Asegurate de completar todos los ejercicios.
+						</Typography>
+					</Box>
+				) : null}
+			</>
 			<Button
 				disabled={loading}
 				variant="contained"
 				color="primary"
 				onClick={sendResult}
 			>
-				Enviar exámen.
+				Mostrar resultado
 			</Button>
 			<>
 				{error !== '' ? (

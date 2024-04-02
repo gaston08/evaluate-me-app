@@ -4,6 +4,8 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 import Option from './components/Option';
 import {
@@ -44,6 +46,12 @@ export default function Exercise(props: ExerciseProps) {
 									}}
 									className="tiptap"
 								></div>
+								<Box sx={{ mt: 2 }}>
+									<Typography color="primary" variant="body">
+										{selectedOptions[exerciseIdx][i].length}/
+										{exercise.correctOptions[i].length} seleccionados.
+									</Typography>
+								</Box>
 							</Paper>
 							<List component="nav" sx={{ pt: 0, pb: 0 }}>
 								{exercise.options[i].map((option: optionType) => {
@@ -78,7 +86,12 @@ export default function Exercise(props: ExerciseProps) {
 					</>
 					<>
 						{exerciseFeedback.error !== '' ? (
-							<Typography color="error">{exerciseFeedback.error}</Typography>
+							<Box sx={{ display: 'flex' }}>
+								<Box sx={{ mr: 1, color: 'red' }}>
+									<FontAwesomeIcon icon={faCircleExclamation} />
+								</Box>
+								<Typography color="error">{exerciseFeedback.error}</Typography>
+							</Box>
 						) : null}
 					</>
 				</Box>
