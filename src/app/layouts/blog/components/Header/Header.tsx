@@ -4,7 +4,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import MenuButton from './components/MenuButton';
 import { subjects } from 'app/shared/data/exam';
@@ -44,22 +43,18 @@ export default function Header() {
         <Box>
           <MenuButton text="Parciales" menuItems={subjectsArr} />
         </Box>
-        <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="center"
-          noWrap
-          sx={{ flex: 1 }}
-        >
+        <Box align="center" noWrap sx={{ flex: 1, pt: 1 }}>
           <Link
             sx={{ textDecoration: 'none' }}
             component={RouterLink}
             to="/tests"
           >
-            ubaparciales
+            <img
+              style={{ width: 100, height: 'auto' }}
+              src={'/assets/logo.svg'}
+            />
           </Link>
-        </Typography>
+        </Box>
         <IconButton>{/**<SearchIcon />**/}</IconButton>
         <Box>
           {auth.isLoggedIn ? (
