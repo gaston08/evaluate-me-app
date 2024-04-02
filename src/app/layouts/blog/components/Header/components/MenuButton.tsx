@@ -6,6 +6,9 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link as RouterLink } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import IconButton from '@mui/material/IconButton';
 
 interface MenuButtonProps {
 	text: string;
@@ -18,8 +21,11 @@ interface MenuButtonProps {
 }
 
 export default function MenuButton(props: MenuButtonProps) {
-	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const { text, icon, menuItems } = props;
+	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+	const theme = useTheme();
+
+	const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
 	const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -31,15 +37,22 @@ export default function MenuButton(props: MenuButtonProps) {
 
 	return (
 		<div>
-			<Button onClick={handleMenu}>
-				<Typography>{text}</Typography>
-
-				{icon !== undefined ? (
-					<Box sx={{ ml: 1 }}>
-						<FontAwesomeIcon icon={icon} />
-					</Box>
-				) : null}
-			</Button>
+			<>
+				{matches ? (
+					<IconButton>
+						<FontAwesomeIcon icon={icon} onClick={handleMenu} />
+					</IconButton>
+				) : (
+					<Button onClick={handleMenu}>
+						{icon !== undefined ? (
+							<Box sx={{ mr: 1 }}>
+								<FontAwesomeIcon icon={icon} />
+							</Box>
+						) : null}
+						<Typography>{text}</Typography>
+					</Button>
+				)}
+			</>
 			<Menu
 				id="menu-appbar"
 				anchorEl={anchorEl}
