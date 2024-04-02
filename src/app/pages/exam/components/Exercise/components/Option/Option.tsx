@@ -57,14 +57,16 @@ export default function Option(props: OptionProps) {
 	return (
 		<ListItemButton
 			sx={{
-				backgroundColor: isSelected ? theme.custom.background.main : null,
 				'&:hover, &.Mui-selected, &.Mui-selected:hover': {
 					backgroundColor: canSelect
-						? theme.custom.background.main
+						? '#eee'
 						: isSelected
 							? theme.custom.background.main
 							: 'transparent',
 				},
+				backgroundColor: isSelected
+					? `${theme.custom.background.main}!important`
+					: null,
 				display: 'flex',
 				justifyContent: 'space-between',
 				cursor: canSelect ? 'pointer' : 'auto',
