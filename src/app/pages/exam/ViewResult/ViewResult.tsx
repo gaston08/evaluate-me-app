@@ -1,7 +1,8 @@
 import { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as RouterLink } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
 import { apiGetResponse, resultType } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
 import NoExamFound from '../components/NoExamFound';
@@ -11,6 +12,10 @@ import { contextExam, examType } from 'app/shared/interfaces/exam';
 import { subjects } from 'app/shared/data/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function ViewResult() {
 	const params = useParams();
@@ -134,10 +139,65 @@ export default function ViewResult() {
 								</Typography>
 							</Box>
 							<Exercises />
+							<Box
+								sx={{
+									display: 'flex',
+									width: '100%',
+									justifyContent: 'center',
+								}}
+							>
+								<Box>
+									<Typography variant="h6">Compartir exámen.</Typography>
+									<ShareButtons result={result} subject={subject} />
+								</Box>
+							</Box>
 						</>
 					)}
 				</>
 			)}
 		</>
+	);
+}
+
+interface ShareButtonsProp {
+	result: resultType;
+	subject: string;
+}
+
+function ShareButtons(props: ShareButtonsProp) {
+	const result = props.result;
+	const subject = props.subject;
+
+	const theme = useTheme();
+	const matches = useMediaQuery(theme.breakpoints.up('sm'));
+
+	const shareTextWhatsapp = `https://api.whatsapp.com/send?text=https://ubaparciales.com %0A%0AAcabo de resolver ${result.exam_type}, TEMA ${result.exam_number}, ${subject}.%0A%0ANota: ${result.score}`;
+
+	return (
+		<Box
+			sx={{
+				mt: 2,
+				display: 'flex',
+				justifyContent: 'center',
+				mb: matches ? 3 : 0,
+			}}
+		>
+			<IconButton
+				component={RouterLink}
+				to={shareTextWhatsapp}
+				target="_blank"
+				sx={{
+					color: 'green',
+					border: '1px solid green',
+					borderRadius: '100%',
+					'& svg': {
+						width: 30,
+						height: 30,
+					},
+				}}
+			>
+				<FontAwesomeIcon icon={faWhatsapp} />
+			</IconButton>
+		</Box>
 	);
 }
