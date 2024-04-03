@@ -8,6 +8,7 @@ import { UiContext, defaultExamsUi } from 'app/contexts/Ui';
 import { contextExam, exerciseFeedback } from 'app/shared/interfaces/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { contextAuth } from 'app/shared/interfaces/auth';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import ThemeWrapper from 'app/components/ThemeWrapper';
 
@@ -37,20 +38,24 @@ export default function App() {
           setAuth,
         }}
       >
-        <ExamContext.Provider
-          value={{
-            exam,
-            setExam,
-            selectedOptions,
-            setSelectedOptions,
-            exercisesFeedback,
-            setExercisesFeedback,
-          }}
+        <GoogleOAuthProvider
+          clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID as string}
         >
-          <ThemeWrapper>
-            <RouterProvider router={router} />
-          </ThemeWrapper>
-        </ExamContext.Provider>
+          <ExamContext.Provider
+            value={{
+              exam,
+              setExam,
+              selectedOptions,
+              setSelectedOptions,
+              exercisesFeedback,
+              setExercisesFeedback,
+            }}
+          >
+            <ThemeWrapper>
+              <RouterProvider router={router} />
+            </ThemeWrapper>
+          </ExamContext.Provider>
+        </GoogleOAuthProvider>
       </AuthContext.Provider>
     </UiContext.Provider>
   );

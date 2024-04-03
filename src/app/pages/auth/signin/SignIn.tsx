@@ -17,11 +17,32 @@ import {
 	apiPostResponse,
 	expressError,
 } from 'app/shared/interfaces/api-response';
+import { GoogleLogin } from '@react-oauth/google';
 
 export default function SignIn() {
 	const location = useLocation() as { state?: { signup: string } };
 	const [error, setError] = useState<string>('');
 	const navigate = useNavigate();
+
+	const login = async (token: string, clientId: string) => {
+		const data = {
+			token,
+			clientId,
+		};
+
+		const result: apiPostResponse = await axiosPost('api/login/google', data);
+
+		if (result.ok) {
+			localStorage.setItem('access_token', result.data.token);
+			axios.defaults.headers.common['Authorization'] =
+				`Bearer ${result.data.token}`;
+			navigate('/tests');
+		} else {
+			if (result.error) {
+				setError(result.error);
+			}
+		}
+	};
 	return (
 		<Formik
 			initialValues={{
@@ -98,6 +119,19 @@ export default function SignIn() {
 					<Typography component="h1" variant="h5">
 						Inicio de sesión
 					</Typography>
+					<Box sx={{ mt: 2 }}>
+						<GoogleLogin
+							onSuccess={(credentialResponse) => {
+								login(
+									credentialResponse.credential,
+									credentialResponse.clientId,
+								).catch(console.error);
+							}}
+							onError={() => {
+								console.log('Login Failed');
+							}}
+						/>
+					</Box>
 					<Box
 						component="form"
 						noValidate

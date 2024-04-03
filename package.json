@@ -22,6 +22,7 @@
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@mui/material": "^5.15.2",
+    "@react-oauth/google": "^0.12.1",
     "@tiptap/extension-color": "^2.1.13",
     "@tiptap/extension-text-style": "^2.1.13",
     "@tiptap/pm": "^2.1.13",
