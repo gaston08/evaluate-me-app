@@ -136,7 +136,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 				color="primary"
 				onClick={sendResult}
 			>
-				Mostrar resultado
+				finalizar examen
 			</Button>
 			<>
 				{error !== '' ? (
