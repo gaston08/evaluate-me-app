@@ -71,7 +71,7 @@ export default function ViewResult() {
 				setExamsUi((prev) => {
 					return {
 						...prev,
-						canSelect: false,
+						isPlayView: false,
 					};
 				});
 

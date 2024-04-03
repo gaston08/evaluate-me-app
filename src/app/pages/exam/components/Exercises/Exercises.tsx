@@ -16,7 +16,7 @@ export default function Exercises() {
 						<Exercise
 							idx={idx}
 							exercise={exercise}
-							canSelect={true}
+							isPlayView={true}
 							exerciseFeedback={exercisesFeedback[idx]}
 						/>
 					</Box>

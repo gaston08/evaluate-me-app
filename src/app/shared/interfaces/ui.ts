@@ -1,5 +1,5 @@
 export interface examsUiType {
-	canSelect: boolean;
+	isPlayView: boolean;
 }
 
 export interface contextUi {

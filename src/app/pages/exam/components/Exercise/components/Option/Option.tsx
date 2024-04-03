@@ -24,14 +24,15 @@ export default function Option(props: OptionProps) {
 		optionsIdx,
 		exerciseIdx,
 		isSelected,
+		isCorrect,
 	} = props;
 	const { setSelectedOptions } = useContext<contextExam>(ExamContext);
 	const { examsUi } = useContext<contextUi>(UiContext);
-	const canSelect = examsUi.canSelect;
+	const isPlayView = examsUi.isPlayView;
 	const theme = useTheme();
 
 	const selectOption = () => {
-		if (canSelect) {
+		if (isPlayView) {
 			setSelectedOptions((prev) => {
 				const oldArr = [...prev];
 				if (oldArr[exerciseIdx][optionsIdx].includes(id)) {
@@ -54,26 +55,51 @@ export default function Option(props: OptionProps) {
 		}
 	};
 
+	const bgColor = isSelected
+		? isCorrect
+			? theme.palette.success.light
+			: theme.palette.error.light
+		: 'transparent';
+
+	const hoverColor = isSelected
+		? isCorrect
+			? theme.palette.success.light
+			: theme.palette.error.light
+		: '#eee';
+
 	return (
-		<ListItemButton
-			sx={{
-				'&:hover, &.Mui-selected, &.Mui-selected:hover': {
-					backgroundColor: canSelect
-						? '#eee'
-						: isSelected
-							? theme.custom.background.main
-							: 'transparent',
-				},
-				backgroundColor: isSelected
-					? `${theme.custom.background.main}!important`
-					: null,
-				display: 'flex',
-				justifyContent: 'space-between',
-				cursor: canSelect ? 'pointer' : 'auto',
-			}}
-			onClick={selectOption}
-		>
-			<div dangerouslySetInnerHTML={{ __html: title }}></div>
-		</ListItemButton>
+		<>
+			{isPlayView ? (
+				<ListItemButton
+					sx={{
+						'&:hover, &.Mui-selected, &.Mui-selected:hover': {
+							backgroundColor: hoverColor,
+						},
+						backgroundColor: bgColor,
+						display: 'flex',
+						justifyContent: 'space-between',
+						cursor: 'pointer',
+					}}
+					onClick={selectOption}
+				>
+					<div dangerouslySetInnerHTML={{ __html: title }}></div>
+				</ListItemButton>
+			) : (
+				<ListItemButton
+					sx={{
+						'&:hover, &.Mui-selected, &.Mui-selected:hover': {
+							backgroundColor: hoverColor,
+						},
+						backgroundColor: bgColor,
+						display: 'flex',
+						justifyContent: 'space-between',
+						cursor: 'auto',
+					}}
+					onClick={selectOption}
+				>
+					<div dangerouslySetInnerHTML={{ __html: title }}></div>
+				</ListItemButton>
+			)}
+		</>
 	);
 }

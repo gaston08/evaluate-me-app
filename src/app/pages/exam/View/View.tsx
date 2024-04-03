@@ -67,7 +67,7 @@ export default function View() {
 				setExamsUi((prev) => {
 					return {
 						...prev,
-						canSelect: true,
+						isPlayView: true,
 					};
 				});
 				setExam(result.data.exam);

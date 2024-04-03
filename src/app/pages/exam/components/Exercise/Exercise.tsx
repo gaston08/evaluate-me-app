@@ -6,7 +6,6 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import { useLocation } from 'react-router-dom';
 
 import Option from './components/Option';
 import {
@@ -16,6 +15,8 @@ import {
 	exerciseFeedback,
 } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
+import { contextUi } from 'app/shared/interfaces/ui';
+import { UiContext } from 'app/contexts/Ui';
 
 interface ExerciseProps {
 	exercise: exerciseType;
@@ -28,14 +29,11 @@ export default function Exercise(props: ExerciseProps) {
 	const exerciseIdx: number = props.idx;
 	const exerciseFeedback: exerciseFeedback = props.exerciseFeedback;
 
+	const { examsUi } = useContext<contextUi>(UiContext);
+	const isPlayView = examsUi.isPlayView;
+
 	const theme = useTheme();
 	const { selectedOptions } = useContext<contextExam>(ExamContext);
-
-	const location = useLocation();
-
-	const showSelectedQuantity = !new RegExp(/results/, 'gi').test(
-		location.pathname,
-	);
 
 	return (
 		<Box>
@@ -54,7 +52,7 @@ export default function Exercise(props: ExerciseProps) {
 									className="tiptap"
 								></div>
 								<>
-									{showSelectedQuantity ? (
+									{isPlayView ? (
 										<Box sx={{ mt: 2 }}>
 											<Typography color="primary" variant="body">
 												{selectedOptions[exerciseIdx][i].length}/
@@ -78,6 +76,7 @@ export default function Exercise(props: ExerciseProps) {
 											isSelected={selectedOptions[exerciseIdx][i].includes(
 												option.id,
 											)}
+											isCorrect={exercise.correctOptions[i].includes(option.id)}
 										/>
 									);
 								})}

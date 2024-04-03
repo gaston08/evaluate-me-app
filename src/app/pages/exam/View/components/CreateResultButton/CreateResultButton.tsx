@@ -119,8 +119,6 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 		}
 	};
 
-	console.log(exercisesFeedback);
-
 	return (
 		<Box>
 			<>
