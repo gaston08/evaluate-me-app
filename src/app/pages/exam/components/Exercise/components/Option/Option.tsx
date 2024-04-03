@@ -55,17 +55,34 @@ export default function Option(props: OptionProps) {
 		}
 	};
 
-	const bgColor = isSelected
-		? isCorrect
-			? theme.palette.success.light
-			: theme.palette.error.light
-		: 'transparent';
+	let bgColor;
+	let hoverColor;
+	let color = '';
 
-	const hoverColor = isSelected
-		? isCorrect
-			? theme.palette.success.light
-			: theme.palette.error.light
-		: '#eee';
+	if (isPlayView) {
+		if (isSelected) {
+			hoverColor = theme.custom.background.main;
+			bgColor = theme.custom.background.main;
+		} else {
+			bgColor = 'transparent';
+			hoverColor = theme.custom.background.light;
+		}
+	} else {
+		if (isSelected) {
+			if (isCorrect) {
+				bgColor = theme.palette.success.main;
+				hoverColor = theme.palette.success.main;
+				color = theme.palette.success.contrastText;
+			} else {
+				bgColor = theme.palette.error.main;
+				hoverColor = theme.palette.error.main;
+				color = theme.palette.error.contrastText;
+			}
+		} else {
+			bgColor = 'transparent';
+			hoverColor = 'transparent';
+		}
+	}
 
 	return (
 		<>
@@ -90,6 +107,7 @@ export default function Option(props: OptionProps) {
 						'&:hover, &.Mui-selected, &.Mui-selected:hover': {
 							backgroundColor: hoverColor,
 						},
+						color,
 						backgroundColor: bgColor,
 						display: 'flex',
 						justifyContent: 'space-between',
