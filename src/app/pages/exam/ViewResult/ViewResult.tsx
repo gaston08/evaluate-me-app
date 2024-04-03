@@ -27,6 +27,7 @@ export default function ViewResult() {
 	const { setExamsUi } = useContext<contextUi>(UiContext);
 	const [result, setResult] = useState<resultType>({});
 	const [date, setDate] = useState<string>('');
+	const theme = useTheme();
 
 	useEffect(() => {
 		async function fetchData() {
@@ -134,7 +135,11 @@ export default function ViewResult() {
 								<Typography variant="h6" color="gray">
 									{date}
 								</Typography>
-								<Typography variant="h5" color="#424242">
+								<Typography
+									variant="h4"
+									color="#424242"
+									sx={{ color: theme.palette.info.main, mt: 2 }}
+								>
 									NOTA: {result.score}/10
 								</Typography>
 							</Box>
