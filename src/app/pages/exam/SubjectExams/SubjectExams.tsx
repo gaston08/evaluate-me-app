@@ -6,6 +6,9 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Link from '@mui/material/Link';
 import { apiGetAllSubjects } from 'app/shared/interfaces/api-response';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import { axiosGet } from 'app/utils/axios';
 import { subjects } from 'app/shared/data/exam';
 
@@ -22,6 +25,8 @@ export default function SubjectExams() {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const [exams, setExams] = useState<exam>({});
+	const theme = useTheme();
+	const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
 	useEffect(() => {
 		async function fetchData() {
@@ -95,16 +100,21 @@ export default function SubjectExams() {
 															<p>{type}</p>
 															<Box sx={{ ml: 2 }}>
 																{Object.keys(exams[year][type]).map(
-																	(examNumber) => {
+																	(examNumber, i) => {
 																		return (
-																			<Link
-																				component={RouterLink}
-																				to={exams[year][type][examNumber]}
-																				key={examNumber}
-																				sx={{ mr: 2 }}
-																			>
-																				TEMA {examNumber}{' '}
-																			</Link>
+																			<>
+																				{i % 3 === 0 && i !== 0 && matches ? (
+																					<Box sx={{ mb: 2 }}></Box>
+																				) : null}
+																				<Link
+																					component={RouterLink}
+																					to={exams[year][type][examNumber]}
+																					key={examNumber}
+																					sx={{ mr: 4 }}
+																				>
+																					TEMA {examNumber}{' '}
+																				</Link>
+																			</>
 																		);
 																	},
 																)}
