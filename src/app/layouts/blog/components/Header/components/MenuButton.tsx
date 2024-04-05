@@ -4,7 +4,6 @@ import Box from '@mui/material/Box';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -12,7 +11,7 @@ import IconButton from '@mui/material/IconButton';
 
 interface MenuButtonProps {
 	text: string;
-	icon: React.Component | undefined;
+	icon: React.ReactNode | undefined;
 	menuItems: Array<{
 		label: string;
 		value: string | undefined;
@@ -39,16 +38,10 @@ export default function MenuButton(props: MenuButtonProps) {
 		<div>
 			<>
 				{matches ? (
-					<IconButton>
-						<FontAwesomeIcon icon={icon} onClick={handleMenu} />
-					</IconButton>
+					<IconButton onClick={handleMenu}>{icon}</IconButton>
 				) : (
 					<Button onClick={handleMenu}>
-						{icon !== undefined ? (
-							<Box sx={{ mr: 1 }}>
-								<FontAwesomeIcon icon={icon} />
-							</Box>
-						) : null}
+						{icon !== undefined ? <Box sx={{ mr: 1 }}>{icon}</Box> : null}
 						<Typography>{text}</Typography>
 					</Button>
 				)}

@@ -4,8 +4,6 @@ import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 
 import Option from './components/Option';
 import {
@@ -120,7 +118,7 @@ export default function Exercise(props: ExerciseProps) {
 								) : (
 									<Box sx={{ display: 'flex' }}>
 										<Box sx={{ mr: 1, color: 'red' }}>
-											<FontAwesomeIcon icon={faCircleExclamation} />
+											<ExclamationIcon />
 										</Box>
 										<Typography color="error">
 											{exerciseFeedback.error}
@@ -133,5 +131,26 @@ export default function Exercise(props: ExerciseProps) {
 				</Box>
 			</>
 		</Box>
+	);
+}
+
+function ExclamationIcon() {
+	return (
+		<svg
+			aria-hidden="true"
+			focusable="false"
+			data-prefix="fas"
+			data-icon="circle-exclamation"
+			className="svg-inline--fa fa-circle-exclamation "
+			role="img"
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 512 512"
+			style={{ width: 20, height: 20 }}
+		>
+			<path
+				fill="currentColor"
+				d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24V264c0 13.3-10.7 24-24 24s-24-10.7-24-24V152c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z"
+			></path>
+		</svg>
 	);
 }
