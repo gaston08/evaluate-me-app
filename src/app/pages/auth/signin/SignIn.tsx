@@ -22,9 +22,11 @@ import { GoogleLogin } from '@react-oauth/google';
 export default function SignIn() {
 	const location = useLocation() as { state?: { signup: string } };
 	const [error, setError] = useState<string>('');
+	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 
 	const login = async (token: string, clientId: string) => {
+		setLoading(true);
 		const data = {
 			token,
 			clientId,
@@ -42,6 +44,8 @@ export default function SignIn() {
 				setError(result.error);
 			}
 		}
+
+		setLoading(false);
 	};
 	return (
 		<Formik
@@ -69,6 +73,7 @@ export default function SignIn() {
 				return errors;
 			}}
 			onSubmit={async (values, obj) => {
+				setLoading(true);
 				const data = {
 					email: values.email.trim(),
 					password: values.password,
@@ -93,6 +98,7 @@ export default function SignIn() {
 						});
 					}
 				}
+				setLoading(false);
 				obj.setSubmitting(false);
 			}}
 		>
@@ -195,7 +201,7 @@ export default function SignIn() {
 							fullWidth
 							variant="contained"
 							sx={{ mt: 3, mb: 2 }}
-							disabled={!isValid}
+							disabled={!isValid || loading}
 						>
 							Iniciar sesión
 						</Button>

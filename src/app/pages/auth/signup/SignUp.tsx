@@ -16,6 +16,7 @@ import { expressError } from 'app/shared/interfaces/api-response';
 
 export default function SignUp() {
 	const [error, setError] = useState('');
+	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 
 	return (
@@ -63,6 +64,7 @@ export default function SignUp() {
 				return errors;
 			}}
 			onSubmit={async (values, obj) => {
+				setLoading(true);
 				const data = {
 					email: values.email.trim(),
 					password: values.password,
@@ -87,6 +89,7 @@ export default function SignUp() {
 						});
 					}
 				}
+				setLoading(false);
 				obj.setSubmitting(false);
 			}}
 		>
@@ -193,7 +196,7 @@ export default function SignUp() {
 							fullWidth
 							variant="contained"
 							sx={{ mt: 3, mb: 2 }}
-							disabled={!isValid}
+							disabled={!isValid || loading}
 						>
 							Crear usuario
 						</Button>
