@@ -81,6 +81,4 @@ export const arrRoutes = [
   },
 ];
 
-export const router = createBrowserRouter(arrRoutes, {
-  basename: import.meta.env.VITE_PUBLIC_URL as string,
-});
+export const router = createBrowserRouter(arrRoutes);
