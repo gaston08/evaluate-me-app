@@ -62,6 +62,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 							html: false,
 						};
 					}
+					j = exercises[i].correctOptions.length;
 				} else {
 					newErrArr[i] = { error: '', success: '', html: false };
 				}
