@@ -12,6 +12,8 @@ import { contextExam, examType } from 'app/shared/interfaces/exam';
 import { subjects } from 'app/shared/data/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
+import { contextAuth } from 'app/shared/interfaces/auth';
+import { AuthContext } from 'app/contexts/Auth';
 
 export default function View() {
 	const params = useParams();
@@ -21,6 +23,7 @@ export default function View() {
 		useContext<contextExam>(ExamContext);
 	const [subject, setSubject] = useState<string>('');
 	const { setExamsUi } = useContext<contextUi>(UiContext);
+	const { auth } = useContext<contextAuth>(AuthContext);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -110,13 +113,15 @@ export default function View() {
 							</Box>
 							<Exercises />
 							<Box sx={{ m: 3 }}>
-								<CreateResultButton
-									examId={exam._id}
-									examYear={exam.year}
-									examType={exam.type}
-									examNumber={exam.exam_number}
-									examSubject={exam.subject}
-								/>
+								{auth.isLoggedIn ? (
+									<CreateResultButton
+										examId={exam._id}
+										examYear={exam.year}
+										examType={exam.type}
+										examNumber={exam.exam_number}
+										examSubject={exam.subject}
+									/>
+								) : null}
 							</Box>
 						</>
 					)}
