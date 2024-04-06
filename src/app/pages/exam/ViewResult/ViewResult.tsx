@@ -159,7 +159,12 @@ export default function ViewResult() {
 							>
 								<Box>
 									<Box sx={{ mt: 1, mb: 4 }}>
-										<Button variant="outlined" onClick={() => { navigate(-1); }}>
+										<Button
+											variant="outlined"
+											onClick={() => {
+												navigate(-1);
+											}}
+										>
 											Rehacer examen
 										</Button>
 									</Box>
@@ -187,7 +192,7 @@ function ShareButtons(props: ShareButtonsProp) {
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
-	const shareTextWhatsapp = `https://api.whatsapp.com/send?text=https://ubaparciales.com %0A%0AAcabo de resolver ${result.exam_type}, TEMA ${result.exam_number}, ${subject}.%0A%0ANota: ${result.score}`;
+	const shareTextWhatsapp = `https://api.whatsapp.com/send?text=https://ubaparciales.com %0A%0A📚Acabo de resolver ${result.exam_type}, TEMA ${result.exam_number}, ${subject}.%0A%0ANota: ${result.score} 🤓`;
 
 	return (
 		<Box
