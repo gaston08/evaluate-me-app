@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { Link as RouterLink, useParams, Outlet } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -102,19 +102,18 @@ export default function SubjectExams() {
 																{Object.keys(exams[year][type]).map(
 																	(examNumber, i) => {
 																		return (
-																			<>
+																			<Fragment key={examNumber}>
 																				{i % 3 === 0 && i !== 0 && matches ? (
 																					<Box sx={{ mb: 2 }}></Box>
 																				) : null}
 																				<Link
 																					component={RouterLink}
 																					to={exams[year][type][examNumber]}
-																					key={examNumber}
 																					sx={{ mr: 4 }}
 																				>
 																					TEMA {examNumber}{' '}
 																				</Link>
-																			</>
+																			</Fragment>
 																		);
 																	},
 																)}
