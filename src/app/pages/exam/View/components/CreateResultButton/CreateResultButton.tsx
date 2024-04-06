@@ -93,7 +93,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 				userId,
 				examId,
 				answers: selectedOptions,
-				score: sumScore,
+				score: Math.ceil(Number(sumScore)),
 				date: new Date().toString(),
 				exam_year: examYear,
 				exam_type: examType,
