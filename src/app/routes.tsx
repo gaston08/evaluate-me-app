@@ -16,7 +16,7 @@ import { NoRequireAuth } from 'app/layouts/auth';
 export const arrRoutes = [
   {
     path: '/',
-    element: <Navigate to="/auth/login" replace />,
+    element: <Navigate to="/tests" replace />,
   },
   {
     path: '/tests',
