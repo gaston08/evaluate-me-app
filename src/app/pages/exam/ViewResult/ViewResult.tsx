@@ -1,7 +1,8 @@
 import { useEffect, useState, useContext } from 'react';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { useParams, useNavigate, Link as RouterLink } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { apiGetResponse, resultType } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
@@ -17,6 +18,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function ViewResult() {
 	const params = useParams();
+	const navigate = useNavigate();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const [subject, setSubject] = useState<string>('');
@@ -26,6 +28,12 @@ export default function ViewResult() {
 	const [result, setResult] = useState<resultType>({});
 	const [date, setDate] = useState<string>('');
 	const theme = useTheme();
+
+	useEffect(() => {
+		if (!loading) {
+			window.scrollTo(0, 0);
+		}
+	}, [loading]);
 
 	useEffect(() => {
 		async function fetchData() {
@@ -150,6 +158,11 @@ export default function ViewResult() {
 								}}
 							>
 								<Box>
+									<Box sx={{ mt: 1, mb: 4 }}>
+										<Button variant="outlined" onClick={() => { navigate(-1); }}>
+											Rehacer examen
+										</Button>
+									</Box>
 									<Typography variant="h6">Compartir exámen.</Typography>
 									<ShareButtons result={result} subject={subject} />
 								</Box>

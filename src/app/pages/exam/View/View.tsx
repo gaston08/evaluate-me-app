@@ -26,6 +26,12 @@ export default function View() {
 	const { auth } = useContext<contextAuth>(AuthContext);
 
 	useEffect(() => {
+		if (!loading) {
+			window.scrollTo(0, 0);
+		}
+	}, [loading]);
+
+	useEffect(() => {
 		async function fetchData() {
 			setLoading(true);
 			const result: apiGetResponse = await axiosGet(
