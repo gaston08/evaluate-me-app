@@ -1,5 +1,10 @@
 import { useEffect, useState, Fragment } from 'react';
-import { Link as RouterLink, useParams, Outlet } from 'react-router-dom';
+import {
+	Link as RouterLink,
+	useParams,
+	useLocation,
+	Outlet,
+} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
@@ -27,6 +32,7 @@ export default function SubjectExams() {
 	const [exams, setExams] = useState<exam>({});
 	const theme = useTheme();
 	const matches = useMediaQuery(theme.breakpoints.down('sm'));
+	const location = useLocation();
 
 	useEffect(() => {
 		async function fetchData() {
@@ -53,7 +59,7 @@ export default function SubjectExams() {
 		if (params.id === undefined) {
 			fetchData().then().catch(console.error);
 		}
-	}, [params.subject]);
+	}, [params.subject, location.key]);
 
 	if (loading) {
 		return <Typography variant="h3">Cargando...</Typography>;
