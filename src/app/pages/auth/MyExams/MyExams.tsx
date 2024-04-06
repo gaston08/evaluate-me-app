@@ -80,8 +80,6 @@ export default function MyExams() {
 				});
 			}
 
-			console.log(errArr);
-
 			setErrors(errArr);
 
 			setLoading(false);

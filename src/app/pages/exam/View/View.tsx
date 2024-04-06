@@ -80,7 +80,7 @@ export default function View() {
 					};
 				});
 				setExam(result.data.exam);
-				console.log(result.data.exam);
+
 				setLoading(false);
 			} else {
 				if (result.errors) {

@@ -76,7 +76,6 @@ export default function ExamsTableToolbar({
     }
   };
 
-  console.log(errors);
   return (
     <>
       <Toolbar
