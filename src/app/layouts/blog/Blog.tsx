@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { decodeToken } from 'react-jwt';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -11,6 +11,9 @@ import Footer from './components/Footer';
 import { axiosPost } from 'app/utils/axios';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth, userType } from 'app/shared/interfaces/auth';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('G-R63LDGFFTWG-R63LDGFFTW');
 
 interface BlogProps {
 	showSidebar: boolean;
@@ -21,6 +24,13 @@ export default function Blog(props: BlogProps) {
 	const { showSidebar, requireAuth } = props;
 	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
 	const navigate = useNavigate();
+	const location = useLocation();
+
+	useEffect(() => {
+		const url = location.pathname + location.search;
+		ReactGA.pageview(url);
+		console.log(url);
+	}, [location.pathname, location.search]);
 
 	const checkAuth = async () => {
 		const access_token: string = localStorage.getItem('access_token');
