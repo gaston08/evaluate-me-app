@@ -11,7 +11,7 @@ import Footer from './components/Footer';
 import { axiosPost } from 'app/utils/axios';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth, userType } from 'app/shared/interfaces/auth';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 
 ReactGA.initialize('G-R63LDGFFTW');
 
@@ -28,7 +28,7 @@ export default function Blog(props: BlogProps) {
 
 	useEffect(() => {
 		const url = location.pathname + location.search;
-		ReactGA.pageview(url);
+		ReactGA.send({ hitType: 'pageview', page: url, title: location.pathname });
 		console.log(url);
 	}, [location.pathname, location.search]);
 
