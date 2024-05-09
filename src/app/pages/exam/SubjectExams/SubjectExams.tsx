@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	Link as RouterLink,
 	useParams,
@@ -6,13 +6,12 @@ import {
 	Outlet,
 } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Link from '@mui/material/Link';
 import { apiGetAllSubjects } from 'app/shared/interfaces/api-response';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { axiosGet } from 'app/utils/axios';
 import { subjects } from 'app/shared/data/exam';
@@ -30,8 +29,6 @@ export default function SubjectExams() {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const [exams, setExams] = useState<exam>({});
-	const theme = useTheme();
-	const matches = useMediaQuery(theme.breakpoints.down('sm'));
 	const location = useLocation();
 
 	useEffect(() => {
@@ -99,27 +96,40 @@ export default function SubjectExams() {
 									return (
 										<Box key={year}>
 											<p>{year}</p>
-											<Box sx={{ ml: 2 }}>
+											<Box>
 												{Object.keys(exams[year]).map((type) => {
 													return (
 														<Box key={type}>
-															<p>{type}</p>
 															<Box sx={{ ml: 2 }}>
 																{Object.keys(exams[year][type]).map(
-																	(examNumber, i) => {
+																	(department) => {
 																		return (
-																			<Fragment key={examNumber}>
-																				{i % 3 === 0 && i !== 0 && matches ? (
-																					<Box sx={{ mb: 2 }}></Box>
-																				) : null}
-																				<Link
-																					component={RouterLink}
-																					to={exams[year][type][examNumber]}
-																					sx={{ mr: 4 }}
-																				>
-																					TEMA {examNumber}{' '}
-																				</Link>
-																			</Fragment>
+																			<Box key={department}>
+																				<p>
+																					<strong>{type},</strong> {department}
+																				</p>
+																				<Grid gap={1} container sx={{ ml: 2 }}>
+																					{Object.keys(
+																						exams[year][type][department],
+																					).map((examNumber) => {
+																						return (
+																							<Grid item key={examNumber}>
+																								<Link
+																									component={RouterLink}
+																									to={
+																										exams[year][type][
+																											examNumber
+																										]
+																									}
+																									sx={{ mr: 4 }}
+																								>
+																									TEMA {examNumber}{' '}
+																								</Link>
+																							</Grid>
+																						);
+																					})}
+																				</Grid>
+																			</Box>
 																		);
 																	},
 																)}
