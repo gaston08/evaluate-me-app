@@ -17,4 +17,5 @@ export const defaultCurrentExam = {
 	exercises: [],
 	type: '',
 	exam_number: '',
+	department: '',
 };

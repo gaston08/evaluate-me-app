@@ -1,5 +1,4 @@
 import { useState, useContext } from 'react';
-import { decodeToken } from 'react-jwt';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -10,7 +9,6 @@ import {
 import { contextExam, exerciseFeedback } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import { axiosPost } from 'app/utils/axios';
-import { useNavigate } from 'react-router-dom';
 
 interface CreateResultButtonProps {
 	examId: string;
@@ -18,10 +16,11 @@ interface CreateResultButtonProps {
 	examType: string;
 	examNumber: number;
 	examSubject: string;
+	department: string;
 }
 
 export default function CreateResultButton(props: CreateResultButtonProps) {
-	const { examId, examYear, examType, examNumber, examSubject } = props;
+	const { examYear, examType, examNumber, examSubject, department } = props;
 	const {
 		selectedOptions,
 		exam: { exercises },
@@ -30,12 +29,9 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 	} = useContext<contextExam>(ExamContext);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>('');
-	const navigate = useNavigate();
 
 	const sendResult = async (): void => {
 		setLoading(true);
-		const access_token = localStorage.getItem('access_token');
-		const userId = decodeToken(access_token)._id as string;
 		let sumScore: number = 0;
 
 		const newErrArr = JSON.parse(
@@ -90,23 +86,21 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 			}
 
 			const data = {
-				userId,
-				examId,
-				answers: selectedOptions,
 				score: Math.ceil(Number(sumScore)),
 				date: new Date().toString(),
+				department,
 				exam_year: examYear,
 				exam_type: examType,
 				exam_number: examNumber,
 				exam_subject: examSubject,
 			};
+
 			const result: apiPostResponse = await axiosPost(
 				'api/results/create',
 				data,
 			);
 			if (result.ok) {
 				setLoading(false);
-				navigate(`/tests/${examSubject}/results/${result.data._id}`);
 			} else {
 				setError(result.error);
 				if (result.errors) {

@@ -22,6 +22,7 @@ export interface examType {
 	exam_number: number;
 	subject: string;
 	exercises: exerciseType[];
+	department: string;
 }
 
 export interface exerciseFeedback {

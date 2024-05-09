@@ -19,7 +19,9 @@ import { subjects } from 'app/shared/data/exam';
 interface exam {
 	[key: string]: {
 		[key: string]: {
-			[key: string]: string;
+			[key: string]: {
+				[key: string]: string;
+			};
 		};
 	};
 }
@@ -118,8 +120,8 @@ export default function SubjectExams() {
 																									component={RouterLink}
 																									to={
 																										exams[year][type][
-																											examNumber
-																										]
+																											department
+																										][examNumber]
 																									}
 																									sx={{ mr: 4 }}
 																								>

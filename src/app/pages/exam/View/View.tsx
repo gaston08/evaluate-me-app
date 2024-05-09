@@ -121,11 +121,11 @@ export default function View() {
 							<Box sx={{ m: 3 }}>
 								{auth.isLoggedIn ? (
 									<CreateResultButton
-										examId={exam._id}
 										examYear={exam.year}
 										examType={exam.type}
 										examNumber={exam.exam_number}
 										examSubject={exam.subject}
+										department={exam.department}
 									/>
 								) : null}
 							</Box>
