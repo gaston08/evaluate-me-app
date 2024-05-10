@@ -21,6 +21,7 @@ interface CreateResultButtonProps {
 	department: string;
 	setScore: () => void;
 	setDate: () => void;
+	setLoading: () => void;
 }
 
 export default function CreateResultButton(props: CreateResultButtonProps) {
@@ -32,10 +33,10 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 		department,
 		setDate,
 		setScore,
+		setLoading,
 	} = props;
 	const { selectedOptions, exam, setExercisesFeedback, exercisesFeedback } =
 		useContext<contextExam>(ExamContext);
-	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>('');
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
 
@@ -177,12 +178,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 								</Box>
 							) : null}
 						</>
-						<Button
-							disabled={loading}
-							variant="contained"
-							color="primary"
-							onClick={sendResult}
-						>
+						<Button variant="contained" color="primary" onClick={sendResult}>
 							finalizar examen
 						</Button>
 						<>

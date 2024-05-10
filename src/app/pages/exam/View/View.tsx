@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
@@ -12,16 +13,67 @@ import NoExamFound from '../components/NoExamFound';
 import CreateResultButton from './components/CreateResultButton';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
-import { contextExam, examType, examData } from 'app/shared/interfaces/exam';
+import {
+	contextExam,
+	examType,
+	examData,
+	exerciseType,
+	exerciseFeedback,
+} from 'app/shared/interfaces/exam';
 import { subjects } from 'app/shared/data/exam';
-import { contextUi } from 'app/shared/interfaces/ui';
+import { contextUi, examsUiType } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
+import Loader from 'app/components/Loader';
+
+function setUpExam(
+	exercises: Array<exerciseType>,
+	setSelectedOptions: React.Dispatch<
+		React.SetStateAction<Array<Array<Array<string>>>>
+	>,
+	setExercisesFeedback: React.Dispatch<
+		React.SetStateAction<Array<exerciseFeedback>>
+	>,
+	setExamsUi: React.Dispatch<React.SetStateAction<examsUiType>>,
+) {
+	const exArr = Array.from({ length: exercises.length }, () => []);
+
+	for (let i = 0; i < exArr.length; i++) {
+		exArr[i] = Array.from(
+			{
+				length: exercises[i].options.length,
+			},
+			() => [],
+		);
+	}
+
+	setSelectedOptions(
+		JSON.parse(JSON.stringify(exArr)) as Array<Array<Array<string>>>,
+	);
+
+	const exercisesFeedbackArr = Array.from({ length: exercises.length }, () => {
+		return {
+			success: '',
+			error: '',
+			html: false,
+		};
+	});
+
+	setExercisesFeedback(exercisesFeedbackArr);
+
+	setExamsUi((prev) => {
+		return {
+			...prev,
+			isPlayView: true,
+		};
+	});
+}
 
 export default function View() {
 	const params = useParams();
 	const [loading, setLoading] = useState<boolean>(true);
+	const [showSpinner, setShowSpinner] = useState<boolean>(true);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const { exam, setExam, setSelectedOptions, setExercisesFeedback } =
 		useContext<contextExam>(ExamContext);
@@ -30,6 +82,7 @@ export default function View() {
 	const { auth } = useContext<contextAuth>(AuthContext);
 	const [score, setScore] = useState<number>(0);
 	const [date, setDate] = useState<string>('');
+	const [start, setStart] = useState(new Date());
 	const theme = useTheme();
 
 	useEffect(() => {
@@ -50,42 +103,13 @@ export default function View() {
 					return subjects.find((sub) => sub.value === ex.subject).label;
 				});
 
-				const exArr = Array.from(
-					{ length: result.data.exam.exercises.length },
-					() => [],
+				setUpExam(
+					result.data.exam.exercises,
+					setSelectedOptions,
+					setExercisesFeedback,
+					setExamsUi,
 				);
 
-				for (let i = 0; i < exArr.length; i++) {
-					exArr[i] = Array.from(
-						{
-							length: result.data.exam.exercises[i].options.length,
-						},
-						() => [],
-					);
-				}
-
-				setSelectedOptions(
-					JSON.parse(JSON.stringify(exArr)) as Array<Array<Array<string>>>,
-				);
-
-				const exercisesFeedbackArr = Array.from(
-					{ length: result.data.exam.exercises.length },
-					() => {
-						return {
-							success: '',
-							error: '',
-							html: false,
-						};
-					},
-				);
-
-				setExercisesFeedback(exercisesFeedbackArr);
-				setExamsUi((prev) => {
-					return {
-						...prev,
-						isPlayView: true,
-					};
-				});
 				setExam(result.data.exam);
 
 				setLoading(false);
@@ -124,10 +148,44 @@ export default function View() {
 		}
 	}, [params.id]);
 
+	useEffect(() => {
+		console.log(loading);
+		if (!loading) {
+			let time = 2000;
+			time -= new Date() - start;
+
+			if (time > 0) {
+				setTimeout(() => {
+					setShowSpinner(false);
+				}, time);
+			} else {
+				setShowSpinner(false);
+			}
+		} else {
+			setStart(new Date());
+			setShowSpinner(true);
+		}
+	}, [loading]);
+
+	const cleanExam = () => {
+		setLoading(true);
+		setUpExam(
+			exam.exercises,
+			setSelectedOptions,
+			setExercisesFeedback,
+			setExamsUi,
+		);
+		setTimeout(() => {
+			setLoading(false);
+		}, 100);
+	};
+
 	return (
 		<>
-			{loading ? (
-				<Typography variant="h3">Cargando...</Typography>
+			{showSpinner ? (
+				<>
+					<Loader />
+				</>
 			) : (
 				<>
 					{errors.length !== 0 ? (
@@ -158,6 +216,15 @@ export default function View() {
 									</Box>
 								) : null}
 							</>
+							<>
+								{!examsUi.isPlayView ? (
+									<Box sx={{ mt: 1, mb: 4 }}>
+										<Button variant="outlined" onClick={cleanExam}>
+											Rehacer examen
+										</Button>
+									</Box>
+								) : null}
+							</>
 							<Exercises />
 							<Box sx={{ m: 3 }}>
 								{auth.isLoggedIn ? (
@@ -169,6 +236,7 @@ export default function View() {
 										department={exam.department}
 										setScore={setScore}
 										setDate={setDate}
+										setLoading={setLoading}
 									/>
 								) : null}
 							</Box>
@@ -176,7 +244,9 @@ export default function View() {
 								{!examsUi.isPlayView ? (
 									<Box>
 										<Box sx={{ mt: 1, mb: 4 }}>
-											<Button variant="outlined">Rehacer examen</Button>
+											<Button variant="outlined" onClick={cleanExam}>
+												Rehacer examen
+											</Button>
 										</Box>
 										<Typography variant="h6">Compartir exámen.</Typography>
 										<ShareButtons
