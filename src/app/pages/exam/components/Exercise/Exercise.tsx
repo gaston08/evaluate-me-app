@@ -89,7 +89,7 @@ export default function Exercise(props: ExerciseProps) {
 				<Box sx={{ pl: 2, mt: 2 }}>
 					<>
 						{exerciseFeedback.success !== '' ? (
-							<Box>
+							<>
 								{exerciseFeedback.html ? (
 									<Alert severity="success">
 										<AlertTitle>Correcto!</AlertTitle>
@@ -104,7 +104,7 @@ export default function Exercise(props: ExerciseProps) {
 										{exerciseFeedback.success}
 									</Typography>
 								)}
-							</Box>
+							</>
 						) : null}
 					</>
 					<>

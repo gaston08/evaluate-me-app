@@ -18,4 +18,5 @@ export const defaultCurrentExam = {
 	type: '',
 	exam_number: '',
 	department: '',
+	totalPts: 0,
 };

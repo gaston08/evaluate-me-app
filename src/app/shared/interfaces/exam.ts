@@ -1,4 +1,5 @@
 import React from 'react';
+import { examsUiType } from './ui';
 
 export interface optionType {
 	id: string;
@@ -23,6 +24,7 @@ export interface examType {
 	subject: string;
 	exercises: exerciseType[];
 	department: string;
+	totalPts: number;
 }
 
 export interface exerciseFeedback {
@@ -42,4 +44,13 @@ export interface contextExam {
 	setExercisesFeedback: React.Dispatch<
 		React.SetStateAction<Array<exerciseFeedback>>
 	>;
+}
+
+export interface examData {
+	exam: examType;
+	exercisesFeedback: Array<exerciseFeedback>;
+	selectedOptions: Array<Array<Array<string>>>;
+	score: number;
+	date: string;
+	examsUi: examsUiType;
 }

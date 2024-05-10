@@ -12,7 +12,7 @@ import NoExamFound from '../components/NoExamFound';
 import CreateResultButton from './components/CreateResultButton';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
-import { contextExam, examType } from 'app/shared/interfaces/exam';
+import { contextExam, examType, examData } from 'app/shared/interfaces/exam';
 import { subjects } from 'app/shared/data/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
@@ -21,7 +21,7 @@ import { AuthContext } from 'app/contexts/Auth';
 
 export default function View() {
 	const params = useParams();
-	const [loading, setLoading] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const { exam, setExam, setSelectedOptions, setExercisesFeedback } =
 		useContext<contextExam>(ExamContext);
@@ -103,7 +103,25 @@ export default function View() {
 			}
 		}
 
-		fetchData().then().catch(console.error);
+		const examData = JSON.parse(
+			localStorage.getItem(params.id),
+		) as examData | null;
+
+		if (examData === null) {
+			fetchData().then().catch(console.error);
+		} else {
+			setSubject(() => {
+				const ex: examType = examData.exam.subject;
+				return subjects.find((sub) => sub.value === ex).label;
+			});
+			setExercisesFeedback(examData.exercisesFeedback);
+			setExamsUi(examData.examsUi);
+			setExam(examData.exam);
+			setDate(examData.date);
+			setSelectedOptions(examData.selectedOptions);
+			setScore(examData.score);
+			setLoading(false);
+		}
 	}, [params.id]);
 
 	return (
@@ -135,7 +153,7 @@ export default function View() {
 											color="#424242"
 											sx={{ color: theme.palette.info.main, mt: 2 }}
 										>
-											NOTA: {score}/10
+											NOTA: {score}/{exam.totalPts}
 										</Typography>
 									</Box>
 								) : null}

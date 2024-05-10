@@ -33,12 +33,8 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 		setDate,
 		setScore,
 	} = props;
-	const {
-		selectedOptions,
-		exam: { exercises },
-		setExercisesFeedback,
-		exercisesFeedback,
-	} = useContext<contextExam>(ExamContext);
+	const { selectedOptions, exam, setExercisesFeedback, exercisesFeedback } =
+		useContext<contextExam>(ExamContext);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>('');
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
@@ -51,6 +47,8 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 			JSON.stringify(exercisesFeedback),
 		) as Array<exerciseFeedback>;
 		let hasError: boolean = false;
+
+		const exercises = exam.exercises;
 
 		for (let i = 0; i < exercises.length; i++) {
 			for (let j = 0; j < exercises[i].correctOptions.length; j++) {
@@ -110,11 +108,11 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 				}
 			}
 
-			setExercisesFeedback(exArr);
+			const score = sumScore.toFixed(2);
 
 			const data = {
 				score: {
-					score: Math.ceil(Number(sumScore)),
+					score,
 					date: new Date().toString(),
 					department,
 					exam_year: examYear,
@@ -129,14 +127,28 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 				data,
 			);
 			if (result.ok) {
+				setExercisesFeedback(exArr);
 				setExamsUi((prev) => {
 					return {
 						...prev,
 						isPlayView: false,
 					};
 				});
-				setScore(Math.ceil(Number(sumScore)));
+				setScore(score);
 				setDate(new Date().toString());
+				localStorage.setItem(
+					exam._id,
+					JSON.stringify({
+						exercisesFeedback: exArr,
+						exam,
+						examsUi: {
+							isPlayView: false,
+						},
+						date: new Date().toString(),
+						selectedOptions,
+						score,
+					}),
+				);
 				setLoading(false);
 			} else {
 				setError(result.error);
