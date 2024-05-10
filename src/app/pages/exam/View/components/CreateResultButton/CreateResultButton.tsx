@@ -9,6 +9,8 @@ import {
 import { contextExam, exerciseFeedback } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import { axiosPost } from 'app/utils/axios';
+import { contextUi } from 'app/shared/interfaces/ui';
+import { UiContext } from 'app/contexts/Ui';
 
 interface CreateResultButtonProps {
 	examId: string;
@@ -17,10 +19,20 @@ interface CreateResultButtonProps {
 	examNumber: number;
 	examSubject: string;
 	department: string;
+	setScore: () => void;
+	setDate: () => void;
 }
 
 export default function CreateResultButton(props: CreateResultButtonProps) {
-	const { examYear, examType, examNumber, examSubject, department } = props;
+	const {
+		examYear,
+		examType,
+		examNumber,
+		examSubject,
+		department,
+		setDate,
+		setScore,
+	} = props;
 	const {
 		selectedOptions,
 		exam: { exercises },
@@ -29,6 +41,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 	} = useContext<contextExam>(ExamContext);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>('');
+	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
 
 	const sendResult = async (): void => {
 		setLoading(true);
@@ -69,6 +82,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 			setExercisesFeedback(newErrArr);
 			setLoading(false);
 		} else {
+			const exArr = Array.from({ length: exercises.length }, () => []);
 			for (let i = 0; i < exercises.length; i++) {
 				const isCorrect = exercises[i].correctOptions.every((arrOpt, a) => {
 					if (
@@ -82,24 +96,47 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 
 				if (isCorrect) {
 					sumScore += Number(exercises[i].pts);
+					exArr[i] = {
+						error: '',
+						success: exercises[i].argument,
+						html: true,
+					};
+				} else {
+					exArr[i] = {
+						error: exercises[i].argument,
+						success: '',
+						html: true,
+					};
 				}
 			}
 
+			setExercisesFeedback(exArr);
+
 			const data = {
-				score: Math.ceil(Number(sumScore)),
-				date: new Date().toString(),
-				department,
-				exam_year: examYear,
-				exam_type: examType,
-				exam_number: examNumber,
-				exam_subject: examSubject,
+				score: {
+					score: Math.ceil(Number(sumScore)),
+					date: new Date().toString(),
+					department,
+					exam_year: examYear,
+					exam_type: examType,
+					exam_number: examNumber,
+					exam_subject: examSubject,
+				},
 			};
 
 			const result: apiPostResponse = await axiosPost(
-				'api/results/create',
+				'api/user/update/profile',
 				data,
 			);
 			if (result.ok) {
+				setExamsUi((prev) => {
+					return {
+						...prev,
+						isPlayView: false,
+					};
+				});
+				setScore(Math.ceil(Number(sumScore)));
+				setDate(new Date().toString());
 				setLoading(false);
 			} else {
 				setError(result.error);
@@ -117,28 +154,34 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 	return (
 		<Box>
 			<>
-				{exercisesFeedback.some((ex) => ex.error !== '') ? (
-					<Box sx={{ mb: 3 }}>
-						<Typography color="error">
-							Asegurate de completar todos los ejercicios.
-						</Typography>
-					</Box>
-				) : null}
-			</>
-			<Button
-				disabled={loading}
-				variant="contained"
-				color="primary"
-				onClick={sendResult}
-			>
-				finalizar examen
-			</Button>
-			<>
-				{error !== '' ? (
-					<Box sx={{ mt: 4 }}>
-						<Typography color="error">{error}</Typography>
-					</Box>
-				) : null}
+				{!examsUi.isPlayView ? null : (
+					<>
+						<>
+							{exercisesFeedback.some((ex) => ex.error !== '') ? (
+								<Box sx={{ mb: 3 }}>
+									<Typography color="error">
+										Asegurate de completar todos los ejercicios.
+									</Typography>
+								</Box>
+							) : null}
+						</>
+						<Button
+							disabled={loading}
+							variant="contained"
+							color="primary"
+							onClick={sendResult}
+						>
+							finalizar examen
+						</Button>
+						<>
+							{error !== '' ? (
+								<Box sx={{ mt: 4 }}>
+									<Typography color="error">{error}</Typography>
+								</Box>
+							) : null}
+						</>
+					</>
+				)}
 			</>
 		</Box>
 	);
