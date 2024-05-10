@@ -3,6 +3,8 @@ import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import Typography from '@mui/material/Typography';
 
 import Option from './components/Option';
@@ -89,15 +91,16 @@ export default function Exercise(props: ExerciseProps) {
 						{exerciseFeedback.success !== '' ? (
 							<Box>
 								{exerciseFeedback.html ? (
-									<Box sx={{ color: theme.palette.success.main }}>
+									<Alert severity="success">
+										<AlertTitle>Correcto!</AlertTitle>
 										<div
 											dangerouslySetInnerHTML={{
 												__html: exerciseFeedback.success,
 											}}
 										></div>
-									</Box>
+									</Alert>
 								) : (
-									<Typography color="#689f38">
+									<Typography color="success">
 										{exerciseFeedback.success}
 									</Typography>
 								)}
@@ -108,13 +111,14 @@ export default function Exercise(props: ExerciseProps) {
 						{exerciseFeedback.error !== '' ? (
 							<>
 								{exerciseFeedback.html ? (
-									<Box sx={{ color: theme.palette.error.main }}>
+									<Alert severity="error">
+										<AlertTitle>Incorrecto.</AlertTitle>
 										<div
 											dangerouslySetInnerHTML={{
 												__html: exerciseFeedback.error,
 											}}
 										></div>
-									</Box>
+									</Alert>
 								) : (
 									<Box sx={{ display: 'flex' }}>
 										<Box sx={{ mr: 1, color: 'red' }}>
