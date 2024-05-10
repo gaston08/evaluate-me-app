@@ -1,12 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ReactTimeAgo from 'react-time-ago';
-import TimeAgo from 'javascript-time-ago';
 import { useTheme } from '@mui/material/styles';
-import es from 'javascript-time-ago/locale/es';
-
-TimeAgo.addDefaultLocale(es);
-TimeAgo.addLocale(es);
 
 interface ExamResultProps {
 	score: number;

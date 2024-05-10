@@ -9,6 +9,11 @@ import { contextExam, exerciseFeedback } from 'app/shared/interfaces/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import TimeAgo from 'javascript-time-ago';
+import es from 'javascript-time-ago/locale/es';
+
+TimeAgo.addDefaultLocale(es);
+TimeAgo.addLocale(es);
 
 import ThemeWrapper from 'app/components/ThemeWrapper';
 
