@@ -26,6 +26,13 @@ import { UiContext } from 'app/contexts/Ui';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
 import Loader from 'app/components/Loader';
+import ReactTimeAgo from 'react-time-ago';
+import TimeAgo from 'javascript-time-ago';
+
+import es from 'javascript-time-ago/locale/es';
+
+TimeAgo.addDefaultLocale(es);
+TimeAgo.addLocale(es);
 
 function setUpExam(
 	exercises: Array<exerciseType>,
@@ -203,9 +210,6 @@ export default function View() {
 							<>
 								{!examsUi.isPlayView ? (
 									<Box sx={{ mb: 3 }}>
-										<Typography variant="h6" color="gray">
-											{date}
-										</Typography>
 										<Typography
 											variant="h4"
 											color="#424242"
@@ -213,6 +217,7 @@ export default function View() {
 										>
 											NOTA: {score}/{exam.totalPts}
 										</Typography>
+										<ReactTimeAgo date={new Date(date)} locale="es-AR" />
 									</Box>
 								) : null}
 							</>
