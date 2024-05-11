@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ReactTimeAgo from 'react-time-ago';
 import { useTheme } from '@mui/material/styles';
+import Confetti from './Confetti';
 
 interface ExamResultProps {
 	score: number;
@@ -16,44 +17,48 @@ export default function ExamResult(props: ExamResultProps) {
 
 	const theme = useTheme();
 
-	console.log(theme.palette);
-
 	function getDataRender() {
 		let text: string;
 		let color: string;
-		switch (10) {
+		let confetties: number;
+		switch (Math.ceil(score)) {
 			case 10:
 				text = '¡Perfecto!';
 				color = theme.palette.success.light;
+				confetties = 500;
 				break;
 			case 9:
 				text = '¡Impresionante!';
 				color = theme.palette.success.light;
+				confetties = 300;
 				break;
 			case 7:
 			case 8:
 				text = '¡Excelente!';
 				color = theme.palette.success.main;
+				confetties = 100;
 				break;
 			case 6:
 			case 5:
 			case 4:
 				text = '¡Muy bien!';
-				color = theme.palette.success.dark;
+				color = theme.palette.success.main;
+				confetties = 0;
 				break;
 			case 3:
 			case 2:
 			case 1:
 			case 0:
-				text = '¡Sigue intentando!';
+				text = 'Ups... Sigue intentando!';
 				color = theme.palette.error.main;
+				confetties = 0;
 				break;
 		}
 
-		return { text, color };
+		return { text, color, confetties };
 	}
 
-	const { text, color } = getDataRender();
+	const { text, color, confetties } = getDataRender();
 
 	return (
 		<Box sx={{ mb: 3 }}>
@@ -66,6 +71,7 @@ export default function ExamResult(props: ExamResultProps) {
 			<Typography sx={{ color: theme.palette.text.secondary }}>
 				<ReactTimeAgo date={new Date(date)} locale="es-AR" />
 			</Typography>
+			<Confetti confetties={confetties} />
 		</Box>
 	);
 }
