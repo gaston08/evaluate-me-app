@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -34,6 +35,7 @@ export default function View() {
 	const [score, setScore] = useState<number>(0);
 	const [date, setDate] = useState<string>('');
 	const [start, setStart] = useState(new Date());
+	const theme = useTheme();
 
 	useEffect(() => {
 		if (!loading) {
@@ -93,7 +95,7 @@ export default function View() {
 			setExam(examData.exam);
 			setDate(examData.date);
 			setSelectedOptions(examData.selectedOptions);
-			setScore(examData.score);
+			setScore(Number(examData.score));
 			setLoading(false);
 		}
 	}, [params.id]);
@@ -141,12 +143,22 @@ export default function View() {
 						<NoExamFound errors={errors} />
 					) : (
 						<>
-							<Box sx={{ mb: 5 }}>
-								<Typography variant="h5" sx={{ mb: 2 }}>
+							<Box
+								sx={{
+									mb: 3,
+									color: theme.palette.text.secondary,
+								}}
+							>
+								<Typography
+									variant="h5"
+									sx={{
+										mb: 2,
+									}}
+								>
 									{subject}, {exam.year}
 								</Typography>
 								<Typography variant="h5">
-									{exam.type}, TEMA {exam.exam_number}
+									{exam.type}, TEMA {exam.exam_number}, {exam.department}
 								</Typography>
 							</Box>
 							<>
