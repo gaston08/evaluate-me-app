@@ -135,7 +135,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 						isPlayView: false,
 					};
 				});
-				setScore(score);
+				setScore(Number(score));
 				setDate(new Date().toString());
 				localStorage.setItem(
 					exam._id,
