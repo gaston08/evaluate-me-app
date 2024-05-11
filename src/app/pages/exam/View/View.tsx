@@ -102,7 +102,7 @@ export default function View() {
 
 	useEffect(() => {
 		if (!loading) {
-			let time = 2000;
+			let time = 1400;
 			time -= new Date() - start;
 
 			if (time > 0) {
