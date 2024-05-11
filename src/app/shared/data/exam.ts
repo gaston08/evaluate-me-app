@@ -1,4 +1,9 @@
-export const subjects = [
+interface selectType {
+	label: string;
+	value: string;
+}
+
+export const subjects: Array<selectType> = [
 	/*{ label: 'ÁLGEBRA', value: 'algebra' },
 	{ label: 'ANÁLISIS MATEMÁTICO', value: 'analisis-matematico' },
 	{
@@ -41,39 +46,58 @@ export const subjects = [
 	*/
 ];
 
-export const years = [
+export enum SUBJECTS_ENUM {
+	PENSAMIENTO_CIENTIFICO = 'pensamiento-cientifico',
+	SOCIEDAD_Y_ESTADO = 'sociedad-y-estado',
+}
+
+export const years: Array<number> = [
 	2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014, 2013,
 ];
 
-export const exam_types = [
-	'Parcial A',
-	'Parcial B',
-	'Parcial C',
-	'Parcial D',
-	'Parcial E',
-	'Parcial F',
-	'Parcial G',
-	'Parcial H',
-	'Parcial I',
-	'Parcial J',
-	'Parcial K',
-	'Parcial L',
-	'Parcial M',
-	'Parcial N',
-	'Parcial 0',
-	'Parcial P',
-	'Parcial Q',
-	'Parcial R',
-	'Parcial S',
-	'Parcial T',
-	'Parcial U',
-	'Parcial V',
-	'Parcial W',
-	'Parcial X',
-	'Parcial Y',
-	'Parcial Z',
+export const exam_types: Array<selectType> = [
+	{
+		label: '1er Parcial',
+		value: 'primer_parcial',
+	},
+	{
+		label: '2do Parcial',
+		value: 'segundo_parcial',
+	},
+	{
+		label: 'Recuperatorio 1er Parcial',
+		value: 'recuperatorio_primer_parcial',
+	},
+	{
+		label: 'Recuperatorio 2do Parcial',
+		value: 'recuperatorio_segundo_parcial',
+	},
+	{
+		label: 'Final',
+		value: 'final',
+	},
 ];
 
-export const exam_numbers = [
+interface departmentsType {
+	[SUBJECTS_ENUM.PENSAMIENTO_CIENTIFICO]: Array<selectType>;
+	[SUBJECTS_ENUM.SOCIEDAD_Y_ESTADO]: Array<selectType>;
+}
+
+export const departments: departmentsType = {
+	'pensamiento-cientifico': [
+		{
+			label: '(Cátedra: BUACAR, Natalia)',
+			value: 'catedra-buacar-natalia',
+		},
+	],
+	'sociedad-y-estado': [
+		{
+			label: '(Cátedra: PEDROSA, Fernando)',
+			value: 'catedra-pedrosa-fernando',
+		},
+	],
+};
+
+export const exam_numbers: Array<number> = [
 	1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
 ];

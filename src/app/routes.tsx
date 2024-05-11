@@ -1,6 +1,12 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Error from 'app/pages/error';
-import { View, Subjects, SubjectExams } from 'app/pages/exam';
+import {
+  View,
+  Subjects,
+  SubjectExams,
+  Trainer,
+  TrainerForm,
+} from 'app/pages/exam';
 import {
   SignUp,
   SignIn,
@@ -35,6 +41,20 @@ export const arrRoutes = [
             element: <View />,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: '/entrenamiento',
+    element: <BlogLayout showSidebar={true} requireAuth={false} />,
+    children: [
+      {
+        path: '/entrenamiento/:subject',
+        element: <TrainerForm />,
+      },
+      {
+        path: '/entrenamiento/:subject/:type',
+        element: <Trainer />,
       },
     ],
   },

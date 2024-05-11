@@ -6,6 +6,7 @@ import {
 	Outlet,
 } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Alert from '@mui/material/Alert';
@@ -68,6 +69,15 @@ export default function SubjectExams() {
 		<Box>
 			{params.id === undefined ? (
 				<Box>
+					<Box>
+						<Button
+							component={RouterLink}
+							to={`/entrenamiento/${params.subject}`}
+							variant="contained"
+						>
+							Entrenamiento
+						</Button>
+					</Box>
 					<Box>
 						<Typography variant="h5">
 							Parciales de{' '}
