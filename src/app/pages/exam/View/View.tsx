@@ -14,7 +14,7 @@ import ExamResult from './components/ExamResult';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
 import { contextExam, examType, examData } from 'app/shared/interfaces/exam';
-import { subjects } from 'app/shared/data/exam';
+import { subjects } from 'app/shared/exams/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
 import { contextAuth } from 'app/shared/interfaces/auth';

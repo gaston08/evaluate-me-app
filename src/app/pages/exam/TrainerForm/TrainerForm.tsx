@@ -12,7 +12,7 @@ import {
 	exam_types,
 	departments,
 	SUBJECTS_ENUM,
-} from 'app/shared/data/exam';
+} from 'app/shared/exams/exam';
 
 export default function TrainerForm() {
 	const params = useParams();

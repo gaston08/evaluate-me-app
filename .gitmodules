@@ -1,0 +1,3 @@
+[submodule "exams"]
+	path = src/app/shared/exams
+	url = https://github.com/gaston08/exams.git

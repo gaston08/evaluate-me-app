@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { subjects } from 'app/shared/data/exam';
+import { subjects } from 'app/shared/exams/exam';
 
 export default function Subjects() {
 	return (

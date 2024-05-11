@@ -4,7 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MenuButton from './components/MenuButton';
-import { subjects } from 'app/shared/data/exam';
+import { subjects } from 'app/shared/exams/exam';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
 import Link from '@mui/material/Link';

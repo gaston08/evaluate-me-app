@@ -15,7 +15,7 @@ import Link from '@mui/material/Link';
 import { apiGetAllSubjects } from 'app/shared/interfaces/api-response';
 
 import { axiosGet } from 'app/utils/axios';
-import { subjects } from 'app/shared/data/exam';
+import { subjects } from 'app/shared/exams/exam';
 
 interface exam {
 	[key: string]: {

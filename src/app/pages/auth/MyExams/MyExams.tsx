@@ -21,7 +21,7 @@ import {
 	expressError,
 } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
-import { subjects } from 'app/shared/data/exam';
+import { subjects } from 'app/shared/exams/exam';
 
 export interface resultTableInterface {
 	_id: string;
