@@ -15,7 +15,7 @@ import Link from '@mui/material/Link';
 import { apiGetAllSubjects } from 'app/shared/interfaces/api-response';
 
 import { axiosGet } from 'app/utils/axios';
-import { subjects } from 'app/shared/exams/exam';
+import { subjects, exam_types } from 'app/shared/exams/exam';
 
 interface exam {
 	[key: string]: {
@@ -110,6 +110,9 @@ export default function SubjectExams() {
 											<p>{year}</p>
 											<Box>
 												{Object.keys(exams[year]).map((type) => {
+													const labelType = exam_types.find(
+														(t) => t.value === type,
+													);
 													return (
 														<Box key={type}>
 															<Box sx={{ ml: 2 }}>
@@ -118,7 +121,11 @@ export default function SubjectExams() {
 																		return (
 																			<Box key={department}>
 																				<p>
-																					<strong>{type},</strong> {department}
+																					<strong>
+																						{labelType ? labelType.label : type}
+																						,
+																					</strong>{' '}
+																					{department}
 																				</p>
 																				<Grid gap={1} container sx={{ ml: 2 }}>
 																					{Object.keys(
