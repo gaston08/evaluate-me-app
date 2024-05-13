@@ -4,8 +4,8 @@ import {
   View,
   Subjects,
   SubjectExams,
-  Trainer,
-  TrainerForm,
+  //Trainer,
+  //TrainerForm,
 } from 'app/pages/exam';
 import {
   SignUp,
@@ -44,7 +44,7 @@ export const arrRoutes = [
       },
     ],
   },
-  {
+  /*  {
     path: '/entrenamiento',
     element: <BlogLayout showSidebar={true} requireAuth={false} />,
     children: [
@@ -53,11 +53,11 @@ export const arrRoutes = [
         element: <TrainerForm />,
       },
       {
-        path: '/entrenamiento/:subject/:type',
+        path: '/entrenamiento/:subject/:type/:department',
         element: <Trainer />,
       },
     ],
-  },
+  },*/
   {
     path: '/profile',
     element: <BlogLayout showSidebar={false} requireAuth={true} />,
