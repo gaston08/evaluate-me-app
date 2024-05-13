@@ -1,8 +1,10 @@
 import TableRow from '@mui/material/TableRow';
 import Checkbox from '@mui/material/Checkbox';
+import Typography from '@mui/material/Typography';
 import TableCell from '@mui/material/TableCell';
-
+import ReactTimeAgo from 'react-time-ago';
 import { resultType } from 'app/shared/interfaces/api-response';
+import { useTheme } from '@mui/material/styles';
 
 export default function ExamsTableRow({
   selected,
@@ -13,6 +15,7 @@ export default function ExamsTableRow({
   selected: boolean;
   handleClick: (e: React.MouseEvent<HTMLElement>) => void;
 }) {
+  const theme = useTheme();
   return (
     <>
       <TableRow
@@ -36,7 +39,11 @@ export default function ExamsTableRow({
 
         <TableCell>{result.score}</TableCell>
 
-        <TableCell>{result.date}</TableCell>
+        <TableCell>
+          <Typography sx={{ color: theme.palette.text.secondary }}>
+            <ReactTimeAgo date={new Date(result.date)} locale="es-AR" />
+          </Typography>
+        </TableCell>
       </TableRow>
     </>
   );

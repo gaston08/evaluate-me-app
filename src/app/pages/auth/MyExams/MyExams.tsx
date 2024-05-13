@@ -8,7 +8,7 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
-
+import { userType } from 'app/shared/interfaces/auth';
 import Scrollbar from 'app/components/ScrollBar';
 import TableNoData from './components/TableNoData';
 import ExamsTableRow from './components/ExamsTableRow';
@@ -17,11 +17,12 @@ import TableEmptyRows from './components/TableEmptyRows';
 import ExamsTableToolbar from './components/ExamsTableToolbar';
 import { emptyRows, applyFilter, getComparator } from './utils';
 import {
-	apiGetAllResultsResponse,
+	apiGetResponse,
 	expressError,
 } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
-import { subjects } from 'app/shared/exams/exam';
+import { subjects, exam_types } from 'app/shared/exams/exam';
+import { decodeToken } from 'react-jwt';
 
 export interface resultTableInterface {
 	_id: string;
@@ -46,24 +47,27 @@ export default function MyExams() {
 
 	async function getAllResults(): void {
 		setLoading(true);
-		const result: apiGetAllResultsResponse = await axiosGet('api/results/get');
+		const user = decodeToken(localStorage.getItem('access_token')) as userType;
+		const result: apiGetResponse = await axiosGet(
+			`api/user/scores/${user._id}`,
+		);
 		if (result.ok) {
-			const newArrResults = result.data.results.map((res) => {
-				const date = new Date(res.date);
-				const formatted_date = `${date.getDate()}/${
-					date.getMonth() + 1
-				}/${date.getFullYear()} ${date.toLocaleTimeString()}`;
+			const newArrResults = result.data.user.scores.map((score) => {
 				const subject = subjects.find(
-					(sub) => sub.value === res.exam_subject,
+					(sub) => sub.value === score.exam_subject,
 				).label;
+				const examType = exam_types.find(
+					(typ) => typ.value === score.exam_type,
+				).label;
+
 				return {
-					_id: res._id,
-					date: formatted_date,
+					_id: score._id,
+					date: score.date,
 					subject,
-					exam_number: res.exam_number,
-					exam_type: res.exam_type,
-					exam_year: res.exam_year,
-					score: res.score,
+					exam_number: score.exam_number,
+					exam_type: examType,
+					exam_year: score.exam_year,
+					score: score.score,
 				};
 			});
 			setResults(newArrResults);

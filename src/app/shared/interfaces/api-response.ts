@@ -21,6 +21,17 @@ export interface apiGetResponse {
 	data: {
 		exam: examType;
 		result: resultType;
+		user: {
+			scores: Array<{
+				_id: string;
+				exam_subject: string;
+				exam_type: string;
+				date: string;
+				exam_number: string;
+				exam_year: number;
+				score: number;
+			}>;
+		};
 	};
 	error: string | null;
 	errors: Array<expressError> | null;
