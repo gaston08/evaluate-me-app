@@ -14,7 +14,7 @@ import ExamResult from './components/ExamResult';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
 import { contextExam, examType, examData } from 'app/shared/interfaces/exam';
-import { subjects } from 'app/shared/exams/exam';
+import { subjects, exam_types } from 'app/shared/exams/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
 import Loader from 'app/components/Loader';
@@ -28,6 +28,7 @@ export default function View() {
 	const { exam, setExam, setSelectedOptions, setExercisesFeedback } =
 		useContext<contextExam>(ExamContext);
 	const [subject, setSubject] = useState<string>('');
+	const [examType, setExamType] = useState<string>('');
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
 	const [score, setScore] = useState<number>(0);
 	const [date, setDate] = useState<string>('');
@@ -47,9 +48,12 @@ export default function View() {
 				`api/exam/find:${params.id}`,
 			);
 			if (result.ok) {
+				const ex: examType = result.data.exam;
 				setSubject(() => {
-					const ex: examType = result.data.exam;
 					return subjects.find((sub) => sub.value === ex.subject).label;
+				});
+				setExamType(() => {
+					return exam_types.find((typ) => typ.value === ex.type).label;
 				});
 
 				setUpExam(
@@ -83,9 +87,12 @@ export default function View() {
 		if (examData === null) {
 			fetchData().then().catch(console.error);
 		} else {
+			const ex: examType = examData.exam;
 			setSubject(() => {
-				const ex: examType = examData.exam.subject;
-				return subjects.find((sub) => sub.value === ex).label;
+				return subjects.find((sub) => sub.value === ex.subject).label;
+			});
+			setExamType(() => {
+				return exam_types.find((typ) => typ.value === ex.type).label;
 			});
 			setExercisesFeedback(examData.exercisesFeedback);
 			setExamsUi(examData.examsUi);
@@ -155,7 +162,7 @@ export default function View() {
 									{subject}, {exam.year}
 								</Typography>
 								<Typography variant="h5">
-									{exam.type}, TEMA {exam.exam_number}, {exam.department}
+									{examType}, TEMA {exam.exam_number}, {exam.department}
 								</Typography>
 							</Box>
 							<>
