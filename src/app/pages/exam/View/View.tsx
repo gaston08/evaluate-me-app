@@ -14,7 +14,8 @@ import ExamResult from './components/ExamResult';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
 import { contextExam, examType, examData } from 'app/shared/interfaces/exam';
-import { subjects, exam_types } from 'app/shared/exams/exam';
+import { exam_types } from 'app/shared/exams/exam';
+import { subjects } from 'app/shared/exams/ubaxxi';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
 import Loader from 'app/components/Loader';
@@ -89,6 +90,7 @@ export default function View() {
 		} else {
 			const ex: examType = examData.exam;
 			setSubject(() => {
+				console.log(ex.subject);
 				return subjects.find((sub) => sub.value === ex.subject).label;
 			});
 			setExamType(() => {
@@ -150,13 +152,13 @@ export default function View() {
 							<Box
 								sx={{
 									mb: 3,
-									color: theme.palette.text.secondary,
 								}}
 							>
 								<Typography
 									variant="h5"
 									sx={{
 										mb: 2,
+										color: theme.palette.text.secondary,
 									}}
 								>
 									{subject}, {exam.year}

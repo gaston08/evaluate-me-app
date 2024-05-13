@@ -21,7 +21,8 @@ import {
 	expressError,
 } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
-import { subjects, exam_types } from 'app/shared/exams/exam';
+import { exam_types } from 'app/shared/exams/exam';
+import { subjects } from 'app/shared/exams/ubaxxi';
 import { decodeToken } from 'react-jwt';
 
 export interface resultTableInterface {
@@ -53,9 +54,12 @@ export default function MyExams() {
 		);
 		if (result.ok) {
 			const newArrResults = result.data.user.scores.map((score) => {
-				const subject = subjects.find(
+				const subjectObj = subjects.find(
 					(sub) => sub.value === score.exam_subject,
-				).label;
+				);
+
+				const subject = subjectObj.short ? subjectObj.short : subjectObj.label;
+
 				const examType = exam_types.find(
 					(typ) => typ.value === score.exam_type,
 				).label;

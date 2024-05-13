@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
-import { subjects } from 'app/shared/exams/exam';
+import Link from '@mui/material/Link';
+import { Link as RouterLink } from 'react-router-dom';
+import { subjects } from 'app/shared/exams/ubaxxi';
 
 export default function Subjects() {
 	return (
@@ -13,7 +14,11 @@ export default function Subjects() {
 				{subjects.map((subject) => {
 					return (
 						<Box sx={{ mb: 2 }} key={subject.value}>
-							<Link to={subject.value}>{subject.label}</Link>
+							<Typography variant="h6">
+								<Link component={RouterLink} to={subject.value}>
+									{subject.short} ({subject.long})
+								</Link>
+							</Typography>
 						</Box>
 					);
 				})}
