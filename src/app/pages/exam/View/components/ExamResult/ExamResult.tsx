@@ -71,7 +71,9 @@ export default function ExamResult(props: ExamResultProps) {
 			<Typography sx={{ color: theme.palette.text.secondary }}>
 				<ReactTimeAgo date={new Date(date)} locale="es-AR" />
 			</Typography>
-			<Confetti confetties={confetties} />
+			<Box sx={{ position: 'fixed', top: 0 }}>
+				<Confetti confetties={confetties} />
+			</Box>
 		</Box>
 	);
 }

@@ -11,6 +11,8 @@ import { ExamContext } from 'app/contexts/Exam';
 import { axiosPost } from 'app/utils/axios';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
+import { contextAuth } from 'app/shared/interfaces/auth';
+import { AuthContext } from 'app/contexts/Auth';
 
 interface CreateResultButtonProps {
 	examId: string;
@@ -39,6 +41,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 		useContext<contextExam>(ExamContext);
 	const [error, setError] = useState<string>('');
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
+	const { auth } = useContext<contextAuth>(AuthContext);
 
 	const sendResult = async (): void => {
 		setLoading(true);
@@ -123,11 +126,46 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 				},
 			};
 
-			const result: apiPostResponse = await axiosPost(
-				'api/user/update/profile',
-				data,
-			);
-			if (result.ok) {
+			if (auth.isLoggedIn) {
+				const result: apiPostResponse = await axiosPost(
+					'api/user/update/profile',
+					data,
+				);
+				if (result.ok) {
+					setExercisesFeedback(exArr);
+					setExamsUi((prev) => {
+						return {
+							...prev,
+							isPlayView: false,
+						};
+					});
+					setScore(Number(score));
+					setDate(new Date().toString());
+					localStorage.setItem(
+						exam._id,
+						JSON.stringify({
+							exercisesFeedback: exArr,
+							exam,
+							examsUi: {
+								isPlayView: false,
+							},
+							date: new Date().toString(),
+							selectedOptions,
+							score,
+						}),
+					);
+					setLoading(false);
+				} else {
+					setError(result.error);
+					if (result.errors) {
+						result.errors.forEach((err: expressError): void => {
+							console.log(err.path, err.msg);
+						});
+					}
+
+					setLoading(false);
+				}
+			} else {
 				setExercisesFeedback(exArr);
 				setExamsUi((prev) => {
 					return {
@@ -150,16 +188,9 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 						score,
 					}),
 				);
-				setLoading(false);
-			} else {
-				setError(result.error);
-				if (result.errors) {
-					result.errors.forEach((err: expressError): void => {
-						console.log(err.path, err.msg);
-					});
-				}
-
-				setLoading(false);
+				setTimeout(() => {
+					setLoading(false);
+				}, 1);
 			}
 		}
 	};

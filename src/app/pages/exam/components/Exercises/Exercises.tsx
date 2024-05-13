@@ -16,7 +16,7 @@ export default function Exercises() {
 
 	const handleClick = () => {
 		if (!auth.isLoggedIn) {
-			setOpen(true);
+			//setOpen(true);
 		}
 	};
 

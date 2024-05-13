@@ -17,8 +17,6 @@ import { contextExam, examType, examData } from 'app/shared/interfaces/exam';
 import { subjects } from 'app/shared/exams/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
-import { contextAuth } from 'app/shared/interfaces/auth';
-import { AuthContext } from 'app/contexts/Auth';
 import Loader from 'app/components/Loader';
 import { setUpExam } from './utils';
 
@@ -31,7 +29,6 @@ export default function View() {
 		useContext<contextExam>(ExamContext);
 	const [subject, setSubject] = useState<string>('');
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
-	const { auth } = useContext<contextAuth>(AuthContext);
 	const [score, setScore] = useState<number>(0);
 	const [date, setDate] = useState<string>('');
 	const [start, setStart] = useState(new Date());
@@ -181,18 +178,16 @@ export default function View() {
 							</>
 							<Exercises />
 							<Box sx={{ m: 3 }}>
-								{auth.isLoggedIn ? (
-									<CreateResultButton
-										examYear={exam.year}
-										examType={exam.type}
-										examNumber={exam.exam_number}
-										examSubject={exam.subject}
-										department={exam.department}
-										setScore={setScore}
-										setDate={setDate}
-										setLoading={setLoading}
-									/>
-								) : null}
+								<CreateResultButton
+									examYear={exam.year}
+									examType={exam.type}
+									examNumber={exam.exam_number}
+									examSubject={exam.subject}
+									department={exam.department}
+									setScore={setScore}
+									setDate={setDate}
+									setLoading={setLoading}
+								/>
 							</Box>
 							<>
 								{!examsUi.isPlayView ? (
