@@ -14,46 +14,58 @@ export default function Sidebar() {
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Grid item xs={12} md={4} sx={{ mb: matches ? 3 : 0 }}>
-      <Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.200' }}>
-        <Typography>
-          <b>ubaparciales</b> es un proyecto <b>sin fines de lucro</b> que se
-          mantiene a través de donaciones.
-        </Typography>
-        <Typography>
-          Desarrollar y mantener este sitio web lleva tiempo y dinero. Por lo
-          que <b>necesitamos de tu ayuda</b> para impulsar este proyecto.
-        </Typography>
-        <Typography>
-          Si encontras útil esta plataforma o querés apoyar la causa,{' '}
-          <b>invitanos un cafecito</b>.
-        </Typography>
-        <Box sx={{ mt: 2 }}>
-          <CafecitoButton />
-        </Box>
-      </Paper>
-      <>
-        {matches ? null : (
-          <Box sx={{ pb: 3, pt: 3 }}>
-            <Link variant="h6" component={RouterLink} to="/tests">
-              Parciales.
-            </Link>
-            <Box sx={{ ml: 2 }}>
-              {subjects.map((subject) => (
-                <Link
-                  component={RouterLink}
-                  display="block"
-                  variant="body1"
-                  to={`/tests/${subject.value}`}
-                  key={subject.value}
-                >
-                  {subject.label}
-                </Link>
-              ))}
-            </Box>
+    <Grid
+      item
+      xs={12}
+      md={4}
+      sx={{ mb: matches ? 3 : 0, position: 'relative' }}
+    >
+      <Box
+        sx={{
+          position: !matches ? 'sticky' : 'relative',
+          top: !matches ? 20 : 0,
+        }}
+      >
+        <Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.200' }}>
+          <Typography>
+            <b>ubaparciales</b> es un proyecto <b>sin fines de lucro</b> que se
+            mantiene a través de donaciones.
+          </Typography>
+          <Typography>
+            Desarrollar y mantener este sitio web lleva tiempo y dinero. Por lo
+            que <b>necesitamos de tu ayuda</b> para impulsar este proyecto.
+          </Typography>
+          <Typography>
+            Si encontras útil esta plataforma o querés apoyar la causa,{' '}
+            <b>invitanos un cafecito</b>.
+          </Typography>
+          <Box sx={{ mt: 2 }}>
+            <CafecitoButton />
           </Box>
-        )}
-      </>
+        </Paper>
+        <>
+          {matches ? null : (
+            <Box sx={{ pb: 3, pt: 3 }}>
+              <Link variant="h6" component={RouterLink} to="/tests">
+                Parciales.
+              </Link>
+              <Box sx={{ ml: 2 }}>
+                {subjects.map((subject) => (
+                  <Link
+                    component={RouterLink}
+                    display="block"
+                    variant="body1"
+                    to={`/tests/${subject.value}`}
+                    key={subject.value}
+                  >
+                    {subject.label}
+                  </Link>
+                ))}
+              </Box>
+            </Box>
+          )}
+        </>
+      </Box>
     </Grid>
   );
 }
