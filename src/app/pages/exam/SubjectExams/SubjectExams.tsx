@@ -17,6 +17,7 @@ import { apiGetAllSubjects } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
 import { exam_types } from 'app/shared/exams/exam';
 import { subjects } from 'app/shared/exams/ubaxxi';
+import Faq from 'app/components/Faq';
 
 interface exam {
 	[key: string]: {
@@ -69,7 +70,7 @@ export default function SubjectExams() {
 	return (
 		<Box>
 			{params.id === undefined ? (
-				<Box>
+				<Box sx={{ minHeight: 350 }}>
 					{/*<Box>
 						<Button
 							component={RouterLink}
@@ -167,6 +168,9 @@ export default function SubjectExams() {
 			) : (
 				<Outlet />
 			)}
+			<Box>
+				<Faq />
+			</Box>
 		</Box>
 	);
 }
