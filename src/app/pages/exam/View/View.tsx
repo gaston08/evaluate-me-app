@@ -9,7 +9,7 @@ import { apiGetResponse } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
 import NoExamFound from '../components/NoExamFound';
 import CreateResultButton from './components/CreateResultButton';
-import ShareButtons from './components/ShareButtons';
+//import ShareButtons from './components/ShareButtons';
 import ExamResult from './components/ExamResult';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
@@ -206,6 +206,8 @@ export default function View() {
 												Rehacer examen
 											</Button>
 										</Box>
+										{/*
+
 										<Typography variant="h6">Compartir exámen.</Typography>
 										<ShareButtons
 											subject={exam.subject}
@@ -213,6 +215,7 @@ export default function View() {
 											examNumber={exam.exam_number}
 											score={score}
 										/>
+											*/}
 									</Box>
 								) : null}
 							</>
