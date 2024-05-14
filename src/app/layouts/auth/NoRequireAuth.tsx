@@ -30,6 +30,7 @@ export default function RequireAuth() {
 
 	useEffect(() => {
 		checkAuth().catch(console.error);
+		document.title = 'ubaparciales';
 	}, []);
 
 	return (
