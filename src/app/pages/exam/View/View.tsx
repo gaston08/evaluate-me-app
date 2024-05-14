@@ -176,13 +176,16 @@ export default function View() {
 								</Typography>
 							</Box>
 							<>
-								{!examsUi.isPlayView ? (
-									<ExamResult
-										score={score}
-										totalPts={exam.totalPts}
-										date={date}
-									/>
-								) : null}
+								{
+									// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+									!examsUi.isPlayView && !showSpinner && !loading ? (
+										<ExamResult
+											score={score}
+											totalPts={exam.totalPts}
+											date={date}
+										/>
+									) : null
+								}
 							</>
 							<>
 								{!examsUi.isPlayView ? (
