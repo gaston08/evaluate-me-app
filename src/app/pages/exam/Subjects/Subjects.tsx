@@ -11,7 +11,7 @@ export default function Subjects() {
 			<Box sx={{ mb: 3 }}>
 				<Typography variant="h5">Selecciona una materia.</Typography>
 			</Box>
-			<Box sx={{ minHeight: 150 }}>
+			<Box sx={{ minHeight: 200 }}>
 				{subjects.map((subject) => {
 					return (
 						<Box sx={{ mb: 2 }} key={subject.value}>

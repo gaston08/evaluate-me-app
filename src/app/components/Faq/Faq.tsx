@@ -64,7 +64,7 @@ function ExpandMoreIcon() {
 
 export default function AccordionUsage() {
   return (
-    <Box sx={{ pt: 3, pb: 3 }}>
+    <Box sx={{ pt: 6, pb: 6 }}>
       {faqs.map((faq) => {
         return (
           <Accordion sx={{ background: 'white' }}>
