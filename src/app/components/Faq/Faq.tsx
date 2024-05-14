@@ -36,7 +36,7 @@ const faqs = [
       'Tienes la opción de apoyarnos invitándonos un <a href="https://cafecito.app/ubaparciales" target="_blank">cafecito</a>. Tu contribución nos ayuda a mantener la plataforma en línea y a seguir mejorando nuestros servicios.',
   },
   {
-    question: '¿No encuentras la materia que buscas?',
+    question: '¿Qué hago si no encuentro la materia que busco?',
     answer:
       'Si no encuentras la materia que necesitas, puedes ayudarnos comprándonos un <a href="https://cafecito.app/ubaparciales" target="_blank">cafecito</a> y sugiriéndonos qué materia te gustaría que preparáramos. Priorizaremos las materias que reciban más cafecitos y seguiremos subiendo contenido basado en las preferencias de nuestra comunidad de usuarios.',
   },
