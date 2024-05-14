@@ -102,7 +102,7 @@ export default function AccountDetailsForm() {
     <Card sx={{ backgroundColor: 'white' }}>
       <CardHeader
         subheader="Asegurate de escribir bien tus datos."
-        title="Perfil"
+        title="Datos personales"
       />
       <Divider />
       <CardContent>
