@@ -3,6 +3,7 @@ import Accordion from '@mui/material/Accordion';
 import Box from '@mui/material/Box';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import { useTheme } from '@mui/material/styles';
 
 const faqs = [
   {
@@ -63,6 +64,8 @@ function ExpandMoreIcon() {
 }
 
 export default function AccordionUsage() {
+  const theme = useTheme();
+  console.log(theme);
   return (
     <Box sx={{ pt: 6, pb: 6 }}>
       {faqs.map((faq) => {
@@ -76,7 +79,10 @@ export default function AccordionUsage() {
               {faq.question}
             </AccordionSummary>
             <AccordionDetails>
-              <div dangerouslySetInnerHTML={{ __html: faq.answer }}></div>
+              <div
+                style={{ color: theme.palette.text.secondary }}
+                dangerouslySetInnerHTML={{ __html: faq.answer }}
+              ></div>
             </AccordionDetails>
           </Accordion>
         );
