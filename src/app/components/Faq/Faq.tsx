@@ -67,7 +67,7 @@ export default function AccordionUsage() {
     <Box sx={{ pt: 6, pb: 6 }}>
       {faqs.map((faq) => {
         return (
-          <Accordion sx={{ background: 'white' }}>
+          <Accordion key={faq.question} sx={{ background: 'white' }}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1-content"
