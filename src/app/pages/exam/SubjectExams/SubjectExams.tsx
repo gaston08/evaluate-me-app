@@ -15,7 +15,7 @@ import Link from '@mui/material/Link';
 import { apiGetAllSubjects } from 'app/shared/interfaces/api-response';
 
 import { axiosGet } from 'app/utils/axios';
-import { exam_types } from 'app/shared/exams/exam';
+import { exam_types, departments } from 'app/shared/exams/exam';
 import { subjects } from 'app/shared/exams/ubaxxi';
 import Faq from 'app/components/Faq';
 
@@ -130,7 +130,12 @@ export default function SubjectExams() {
 																								: type}
 																							,
 																						</strong>{' '}
-																						{department}
+																						{
+																							departments.find(
+																								(dep) =>
+																									dep.value === department,
+																							).label
+																						}
 																					</p>
 																					<Grid
 																						gap={1}

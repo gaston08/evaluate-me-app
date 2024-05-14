@@ -14,7 +14,7 @@ import ExamResult from './components/ExamResult';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
 import { contextExam, examType, examData } from 'app/shared/interfaces/exam';
-import { exam_types } from 'app/shared/exams/exam';
+import { exam_types, departments } from 'app/shared/exams/exam';
 import { subjects } from 'app/shared/exams/ubaxxi';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
@@ -30,6 +30,7 @@ export default function View() {
 		useContext<contextExam>(ExamContext);
 	const [subject, setSubject] = useState<string>('');
 	const [examType, setExamType] = useState<string>('');
+	const [department, setDepartment] = useState<string>('');
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
 	const [score, setScore] = useState<number>(0);
 	const [date, setDate] = useState<string>('');
@@ -55,6 +56,10 @@ export default function View() {
 				});
 				setExamType(() => {
 					return exam_types.find((typ) => typ.value === ex.type).label;
+				});
+
+				setDepartment(() => {
+					return departments.find((dep) => dep.value === ex.department).label;
 				});
 
 				setUpExam(
@@ -95,6 +100,9 @@ export default function View() {
 			});
 			setExamType(() => {
 				return exam_types.find((typ) => typ.value === ex.type).label;
+			});
+			setDepartment(() => {
+				return departments.find((dep) => dep.value === ex.department).label;
 			});
 			setExercisesFeedback(examData.exercisesFeedback);
 			setExamsUi(examData.examsUi);
@@ -164,7 +172,7 @@ export default function View() {
 									{subject}, {exam.year}
 								</Typography>
 								<Typography variant="h5">
-									{examType}, TEMA {exam.exam_number}, {exam.department}
+									{examType}, TEMA {exam.exam_number}, {department}
 								</Typography>
 							</Box>
 							<>

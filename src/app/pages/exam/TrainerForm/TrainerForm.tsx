@@ -80,7 +80,7 @@ export default function TrainerForm() {
 								setDepartment(e.target.value);
 							}}
 						>
-							{departments[subject].map((dept) => {
+							{departments.map((dept) => {
 								return (
 									<MenuItem key={dept.value} value={dept.value}>
 										{dept.label}
