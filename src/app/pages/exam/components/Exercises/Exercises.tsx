@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import Exercise from '../Exercise';
 import { exerciseType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
@@ -31,6 +32,14 @@ export default function Exercises() {
 					{exam.exercises.map((exercise: exerciseType, idx: number) => {
 						return (
 							<Box sx={{ width: '100%', mb: 5 }} key={exercise.id}>
+								<Typography
+									variant="h6"
+									color="primary"
+									gutterBottom
+									sx={{ mt: 2 }}
+								>
+									Ejercicio {idx + 1}
+								</Typography>
 								<Exercise
 									idx={idx}
 									exercise={exercise}
