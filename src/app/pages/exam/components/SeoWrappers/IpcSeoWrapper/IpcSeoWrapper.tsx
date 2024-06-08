@@ -33,7 +33,6 @@ export default function IpcSeoWrapper({ subjectId }: IpcSeoWrapperProps) {
 					property="og:image"
 					content="https://ubaparciales.com/opengraph/imgs/ipc-meta.jpg"
 				/>
-				<meta name="google-adsense-account" content="ca-pub-1866006683868783" />
 			</Helmet>
 			<SubjectExams subjectId={subjectId} />;
 		</Fragment>
