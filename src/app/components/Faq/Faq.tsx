@@ -65,7 +65,6 @@ function ExpandMoreIcon() {
 
 export default function AccordionUsage() {
   const theme = useTheme();
-  console.log(theme);
   return (
     <Box sx={{ pt: 6, pb: 6 }}>
       {faqs.map((faq) => {

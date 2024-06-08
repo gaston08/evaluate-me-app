@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Fragment } from 'react';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -24,6 +25,7 @@ import { axiosGet } from 'app/utils/axios';
 import { exam_types } from 'app/shared/exams/exam';
 import { subjects } from 'app/shared/exams/ubaxxi';
 import { decodeToken } from 'react-jwt';
+import { Helmet } from 'react-helmet-async';
 
 export interface resultTableInterface {
 	_id: string;
@@ -161,91 +163,100 @@ export default function MyExams() {
 	const notFound = !dataFiltered.length && !!filterName;
 
 	return (
-		<Container>
-			<Stack
-				direction="row"
-				alignItems="center"
-				justifyContent="space-between"
-				mb={5}
-			>
-				<Typography variant="h4">Parciales resueltos. </Typography>
-				{loading ? <Typography>Cargando...</Typography> : null}
-			</Stack>
+		<Fragment>
+			<Container>
+				<Stack
+					direction="row"
+					alignItems="center"
+					justifyContent="space-between"
+					mb={5}
+				>
+					<Typography variant="h4">Parciales resueltos. </Typography>
+					{loading ? <Typography>Cargando...</Typography> : null}
+				</Stack>
 
-			<Card>
-				<ExamsTableToolbar
-					numSelected={selected.length}
-					filterName={filterName}
-					onFilterName={handleFilterByName}
-					selected={selected}
-					getAllResults={getAllResults}
-					setSelected={setSelected}
-				/>
+				<Card>
+					<ExamsTableToolbar
+						numSelected={selected.length}
+						filterName={filterName}
+						onFilterName={handleFilterByName}
+						selected={selected}
+						getAllResults={getAllResults}
+						setSelected={setSelected}
+					/>
 
-				<Scrollbar>
-					<TableContainer sx={{ overflow: 'unset' }}>
-						<Table sx={{ minWidth: 800 }}>
-							<ExamsTableHead
-								order={order}
-								orderBy={orderBy}
-								rowCount={results.length}
-								numSelected={selected.length}
-								onRequestSort={handleSort}
-								onSelectAllClick={handleSelectAllClick}
-								headLabel={[
-									{ id: 'subject', label: 'Materia' },
-									{ id: 'exam_type', label: 'Tipo' },
-									{ id: 'exam_number', label: 'Tema' },
-									{ id: 'exam_year', label: 'Año' },
-									{ id: 'score', label: 'Nota' },
-									{ id: 'date', label: 'Fecha' },
-								]}
-							/>
-							<TableBody>
-								{dataFiltered
-									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-									.map((row: resultTableInterface) => (
-										<ExamsTableRow
-											result={row}
-											key={row._id}
-											selected={selected.includes(row._id)}
-											handleClick={(event: React.MouseEvent<HTMLElement>) => {
-												handleClick(event, row._id);
-											}}
-										/>
-									))}
-
-								<TableEmptyRows
-									height={77}
-									emptyRows={emptyRows(page, rowsPerPage, results.length)}
+					<Scrollbar>
+						<TableContainer sx={{ overflow: 'unset' }}>
+							<Table sx={{ minWidth: 800 }}>
+								<ExamsTableHead
+									order={order}
+									orderBy={orderBy}
+									rowCount={results.length}
+									numSelected={selected.length}
+									onRequestSort={handleSort}
+									onSelectAllClick={handleSelectAllClick}
+									headLabel={[
+										{ id: 'subject', label: 'Materia' },
+										{ id: 'exam_type', label: 'Tipo' },
+										{ id: 'exam_number', label: 'Tema' },
+										{ id: 'exam_year', label: 'Año' },
+										{ id: 'score', label: 'Nota' },
+										{ id: 'date', label: 'Fecha' },
+									]}
 								/>
+								<TableBody>
+									{dataFiltered
+										.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+										.map((row: resultTableInterface) => (
+											<ExamsTableRow
+												result={row}
+												key={row._id}
+												selected={selected.includes(row._id)}
+												handleClick={(event: React.MouseEvent<HTMLElement>) => {
+													handleClick(event, row._id);
+												}}
+											/>
+										))}
 
-								{notFound && <TableNoData query={filterName} />}
-							</TableBody>
-						</Table>
-					</TableContainer>
-				</Scrollbar>
+									<TableEmptyRows
+										height={77}
+										emptyRows={emptyRows(page, rowsPerPage, results.length)}
+									/>
 
-				<TablePagination
-					page={page}
-					component="div"
-					count={results.length}
-					rowsPerPage={rowsPerPage}
-					onPageChange={handleChangePage}
-					rowsPerPageOptions={[5, 10, 25]}
-					onRowsPerPageChange={handleChangeRowsPerPage}
-					sx={{ backgroundColor: 'white' }}
+									{notFound && <TableNoData query={filterName} />}
+								</TableBody>
+							</Table>
+						</TableContainer>
+					</Scrollbar>
+
+					<TablePagination
+						page={page}
+						component="div"
+						count={results.length}
+						rowsPerPage={rowsPerPage}
+						onPageChange={handleChangePage}
+						rowsPerPageOptions={[5, 10, 25]}
+						onRowsPerPageChange={handleChangeRowsPerPage}
+						sx={{ backgroundColor: 'white' }}
+					/>
+				</Card>
+				<Box sx={{ mt: 4, mb: 4 }}>
+					{errors.map((err) => {
+						return (
+							<Typography sx={{ mb: 2 }} color="error">
+								{err}
+							</Typography>
+						);
+					})}
+				</Box>
+			</Container>
+			<Helmet>
+				<title>Mis examenes</title>
+				<meta
+					name="description"
+					content="Haz un seguimiento de tus examenes realizados."
 				/>
-			</Card>
-			<Box sx={{ mt: 4, mb: 4 }}>
-				{errors.map((err) => {
-					return (
-						<Typography sx={{ mb: 2 }} color="error">
-							{err}
-						</Typography>
-					);
-				})}
-			</Box>
-		</Container>
+			</Helmet>
+		</Fragment>
 	);
 }

@@ -29,7 +29,7 @@ interface exam {
 	};
 }
 
-export default function SubjectExams() {
+export default function SubjectExams({ subjectId }) {
 	const params = useParams();
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
@@ -40,7 +40,7 @@ export default function SubjectExams() {
 		async function fetchData() {
 			setLoading(true);
 			const result: apiGetAllSubjects = await axiosGet(
-				`api/exam/get:${params.subject}`,
+				`api/exam/get:${subjectId}`,
 			);
 			if (result.ok) {
 				setExams(result.data.exams);
@@ -61,11 +61,13 @@ export default function SubjectExams() {
 		if (params.id === undefined) {
 			fetchData().then().catch(console.error);
 		}
-	}, [params.subject, location.key]);
+	}, [subjectId, location.key]);
 
 	if (loading) {
 		return <Typography variant="h3">Cargando...</Typography>;
 	}
+
+	console.log(subjectId);
 
 	return (
 		<Box>
@@ -75,17 +77,17 @@ export default function SubjectExams() {
 						{/*<Box>
 						<Button
 							component={RouterLink}
-							to={`/entrenamiento/${params.subject}`}
+							to={`/entrenamiento/${subjectId}`}
 							variant="contained"
 						>
 							Entrenamiento
 						</Button>
 					</Box>*/}
 						<Box>
-							<Typography variant="h5">
+							<Typography variant="h5" component="h1">
 								Parciales de{' '}
 								{subjects
-									.find((sub) => sub.value === params.subject)
+									.find((sub) => sub.value === subjectId)
 									.label.toLowerCase()}
 								.
 							</Typography>

@@ -11,6 +11,7 @@ import { contextAuth } from 'app/shared/interfaces/auth';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import TimeAgo from 'javascript-time-ago';
 import es from 'javascript-time-ago/locale/es';
+import { HelmetProvider } from 'react-helmet-async';
 
 TimeAgo.addDefaultLocale(es);
 TimeAgo.addLocale(es);
@@ -36,32 +37,34 @@ export default function App() {
   }
 
   return (
-    <UiContext.Provider value={{ examsUi, setExamsUi }}>
-      <AuthContext.Provider
-        value={{
-          auth,
-          setAuth,
-        }}
-      >
-        <GoogleOAuthProvider
-          clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID as string}
+    <HelmetProvider>
+      <UiContext.Provider value={{ examsUi, setExamsUi }}>
+        <AuthContext.Provider
+          value={{
+            auth,
+            setAuth,
+          }}
         >
-          <ExamContext.Provider
-            value={{
-              exam,
-              setExam,
-              selectedOptions,
-              setSelectedOptions,
-              exercisesFeedback,
-              setExercisesFeedback,
-            }}
+          <GoogleOAuthProvider
+            clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID as string}
           >
-            <ThemeWrapper>
-              <RouterProvider router={router} />
-            </ThemeWrapper>
-          </ExamContext.Provider>
-        </GoogleOAuthProvider>
-      </AuthContext.Provider>
-    </UiContext.Provider>
+            <ExamContext.Provider
+              value={{
+                exam,
+                setExam,
+                selectedOptions,
+                setSelectedOptions,
+                exercisesFeedback,
+                setExercisesFeedback,
+              }}
+            >
+              <ThemeWrapper>
+                <RouterProvider router={router} />
+              </ThemeWrapper>
+            </ExamContext.Provider>
+          </GoogleOAuthProvider>
+        </AuthContext.Provider>
+      </UiContext.Provider>
+    </HelmetProvider>
   );
 }

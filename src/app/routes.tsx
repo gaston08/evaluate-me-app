@@ -3,7 +3,6 @@ import Error from 'app/pages/error';
 import {
   View,
   Subjects,
-  SubjectExams,
   //Trainer,
   //TrainerForm,
 } from 'app/pages/exam';
@@ -15,9 +14,17 @@ import {
   MyProfile,
   MyExams,
 } from 'app/pages/auth';
+import { subjects } from 'app/shared/exams/ubaxxi';
+import {
+  IpcSeoWrapper,
+  IcseSeoWrapper,
+} from 'app/pages/exam/components/SeoWrappers';
 
 import BlogLayout from 'app/layouts/blog';
 import { NoRequireAuth } from 'app/layouts/auth';
+
+const ipc_path = subjects.find((subject) => subject.short === 'IPC').value;
+const icse_path = subjects.find((subject) => subject.short === 'ICSE').value;
 
 export const arrRoutes = [
   {
@@ -33,11 +40,21 @@ export const arrRoutes = [
         element: <Subjects />,
       },
       {
-        path: '/tests/:subject',
-        element: <SubjectExams />,
+        path: '/tests/' + ipc_path,
+        element: <IpcSeoWrapper subjectId={ipc_path} />,
         children: [
           {
-            path: '/tests/:subject/:id',
+            path: '/tests/' + ipc_path + '/:id',
+            element: <View />,
+          },
+        ],
+      },
+      {
+        path: '/tests/' + icse_path,
+        element: <IcseSeoWrapper subjectId={icse_path} />,
+        children: [
+          {
+            path: '/tests/' + icse_path + '/:id',
             element: <View />,
           },
         ],
