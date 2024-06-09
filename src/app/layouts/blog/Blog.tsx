@@ -13,8 +13,6 @@ import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth, userType } from 'app/shared/interfaces/auth';
 import ReactGA from 'react-ga4';
 
-ReactGA.initialize('G-R63LDGFFTW');
-
 interface BlogProps {
 	showSidebar: boolean;
 	requireAuth: boolean;

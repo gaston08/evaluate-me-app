@@ -12,6 +12,9 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import TimeAgo from 'javascript-time-ago';
 import es from 'javascript-time-ago/locale/es';
 import { HelmetProvider } from 'react-helmet-async';
+import ReactGA from 'react-ga4';
+
+ReactGA.initialize('G-R63LDGFFTW');
 
 TimeAgo.addDefaultLocale(es);
 TimeAgo.addLocale(es);
