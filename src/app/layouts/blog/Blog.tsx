@@ -25,9 +25,14 @@ export default function Blog(props: BlogProps) {
 	const location = useLocation();
 
 	useEffect(() => {
-		const url = location.pathname + location.search;
-		ReactGA.send({ hitType: 'pageview', page: url, title: location.pathname });
-		console.log(url);
+		if (import.meta.env.MODE !== 'development') {
+			const url = location.pathname + location.search;
+			ReactGA.send({
+				hitType: 'pageview',
+				page: url,
+				title: location.pathname,
+			});
+		}
 	}, [location.pathname, location.search]);
 
 	const checkAuth = async () => {
