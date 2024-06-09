@@ -4,6 +4,8 @@ import { axiosPost } from 'app/utils/axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
+import { Fragment } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 export default function RequireAuth() {
 	const [isLoading, setIsLoading] = useState(true);
@@ -34,24 +36,34 @@ export default function RequireAuth() {
 	}, []);
 
 	return (
-		<>
-			{isLoading ? (
-				<h1>Cargando...</h1>
-			) : (
-				<Container component="main" maxWidth="xs" sx={{ height: 'auto' }}>
-					<CssBaseline />
-					<Box
-						sx={{
-							display: 'flex',
-							flexDirection: 'column',
-							justifyContent: 'space-around',
-							mt: 4,
-						}}
-					>
-						<Outlet />
-					</Box>
-				</Container>
-			)}
-		</>
+		<Fragment>
+			<Fragment>
+				{isLoading ? (
+					<h1>Cargando...</h1>
+				) : (
+					<Container component="main" maxWidth="xs" sx={{ height: 'auto' }}>
+						<CssBaseline />
+						<Box
+							sx={{
+								display: 'flex',
+								flexDirection: 'column',
+								justifyContent: 'space-around',
+								mt: 4,
+							}}
+						>
+							<Outlet />
+						</Box>
+					</Container>
+				)}
+			</Fragment>
+			<Helmet>
+				<title>ubaparciales</title>
+				<meta
+					name="description"
+					content="Modelos de examenes de UBA XXI y CBC"
+				/>
+				<meta name="keywords" content="uba xxi, cbc" />
+			</Helmet>
+		</Fragment>
 	);
 }

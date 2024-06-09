@@ -1,5 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { decodeToken } from 'react-jwt';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -12,7 +12,6 @@ import { axiosPost } from 'app/utils/axios';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth, userType } from 'app/shared/interfaces/auth';
 import ReactGA from 'react-ga4';
-import { subjects } from 'app/shared/exams/ubaxxi';
 
 ReactGA.initialize('G-R63LDGFFTW');
 
@@ -26,24 +25,12 @@ export default function Blog(props: BlogProps) {
 	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const params = useParams();
 
 	useEffect(() => {
 		const url = location.pathname + location.search;
 		ReactGA.send({ hitType: 'pageview', page: url, title: location.pathname });
 		console.log(url);
 	}, [location.pathname, location.search]);
-
-	useEffect(() => {
-		if (params.subject) {
-			const subjectLabel = subjects.find(
-				(sub) => sub.value === params.subject,
-			).label;
-			document.title = subjectLabel;
-		} else {
-			document.title = 'ubaparciales';
-		}
-	}, [params.subject]);
 
 	const checkAuth = async () => {
 		const access_token: string = localStorage.getItem('access_token');
