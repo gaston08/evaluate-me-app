@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-	Link as RouterLink,
-	useParams,
-	useLocation,
-	Outlet,
-} from 'react-router-dom';
+import { Link as RouterLink, useParams, useLocation } from 'react-router-dom';
 import Box from '@mui/material/Box';
 //import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
@@ -71,123 +66,107 @@ export default function SubjectExams({ subjectId }) {
 
 	return (
 		<Box>
-			{params.id === undefined ? (
-				<>
-					<Box sx={{ minHeight: 350 }}>
-						{/*<Box>
-						<Button
-							component={RouterLink}
-							to={`/entrenamiento/${subjectId}`}
-							variant="contained"
-						>
-							Entrenamiento
-						</Button>
-					</Box>*/}
-						<Box>
-							<Typography variant="h5" component="h1">
-								Parciales de{' '}
-								{subjects
-									.find((sub) => sub.value === subjectId)
-									.label.toLowerCase()}
-								.
-							</Typography>
-						</Box>
-						{errors.length !== 0 ? (
-							<Box>
-								<Alert severity="error">
-									<AlertTitle>No se pudo cargar la página.</AlertTitle>
-									{errors.map((err: string, i: number) => {
-										return (
-											<Typography key={i} variant="h6">
-												{err}
-											</Typography>
-										);
-									})}
-								</Alert>
-							</Box>
-						) : (
-							<>
-								{Object.keys(exams)
-									.reverse()
-									.map((year) => {
-										return (
-											<Box key={year}>
-												<p>{year}</p>
-												<Box>
-													{Object.keys(exams[year]).map((type) => {
-														const labelType = exam_types.find(
-															(t) => t.value === type,
-														);
-														return (
-															<Box key={type}>
-																<Box sx={{ ml: 2 }}>
-																	{Object.keys(exams[year][type]).map(
-																		(department) => {
-																			return (
-																				<Box key={department}>
-																					<p>
-																						<strong>
-																							{labelType
-																								? labelType.label
-																								: type}
-																							,
-																						</strong>{' '}
-																						{
-																							departments.find(
-																								(dep) =>
-																									dep.value === department,
-																							).label
-																						}
-																					</p>
-																					<Grid
-																						gap={1}
-																						container
-																						sx={{ ml: 2 }}
-																					>
-																						{Object.keys(
-																							exams[year][type][department],
-																						).map((examNumber) => {
-																							return (
-																								<Grid item key={examNumber}>
-																									<Link
-																										component={RouterLink}
-																										to={
-																											exams[year][type][
-																												department
-																											][examNumber]
-																										}
-																										sx={{ mr: 4 }}
-																									>
-																										TEMA {examNumber}{' '}
-																									</Link>
-																								</Grid>
-																							);
-																						})}
-																					</Grid>
-																				</Box>
-																			);
-																		},
-																	)}
-																</Box>
-															</Box>
-														);
-													})}
-												</Box>
-											</Box>
-										);
-									})}
-							</>
-						)}
-					</Box>
+			<Box sx={{ minHeight: 350 }}>
+				<Box>
+					<Button
+						component={RouterLink}
+						to={`/entrenamiento/${subjectId}`}
+						variant="contained"
+					>
+						Entrenamiento
+					</Button>
+				</Box>
+				<Box>
+					<Typography variant="h5" component="h1">
+						Parciales de{' '}
+						{subjects
+							.find((sub) => sub.value === subjectId)
+							.label.toLowerCase()}
+						.
+					</Typography>
+				</Box>
+				{errors.length !== 0 ? (
 					<Box>
-						<Faq />
+						<Alert severity="error">
+							<AlertTitle>No se pudo cargar la página.</AlertTitle>
+							{errors.map((err: string, i: number) => {
+								return (
+									<Typography key={i} variant="h6">
+										{err}
+									</Typography>
+								);
+							})}
+						</Alert>
 					</Box>
-				</>
-			) : (
-				<>
-					<Outlet />
-				</>
-			)}
+				) : (
+					<>
+						{Object.keys(exams)
+							.reverse()
+							.map((year) => {
+								return (
+									<Box key={year}>
+										<p>{year}</p>
+										<Box>
+											{Object.keys(exams[year]).map((type) => {
+												const labelType = exam_types.find(
+													(t) => t.value === type,
+												);
+												return (
+													<Box key={type}>
+														<Box sx={{ ml: 2 }}>
+															{Object.keys(exams[year][type]).map(
+																(department) => {
+																	return (
+																		<Box key={department}>
+																			<p>
+																				<strong>
+																					{labelType ? labelType.label : type},
+																				</strong>{' '}
+																				{
+																					departments.find(
+																						(dep) => dep.value === department,
+																					).label
+																				}
+																			</p>
+																			<Grid gap={1} container sx={{ ml: 2 }}>
+																				{Object.keys(
+																					exams[year][type][department],
+																				).map((examNumber) => {
+																					return (
+																						<Grid item key={examNumber}>
+																							<Link
+																								component={RouterLink}
+																								to={
+																									exams[year][type][department][
+																										examNumber
+																									]
+																								}
+																								sx={{ mr: 4 }}
+																							>
+																								TEMA {examNumber}{' '}
+																							</Link>
+																						</Grid>
+																					);
+																				})}
+																			</Grid>
+																		</Box>
+																	);
+																},
+															)}
+														</Box>
+													</Box>
+												);
+											})}
+										</Box>
+									</Box>
+								);
+							})}
+					</>
+				)}
+			</Box>
+			<Box>
+				<Faq />
+			</Box>
 		</Box>
 	);
 }

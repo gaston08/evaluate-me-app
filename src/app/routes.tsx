@@ -1,11 +1,6 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Error from 'app/pages/error';
-import {
-  View,
-  Subjects,
-  //Trainer,
-  //TrainerForm,
-} from 'app/pages/exam';
+import { View, Subjects, Trainer, TrainerForm } from 'app/pages/exam';
 import {
   SignUp,
   SignIn,
@@ -42,26 +37,22 @@ export const arrRoutes = [
       {
         path: '/tests/' + ipc_path,
         element: <IpcSeoWrapper subjectId={ipc_path} />,
-        children: [
-          {
-            path: '/tests/' + ipc_path + '/:id',
-            element: <View />,
-          },
-        ],
+      },
+      {
+        path: '/tests/' + ipc_path + '/:id',
+        element: <View />,
       },
       {
         path: '/tests/' + icse_path,
         element: <IcseSeoWrapper subjectId={icse_path} />,
-        children: [
-          {
-            path: '/tests/' + icse_path + '/:id',
-            element: <View />,
-          },
-        ],
+      },
+      {
+        path: '/tests/' + icse_path + '/:id',
+        element: <View />,
       },
     ],
   },
-  /*  {
+  {
     path: '/entrenamiento',
     element: <BlogLayout showSidebar={true} requireAuth={false} />,
     children: [
@@ -74,7 +65,7 @@ export const arrRoutes = [
         element: <Trainer />,
       },
     ],
-  },*/
+  },
   {
     path: '/profile',
     element: <BlogLayout showSidebar={false} requireAuth={true} />,
