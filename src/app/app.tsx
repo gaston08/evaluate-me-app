@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import axios from 'axios';
 import { router } from './routes';
@@ -21,6 +21,18 @@ TimeAgo.addLocale(es);
 
 import ThemeWrapper from 'app/components/ThemeWrapper';
 
+const mongo_id_regex = /^[a-fA-F0-9]{24}$/;
+
+function cleanExams() {
+  for (let i = 0, len = localStorage.length; i < len; ++i) {
+    const key = localStorage.key(i);
+    if (mongo_id_regex.test(key)) {
+      localStorage.removeItem(key);
+    }
+  }
+  localStorage.setItem('last-clean-exams', new Date());
+}
+
 export default function App() {
   const [selectedOptions, setSelectedOptions] = useState<Array<Array<string>>>(
     [],
@@ -39,6 +51,22 @@ export default function App() {
   if (access_token !== '') {
     axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
   }
+
+  useEffect(() => {
+    const last_clean_exams = localStorage.getItem('last-clean-exams');
+
+    if (last_clean_exams === null) {
+      cleanExams();
+    } else {
+      const last_clean = new Date(last_clean_exams);
+      const now = new Date();
+
+      // check for a week
+      if (now - last_clean >= 604800000) {
+        cleanExams();
+      }
+    }
+  }, []);
 
   return (
     <HelmetProvider>
