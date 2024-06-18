@@ -33,6 +33,7 @@ export default function App() {
 
   const [exam, setExam] = useState<contextExam>(defaultCurrentExam);
 
+  const [exams, setExams] = useState<contextExam>([]);
   const access_token: string = localStorage.getItem('access_token');
 
   if (access_token !== '') {
@@ -55,6 +56,8 @@ export default function App() {
               value={{
                 exam,
                 setExam,
+                exams,
+                setExams,
                 selectedOptions,
                 setSelectedOptions,
                 exercisesFeedback,

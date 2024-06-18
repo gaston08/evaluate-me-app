@@ -35,7 +35,9 @@ export interface exerciseFeedback {
 
 export interface contextExam {
 	exam: examType;
+	exams: Array<examType>;
 	setExam: React.Dispatch<React.SetStateAction<examType>>;
+	setExam: React.Dispatch<React.SetStateAction<Array<examType>>>;
 	selectedOptions: Array<Array<Array<string>>>;
 	setSelectedOptions: React.Dispatch<
 		React.SetStateAction<Array<Array<Array<string>>>>

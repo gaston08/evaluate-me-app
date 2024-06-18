@@ -4,6 +4,8 @@ import { contextExam } from 'app/shared/interfaces/exam';
 export const ExamContext = createContext<contextExam>({
 	exam: {},
 	setExam: () => {},
+	exams: [],
+	setExams: [],
 	selectedOptions: [],
 	setSelectedOptions: () => {},
 	exercisesFeedback: [],

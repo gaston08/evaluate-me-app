@@ -37,6 +37,12 @@ export interface apiGetResponse {
 	errors: Array<expressError> | null;
 }
 
+export interface apiPostGetAllExams extends apiPostResponse {
+	data: {
+		exams: Array<examType>;
+	};
+}
+
 export interface apiGetAllSubjects extends apiGetResponse {
 	data: {
 		exams: Array<examType>;
