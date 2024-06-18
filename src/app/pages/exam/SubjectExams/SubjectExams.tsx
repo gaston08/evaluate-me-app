@@ -40,6 +40,11 @@ export default function SubjectExams({ subjectId }) {
 			if (result.ok) {
 				setExams(result.data.exams);
 				setLoading(false);
+				localStorage.setItem(`${subjectId}-full-exams-list-date`, new Date());
+				localStorage.setItem(
+					`${subjectId}-full-exams-list`,
+					JSON.stringify(result.data.exams),
+				);
 			} else {
 				if (result.errors) {
 					const errorsArr: Array<string> = result.errors.map((err) => {
@@ -54,7 +59,20 @@ export default function SubjectExams({ subjectId }) {
 			}
 		}
 		if (params.id === undefined) {
-			fetchData().then().catch(console.error);
+			const stored_exams_date = localStorage.getItem(
+				`${subjectId}-full-exams-list-date`,
+			);
+			if (stored_exams_date === null) {
+				fetchData().then().catch(console.error);
+			} else {
+				const date = new Date(stored_exams_date);
+				const now = new Date();
+
+				// check for a day
+				if (now - date >= 86400000) {
+					fetchData().then().catch(console.error);
+				}
+			}
 		}
 	}, [subjectId, location.key]);
 
@@ -62,7 +80,11 @@ export default function SubjectExams({ subjectId }) {
 		return <Typography variant="h3">Cargando...</Typography>;
 	}
 
-	console.log(subjectId);
+	const refreshExams = () => {
+		localStorage.removeItem(`${subjectId}-full-exams-list-date`);
+		localStorage.removeItem(`${subjectId}-full-exams-list`);
+		window.location.reload();
+	};
 
 	return (
 		<Box>
@@ -84,6 +106,11 @@ export default function SubjectExams({ subjectId }) {
 							.label.toLowerCase()}
 						.
 					</Typography>
+				</Box>
+				<Box>
+					<Button variant="contained" onClick={refreshExams}>
+						Actualizar exámenes
+					</Button>
 				</Box>
 				{errors.length !== 0 ? (
 					<Box>

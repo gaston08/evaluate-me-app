@@ -48,7 +48,7 @@ export default function Trainer() {
 	const [exercises, setExercises] = useState<Array<exerciseType>>([]);
 	const [currentIdx, setCurrentIdx] = useState<number>(() => {
 		const prev = localStorage.getItem(
-			params.department + params.type + params.subject,
+			`${params.department}-${params.type}-${params.subject}`,
 		);
 
 		if (prev !== null) {
@@ -97,7 +97,7 @@ export default function Trainer() {
 	useEffect(() => {
 		const current: TrainerStateInterface = { currentIdx };
 		localStorage.setItem(
-			params.department + params.type + params.subject,
+			`${params.department}-${params.type}-${params.subject}`,
 			JSON.stringify(current),
 		);
 	}, [currentIdx]);
