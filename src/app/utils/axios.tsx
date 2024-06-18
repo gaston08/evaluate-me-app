@@ -27,6 +27,17 @@ interface axiosErrorInterface {
 	message: string;
 }
 
+let API_ROUTE: string;
+
+if (import.meta.env.MODE === 'development') {
+	console.log('working on development mode');
+	API_ROUTE = import.meta.env.VITE_API_ROUTE_DEV as string;
+} else {
+	console.log('working on production mode');
+	API_ROUTE = import.meta.env.VITE_API_ROUTE as string;
+}
+console.log(API_ROUTE);
+
 export const axiosPost = async (
 	route: string,
 	data: object | null,
@@ -34,7 +45,7 @@ export const axiosPost = async (
 	const response: apiPostResponse = {};
 	try {
 		const result: axiosPostInterface = await axios.post(
-			`${import.meta.env.VITE_API_ROUTE}/${route}`,
+			`${API_ROUTE}/${route}`,
 			data,
 		);
 		response.ok = true;
@@ -67,9 +78,7 @@ export const axiosPost = async (
 export const axiosGet = async (route: string): Promise<apiGetResponse> => {
 	const response: apiGetResponse = {};
 	try {
-		const result: axiosGetInterface = await axios.get(
-			`${import.meta.env.VITE_API_ROUTE}/${route}`,
-		);
+		const result: axiosGetInterface = await axios.get(`${API_ROUTE}/${route}`);
 		response.ok = true;
 		response.data = result.data;
 	} catch (error) {
