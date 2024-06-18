@@ -71,6 +71,12 @@ export default function SubjectExams({ subjectId }) {
 				// check for a day
 				if (now - date >= 86400000) {
 					fetchData().then().catch(console.error);
+				} else {
+					setExams(
+						JSON.parse(
+							localStorage.getItem(`${subjectId}-full-exams-list`),
+						) as exam,
+					);
 				}
 			}
 		}
