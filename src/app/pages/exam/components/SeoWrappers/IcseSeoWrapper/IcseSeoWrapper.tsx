@@ -35,7 +35,7 @@ export default function IcseSeoWrapper({ subjectId }: IcseSeoWrapperProps) {
 					content="https://ubaparciales.com/opengraph/imgs/ipc-meta.jpg"
 				/>
 			</Helmet>
-			<SubjectExams subjectId={subjectId} />;
+			<SubjectExams subjectId={subjectId} />
 		</Fragment>
 	);
 }
