@@ -13,6 +13,7 @@ import TimeAgo from 'javascript-time-ago';
 import es from 'javascript-time-ago/locale/es';
 import { HelmetProvider } from 'react-helmet-async';
 import ReactGA from 'react-ga4';
+import { mongo_id_regex } from 'app/utils/common';
 
 ReactGA.initialize('G-R63LDGFFTW');
 
@@ -20,8 +21,6 @@ TimeAgo.addDefaultLocale(es);
 TimeAgo.addLocale(es);
 
 import ThemeWrapper from 'app/components/ThemeWrapper';
-
-const mongo_id_regex = /^[a-fA-F0-9]{24}$/;
 
 function cleanExams() {
   for (let i = 0, len = localStorage.length; i < len; ++i) {

@@ -5,13 +5,16 @@ import ExerciseMin from './components/ExerciseMin';
 import { axiosGet, axiosPost } from 'app/utils/axios';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import { exerciseType } from 'app/shared/interfaces/exam';
+import {
+	exerciseType,
+	examType as examInterface,
+} from 'app/shared/interfaces/exam';
 import {
 	apiPostGetAllExams,
 	apiGetAllSubjects,
 } from 'app/shared/interfaces/api-response';
 
-interface exam {
+interface exams_interface {
 	[key: string]: {
 		[key: string]: {
 			[key: string]: {
@@ -25,17 +28,36 @@ async function getExams(
 	array_id: Array<string>,
 	setExercises: React.Dispatch<React.SetStateAction<Array<exerciseType>>>,
 ) {
-	const result: apiPostGetAllExams = await axiosPost('api/exam/get-all', {
-		ids: array_id,
-	});
-	if (result.ok) {
-		const exercises = [];
-		result.data.exams.forEach((exam) => {
+	const exercises = [];
+
+	for (let i = 0, len = localStorage.length; i < len; ++i) {
+		const idx = array_id.indexOf(localStorage.key(i));
+		if (idx > -1) {
+			const exam = JSON.parse(
+				localStorage.getItem(localStorage.key(i)),
+			) as examInterface;
 			exercises.push(...exam.exercises);
+			array_id.splice(idx, 1);
+		}
+	}
+
+	if (array_id.length !== 0) {
+		const result: apiPostGetAllExams = await axiosPost('api/exam/get-all', {
+			ids: array_id,
 		});
-		setExercises(exercises);
+		if (result.ok) {
+			result.data.exams.forEach((exam) => {
+				localStorage.setItem(exam._id, JSON.stringify(exam));
+				exercises.push(...exam.exercises);
+			});
+			setExercises(exercises);
+		} else {
+			console.log(result);
+		}
 	} else {
-		console.log(result);
+		console.log(exercises.length);
+		console.log('no exams ');
+		setExercises(exercises);
 	}
 }
 
@@ -66,11 +88,11 @@ export default function Trainer() {
 				`api/exam/get:${params.subject}`,
 			);
 			if (result.ok) {
-				const exams: exam = result.data.exams;
+				const exams: exams_interface = result.data.exams;
 				const years = Object.keys(result.data.exams) as Array<number>;
 				const last_year: number = years[years.length - 1];
 				if (result.data.exams[last_year]) {
-					const exams_year: exam = exams[last_year];
+					const exams_year: exams_interface = exams[last_year];
 					if (exams_year[params.type]) {
 						// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 						const exams_type = exams_year[params.type];
