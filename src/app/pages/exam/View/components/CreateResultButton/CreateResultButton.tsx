@@ -1,11 +1,7 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import {
-	apiPostResponse,
-	expressError,
-} from 'app/shared/interfaces/api-response';
 import { contextExam, exerciseFeedback } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import { axiosPost } from 'app/utils/axios';
@@ -39,11 +35,10 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 	} = props;
 	const { selectedOptions, exam, setExercisesFeedback, exercisesFeedback } =
 		useContext<contextExam>(ExamContext);
-	const [error, setError] = useState<string>('');
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
 	const { auth } = useContext<contextAuth>(AuthContext);
 
-	const sendResult = async (): void => {
+	const sendResult = (): void => {
 		setLoading(true);
 		let sumScore: number = 0;
 
@@ -126,72 +121,38 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 				},
 			};
 
-			if (auth.isLoggedIn) {
-				const result: apiPostResponse = await axiosPost(
-					'api/user/update/profile',
-					data,
-				);
-				if (result.ok) {
-					setExercisesFeedback(exArr);
-					setExamsUi((prev) => {
-						return {
-							...prev,
-							isPlayView: false,
-						};
-					});
-					setScore(Number(score));
-					setDate(new Date().toString());
-					localStorage.setItem(
-						exam._id,
-						JSON.stringify({
-							exercisesFeedback: exArr,
-							exam,
-							examsUi: {
-								isPlayView: false,
-							},
-							date: new Date().toString(),
-							selectedOptions,
-							score,
-						}),
-					);
-					setLoading(false);
-				} else {
-					setError(result.error);
-					if (result.errors) {
-						result.errors.forEach((err: expressError): void => {
-							console.log(err.path, err.msg);
-						});
-					}
+			localStorage.setItem(
+				`${exam._id}-results`,
+				JSON.stringify({
+					exercisesFeedback: exArr.map((ex) =>
+						ex.error !== '' ? false : true,
+					),
+					date: new Date().toString(),
+					selectedOptions,
+					score,
+				}),
+			);
 
-					setLoading(false);
-				}
-			} else {
-				setExercisesFeedback(exArr);
-				setExamsUi((prev) => {
-					return {
-						...prev,
-						isPlayView: false,
-					};
-				});
-				setScore(Number(score));
-				setDate(new Date().toString());
-				localStorage.setItem(
-					exam._id,
-					JSON.stringify({
-						exercisesFeedback: exArr,
-						exam,
-						examsUi: {
-							isPlayView: false,
-						},
-						date: new Date().toString(),
-						selectedOptions,
-						score,
-					}),
-				);
-				setTimeout(() => {
-					setLoading(false);
-				}, 1);
+			setExercisesFeedback(exArr);
+			setExamsUi((prev) => {
+				return {
+					...prev,
+					isPlayView: false,
+				};
+			});
+			setScore(Number(score));
+			setDate(new Date().toString());
+
+			if (auth.isLoggedIn) {
+				axiosPost('api/user/update/profile', data)
+					.then(() => {
+						console.log('updated');
+					})
+					.catch(console.error);
 			}
+			setTimeout(() => {
+				setLoading(false);
+			}, 1);
 		}
 	};
 
@@ -212,13 +173,6 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 						<Button variant="contained" color="primary" onClick={sendResult}>
 							finalizar examen
 						</Button>
-						<>
-							{error !== '' ? (
-								<Box sx={{ mt: 4 }}>
-									<Typography color="error">{error}</Typography>
-								</Box>
-							) : null}
-						</>
 					</>
 				)}
 			</>

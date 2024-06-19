@@ -13,13 +13,23 @@ import CreateResultButton from './components/CreateResultButton';
 import ExamResult from './components/ExamResult';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
-import { contextExam, examType, examData } from 'app/shared/interfaces/exam';
+import {
+	contextExam,
+	examType as examInterface,
+	examData,
+} from 'app/shared/interfaces/exam';
 import { exam_types, departments } from 'app/shared/exams/exam';
 import { subjects } from 'app/shared/exams/ubaxxi';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
 import Loader from 'app/components/Loader';
 import { setUpExam } from './utils';
+
+interface examInfoInterface {
+	subject: string;
+	examType: string;
+	department: string;
+}
 
 export default function View() {
 	const params = useParams();
@@ -28,9 +38,11 @@ export default function View() {
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const { exam, setExam, setSelectedOptions, setExercisesFeedback } =
 		useContext<contextExam>(ExamContext);
-	const [subject, setSubject] = useState<string>('');
-	const [examType, setExamType] = useState<string>('');
-	const [department, setDepartment] = useState<string>('');
+	const [examInfo, setExamInfo] = useState<examInfoInterface>({
+		subject: '',
+		examType: '',
+		department: '',
+	});
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
 	const [score, setScore] = useState<number>(0);
 	const [date, setDate] = useState<string>('');
@@ -50,16 +62,22 @@ export default function View() {
 				`api/exam/find:${params.id}`,
 			);
 			if (result.ok) {
-				const ex: examType = result.data.exam;
-				setSubject(() => {
-					return subjects.find((sub) => sub.value === ex.subject).label;
-				});
-				setExamType(() => {
-					return exam_types.find((typ) => typ.value === ex.type).label;
-				});
-
-				setDepartment(() => {
-					return departments.find((dep) => dep.value === ex.department).label;
+				const ex: examInterface = result.data.exam;
+				setExamInfo(() => {
+					const subject: string = subjects.find(
+						(sub) => sub.value === ex.subject,
+					).label;
+					const examType: string = exam_types.find(
+						(typ) => typ.value === ex.type,
+					).label;
+					const department: string = departments.find(
+						(dep) => dep.value === ex.department,
+					).label;
+					return {
+						subject,
+						examType,
+						department,
+					};
 				});
 
 				setUpExam(
@@ -70,8 +88,12 @@ export default function View() {
 				);
 
 				setExam(result.data.exam);
+				localStorage.setItem(
+					result.data.exam._id,
+					JSON.stringify(result.data.exam),
+				);
 
-				setLoading(false);
+				return result.data.exam;
 			} else {
 				if (result.errors) {
 					const errorsArr: Array<string> = result.errors.map((err) => {
@@ -86,30 +108,94 @@ export default function View() {
 			}
 		}
 
-		const examData = JSON.parse(
+		const exam_data = JSON.parse(
 			localStorage.getItem(params.id),
-		) as examData | null;
+		) as examInterface | null;
 
-		if (examData === null) {
-			fetchData().then().catch(console.error);
+		if (exam_data === null) {
+			fetchData()
+				.then((exam_data) => {
+					const exam_result = JSON.parse(
+						localStorage.getItem(`${params.id}-results`),
+					) as examData | null;
+					if (exam_result !== null) {
+						setExamsUi({ isPlayView: false });
+						setExercisesFeedback(() => {
+							return exam_result.exercisesFeedback.map((ex, i) => {
+								if (ex) {
+									return {
+										success: exam_data.exercises[i].argument,
+										error: '',
+										html: true,
+									};
+								} else {
+									return {
+										success: '',
+										error: exam_data.exercises[i].argument,
+										html: true,
+									};
+								}
+							});
+						});
+						setDate(exam_result.date);
+						setSelectedOptions(exam_result.selectedOptions);
+						setScore(Number(exam_result.score));
+					}
+					setLoading(false);
+				})
+				.catch(console.error);
 		} else {
-			const ex: examType = examData.exam;
-			setSubject(() => {
-				console.log(ex.subject);
-				return subjects.find((sub) => sub.value === ex.subject).label;
+			setExamInfo(() => {
+				const subject: string = subjects.find(
+					(sub) => sub.value === exam_data.subject,
+				).label;
+				const examType: string = exam_types.find(
+					(typ) => typ.value === exam_data.type,
+				).label;
+				const department: string = departments.find(
+					(dep) => dep.value === exam_data.department,
+				).label;
+				return {
+					subject,
+					examType,
+					department,
+				};
 			});
-			setExamType(() => {
-				return exam_types.find((typ) => typ.value === ex.type).label;
-			});
-			setDepartment(() => {
-				return departments.find((dep) => dep.value === ex.department).label;
-			});
-			setExercisesFeedback(examData.exercisesFeedback);
-			setExamsUi(examData.examsUi);
-			setExam(examData.exam);
-			setDate(examData.date);
-			setSelectedOptions(examData.selectedOptions);
-			setScore(Number(examData.score));
+			setExam(exam_data);
+
+			const exam_result = JSON.parse(
+				localStorage.getItem(`${params.id}-results`),
+			) as examData | null;
+			if (exam_result === null) {
+				setUpExam(
+					exam_data.exercises,
+					setSelectedOptions,
+					setExercisesFeedback,
+					setExamsUi,
+				);
+			} else {
+				setExamsUi({ isPlayView: false });
+				setExercisesFeedback(() => {
+					return exam_result.exercisesFeedback.map((ex, i) => {
+						if (ex) {
+							return {
+								success: exam_data.exercises[i].argument,
+								error: '',
+								html: true,
+							};
+						} else {
+							return {
+								success: '',
+								error: exam_data.exercises[i].argument,
+								html: true,
+							};
+						}
+					});
+				});
+				setDate(exam_result.date);
+				setSelectedOptions(exam_result.selectedOptions);
+				setScore(Number(exam_result.score));
+			}
 			setLoading(false);
 		}
 	}, [params.id]);
@@ -169,10 +255,11 @@ export default function View() {
 										color: theme.palette.text.secondary,
 									}}
 								>
-									{subject}, {exam.year}
+									{examInfo.subject}, {exam.year}
 								</Typography>
 								<Typography variant="h5">
-									{examType}, TEMA {exam.exam_number}, {department}
+									{examInfo.examType}, TEMA {exam.exam_number},{' '}
+									{examInfo.department}
 								</Typography>
 							</Box>
 							<>

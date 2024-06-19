@@ -50,7 +50,7 @@ export interface contextExam {
 
 export interface examData {
 	exam: examType;
-	exercisesFeedback: Array<exerciseFeedback>;
+	exercisesFeedback: Array<boolean>;
 	selectedOptions: Array<Array<Array<string>>>;
 	score: number;
 	date: string;
