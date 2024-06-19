@@ -2,9 +2,11 @@ import * as React from 'react';
 import { useState, useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
 import ExerciseMin from './components/ExerciseMin';
+import { Link as RouterLink } from 'react-router-dom';
 import { axiosGet, axiosPost } from 'app/utils/axios';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
 import {
 	exerciseType,
 	examType as examInterface,
@@ -13,6 +15,8 @@ import {
 	apiPostGetAllExams,
 	apiGetAllSubjects,
 } from 'app/shared/interfaces/api-response';
+import { exam_types, departments } from 'app/shared/exams/exam';
+import { subjects } from 'app/shared/exams/ubaxxi';
 
 interface exams_interface {
 	[key: string]: {
@@ -65,6 +69,12 @@ interface TrainerStateInterface {
 	currentIdx: number;
 }
 
+interface examInfoInterface {
+	subject: string;
+	examType: string;
+	department: string;
+}
+
 export default function Trainer() {
 	const params = useParams();
 	const [exercises, setExercises] = useState<Array<exerciseType>>([]);
@@ -81,6 +91,22 @@ export default function Trainer() {
 		}
 	});
 	const [completed, setCompleted] = useState<boolean>(false);
+	const [examInfo] = useState<examInfoInterface>(() => {
+		const subject: string = subjects.find(
+			(sub) => sub.value === params.subject,
+		).label;
+		const examType: string = exam_types.find(
+			(typ) => typ.value === params.type,
+		).label;
+		const department: string = departments.find(
+			(dep) => dep.value === params.department,
+		).label;
+		return {
+			subject,
+			examType,
+			department,
+		};
+	});
 
 	useEffect(() => {
 		async function fetchData() {
@@ -139,7 +165,22 @@ export default function Trainer() {
 	};
 
 	if (exercises.length === 0) {
-		return 'No exercises';
+		return (
+			<Box>
+				<Alert severity="warning">
+					No se encontraron exámenes {examInfo.examType} de {examInfo.subject},
+					Cátedra {examInfo.department}
+				</Alert>
+				<Button
+					variant="contained"
+					component={RouterLink}
+					to={`/entrenamiento/${params.subject}`}
+					sx={{ mt: 4, ml: 2 }}
+				>
+					Volver
+				</Button>
+			</Box>
+		);
 	}
 
 	return (
