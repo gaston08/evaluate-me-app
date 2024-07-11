@@ -61,11 +61,11 @@ export default function Option(props: OptionProps) {
 
 	if (isPlayView) {
 		if (isSelected) {
-			hoverColor = theme.custom.background.main;
-			bgColor = theme.custom.background.main;
+			hoverColor = '#90caf9';
+			bgColor = '#90caf9';
 		} else {
 			bgColor = 'transparent';
-			hoverColor = theme.custom.background.light;
+			hoverColor = '#e3f2fd';
 		}
 	} else {
 		if (isSelected) {
