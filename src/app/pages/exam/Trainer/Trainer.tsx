@@ -15,8 +15,8 @@ import {
 	apiPostGetAllExams,
 	apiGetAllSubjects,
 } from 'app/shared/interfaces/api-response';
-import { exam_types, departments } from 'app/shared/exams/exam';
-import { subjects } from 'app/shared/exams/ubaxxi';
+import { exam_types } from 'app/shared/exams/exam';
+import { subjects, selectInterface } from 'app/shared/exams/ubaxxi';
 
 interface exams_interface {
 	[key: string]: {
@@ -92,17 +92,17 @@ export default function Trainer() {
 	});
 	const [completed, setCompleted] = useState<boolean>(false);
 	const [examInfo] = useState<examInfoInterface>(() => {
-		const subject: string = subjects.find(
+		const subject: selectInterface = subjects.find(
 			(sub) => sub.value === params.subject,
-		).label;
+		);
 		const examType: string = exam_types.find(
 			(typ) => typ.value === params.type,
 		).label;
-		const department: string = departments.find(
+		const department: string = subject.departments.find(
 			(dep) => dep.value === params.department,
 		).label;
 		return {
-			subject,
+			subject: subject.label,
 			examType,
 			department,
 		};

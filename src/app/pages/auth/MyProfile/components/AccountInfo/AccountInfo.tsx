@@ -5,7 +5,6 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
 import Avatar from 'app/components/Avatar';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
@@ -24,9 +23,6 @@ export default function AccountInfo() {
           <div>
             <Avatar firstName={firstName} lastName={lastName} />
           </div>
-          <Stack spacing={1} sx={{ textAlign: 'center' }}>
-            <Typography variant="h5">{name}</Typography>
-          </Stack>
         </Stack>
       </CardContent>
       <Divider />

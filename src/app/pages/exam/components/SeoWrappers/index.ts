@@ -1,2 +1,5 @@
-export { default as IpcSeoWrapper } from './IpcSeoWrapper';
-export { default as IcseSeoWrapper } from './IcseSeoWrapper';
+export { default as IpcSeoWrapper } from './Ipc';
+export { default as IcseSeoWrapper } from './Icse';
+export { default as DDHHSeoWrapper } from './DDHH';
+export { default as DerechoPrivado } from './DDHH';
+export { default as TrabajoYSociedad } from './TrabajoYSociedad';

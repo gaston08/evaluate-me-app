@@ -7,13 +7,13 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { exam_types, departments, SUBJECTS_ENUM } from 'app/shared/exams/exam';
+import { exam_types } from 'app/shared/exams/exam';
 
 import { subjects } from 'app/shared/exams/ubaxxi';
 
 export default function TrainerForm() {
 	const params = useParams();
-	const [subject, setSubject] = useState<SUBJECTS_ENUM>(params.subject);
+	const [subject, setSubject] = useState<string>(params.subject);
 	const [examType, setExamType] = useState<string>('');
 	const [department, setDepartment] = useState<string>('');
 
@@ -80,13 +80,15 @@ export default function TrainerForm() {
 								setDepartment(e.target.value);
 							}}
 						>
-							{departments.map((dept) => {
-								return (
-									<MenuItem key={dept.value} value={dept.value}>
-										{dept.label}
-									</MenuItem>
-								);
-							})}
+							{subjects
+								.find((sub) => sub.value === subject)
+								.departments.map((dept) => {
+									return (
+										<MenuItem key={dept.value} value={dept.value}>
+											{dept.label}
+										</MenuItem>
+									);
+								})}
 						</Select>
 					</FormControl>
 				</Grid>

@@ -15,9 +15,12 @@ export default function IpcSeoWrapper({ subjectId }: IpcSeoWrapperProps) {
 				</title>
 				<meta
 					name="description"
-					content="Modelos de examenes de IPC UBA XXI, introduccion al pensamiento cientifico uba xxi"
+					content="Modelos de examenes de IPC UBA XXI, introduccion al pensamiento cientifico uba xxi, parciales de ipc, finales de ipc"
 				/>
-				<meta name="keywords" content="ipc, uba xxi, cbc" />
+				<meta
+					name="keywords"
+					content="ipc,parciales,finales,examenes,uba,xxi,cbc,"
+				/>
 				{/* social media */}
 				<meta
 					property="og:url"

@@ -18,8 +18,8 @@ import {
 	examType as examInterface,
 	examData,
 } from 'app/shared/interfaces/exam';
-import { exam_types, departments } from 'app/shared/exams/exam';
-import { subjects } from 'app/shared/exams/ubaxxi';
+import { exam_types } from 'app/shared/exams/exam';
+import { subjects, selectInterface } from 'app/shared/exams/ubaxxi';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
 import Loader from 'app/components/Loader';
@@ -64,17 +64,17 @@ export default function View() {
 			if (result.ok) {
 				const ex: examInterface = result.data.exam;
 				setExamInfo(() => {
-					const subject: string = subjects.find(
+					const subject: selectInterface = subjects.find(
 						(sub) => sub.value === ex.subject,
-					).label;
+					);
 					const examType: string = exam_types.find(
 						(typ) => typ.value === ex.type,
 					).label;
-					const department: string = departments.find(
+					const department: string = subject.departments.find(
 						(dep) => dep.value === ex.department,
 					).label;
 					return {
-						subject,
+						subject: subject.label,
 						examType,
 						department,
 					};
@@ -121,7 +121,7 @@ export default function View() {
 					if (exam_result !== null) {
 						setExamsUi({ isPlayView: false });
 						setExercisesFeedback(() => {
-							return exam_result.exercisesFeedback.map((ex, i) => {
+							return exam_result.exercisesFeedback.map((ex: boolean, i) => {
 								if (ex) {
 									return {
 										success: exam_data.exercises[i].argument,
@@ -146,17 +146,17 @@ export default function View() {
 				.catch(console.error);
 		} else {
 			setExamInfo(() => {
-				const subject: string = subjects.find(
+				const subject: selectInterface = subjects.find(
 					(sub) => sub.value === exam_data.subject,
-				).label;
+				);
 				const examType: string = exam_types.find(
 					(typ) => typ.value === exam_data.type,
 				).label;
-				const department: string = departments.find(
+				const department: string = subject.departments.find(
 					(dep) => dep.value === exam_data.department,
 				).label;
 				return {
-					subject,
+					subject: subject.label,
 					examType,
 					department,
 				};

@@ -6,7 +6,7 @@ import { Fragment } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import AccountDetailsForm from './components/AccountDetailsForm';
-//import AccountInfo from './components/AccountInfo';
+import AccountInfo from './components/AccountInfo';
 
 export default function MyProfile() {
 	return (
@@ -16,12 +16,9 @@ export default function MyProfile() {
 					<Typography variant="h4">Perfil</Typography>
 				</div>
 				<Grid container spacing={3}>
-					{/*
-				<Grid lg={4} md={6} xs={12}>
-					<AccountInfo />
-				</Grid>
-
-				*/}
+					<Grid lg={4} md={6} xs={12}>
+						<AccountInfo />
+					</Grid>
 					<Grid lg={8} md={6} xs={12}>
 						<AccountDetailsForm />
 					</Grid>
