@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
+import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import { contextExam } from 'app/shared/interfaces/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
@@ -33,7 +33,10 @@ export default function Option(props: OptionProps) {
 
 	const selectOption = () => {
 		if (isPlayView) {
+			let aux = true;
 			setSelectedOptions((prev) => {
+				if (!aux) return prev;
+				aux = false;
 				const oldArr = [...prev];
 				if (oldArr[exerciseIdx][optionsIdx].includes(id)) {
 					const idx = oldArr[exerciseIdx][optionsIdx].indexOf(id);
@@ -87,7 +90,7 @@ export default function Option(props: OptionProps) {
 	return (
 		<>
 			{isPlayView ? (
-				<ListItemButton
+				<Box
 					sx={{
 						'&:hover, &.Mui-selected, &.Mui-selected:hover': {
 							backgroundColor: hoverColor,
@@ -96,13 +99,15 @@ export default function Option(props: OptionProps) {
 						display: 'flex',
 						justifyContent: 'space-between',
 						cursor: 'pointer',
+						p: 2,
+						borderRadius: 1,
 					}}
 					onClick={selectOption}
 				>
 					<div dangerouslySetInnerHTML={{ __html: title }}></div>
-				</ListItemButton>
+				</Box>
 			) : (
-				<ListItemButton
+				<Box
 					sx={{
 						'&:hover, &.Mui-selected, &.Mui-selected:hover': {
 							backgroundColor: hoverColor,
@@ -112,11 +117,13 @@ export default function Option(props: OptionProps) {
 						display: 'flex',
 						justifyContent: 'space-between',
 						cursor: 'auto',
+						p: 2,
+						borderRadius: 1,
 					}}
 					onClick={selectOption}
 				>
 					<div dangerouslySetInnerHTML={{ __html: title }}></div>
-				</ListItemButton>
+				</Box>
 			)}
 		</>
 	);

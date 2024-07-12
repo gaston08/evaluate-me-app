@@ -36,7 +36,7 @@ export default function Exercise(props: ExerciseProps) {
 	const { selectedOptions } = useContext<contextExam>(ExamContext);
 
 	return (
-		<Box>
+		<Box className="exercise-exam">
 			<>
 				{Array.from(Array(exercise.question.length), (e, i: number) => {
 					return (
