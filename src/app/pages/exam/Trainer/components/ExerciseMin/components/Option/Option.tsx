@@ -1,7 +1,9 @@
 import * as React from 'react';
 import { useState, Fragment } from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
+import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 interface OptionProps {
 	title: string;
@@ -10,10 +12,12 @@ interface OptionProps {
 	canSelect: boolean;
 	id: string;
 	arrSelected: Array<string>;
+	feedback: string;
 }
 
 export default function Option(props: OptionProps) {
-	const { id, title, isCorrect, onSelect, arrSelected, canSelect } = props;
+	const { id, title, feedback, isCorrect, onSelect, arrSelected, canSelect } =
+		props;
 	const [selected, setSelected] = useState<boolean>(false);
 	const theme = useTheme();
 
@@ -46,7 +50,7 @@ export default function Option(props: OptionProps) {
 
 	return (
 		<Fragment>
-			<ListItemButton
+			<Box
 				sx={{
 					'&:hover, &.Mui-selected, &.Mui-selected:hover': {
 						backgroundColor: hoverColor,
@@ -56,11 +60,27 @@ export default function Option(props: OptionProps) {
 					display: 'flex',
 					justifyContent: 'space-between',
 					cursor: 'auto',
+					p: 2,
+					borderRadius: 1,
 				}}
 				onClick={selectOption}
 			>
 				<div dangerouslySetInnerHTML={{ __html: title }}></div>
-			</ListItemButton>
+			</Box>
+			<Box>
+				{selected && !isCorrect ? (
+					<Alert severity="error">
+						<AlertTitle>Incorrecto!</AlertTitle>
+						{feedback !== '' ? (
+							<div
+								dangerouslySetInnerHTML={{
+									__html: title,
+								}}
+							></div>
+						) : null}
+					</Alert>
+				) : null}
+			</Box>
 		</Fragment>
 	);
 }

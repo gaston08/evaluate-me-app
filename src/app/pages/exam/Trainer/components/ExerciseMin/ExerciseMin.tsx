@@ -40,7 +40,7 @@ export default function Exercise(props: ExerciseProps) {
 	}, [completed]);
 
 	return (
-		<Box>
+		<Box className="exercise-exam">
 			<>
 				{Array.from(Array(exercise.question.length), (e, i: number) => {
 					return (
@@ -63,6 +63,7 @@ export default function Exercise(props: ExerciseProps) {
 											key={option.id}
 											id={option.id}
 											title={option.title}
+											feedback={option.feedback}
 											onSelect={setSelected}
 											arrSelected={selected}
 											isCorrect={exercise.correctOptions.some((b) =>
