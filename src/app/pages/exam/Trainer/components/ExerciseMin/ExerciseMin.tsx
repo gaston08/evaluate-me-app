@@ -36,6 +36,7 @@ export default function Exercise(props: ExerciseProps) {
 			document.getElementById(exercise.id).scrollIntoView({
 				behavior: 'smooth',
 			});
+			printSentence('argument-container', exercise.argument, 10);
 		}
 	}, [completed]);
 
@@ -81,13 +82,9 @@ export default function Exercise(props: ExerciseProps) {
 			<>
 				<Box sx={{ pl: 2, mt: 2 }}>
 					{completed ? (
-						<Alert severity="success" id={exercise.id}>
+						<Alert sx={{ minHeight: 250 }} severity="success" id={exercise.id}>
 							<AlertTitle>Correcto!</AlertTitle>
-							<div
-								dangerouslySetInnerHTML={{
-									__html: exercise.argument,
-								}}
-							></div>
+							<div id="argument-container"></div>
 						</Alert>
 					) : null}
 				</Box>
@@ -95,3 +92,22 @@ export default function Exercise(props: ExerciseProps) {
 		</Box>
 	);
 }
+
+const printSentence = (id: string, sentence: string, speed: number = 10) => {
+	let index: number = 0;
+	const element: HTMLDivElement = document.getElementById(id);
+
+	const timer = setInterval(function () {
+		const char: string = sentence[index];
+
+		if (char === '<') {
+			index = sentence.indexOf('>', index); // skip to greater-than
+		}
+
+		element.innerHTML = sentence.slice(0, index);
+
+		if (++index === sentence.length) {
+			clearInterval(timer);
+		}
+	}, speed);
+};
