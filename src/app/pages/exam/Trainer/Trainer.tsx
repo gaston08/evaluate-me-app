@@ -59,8 +59,6 @@ async function getExams(
 			console.log(result);
 		}
 	} else {
-		console.log(exercises.length);
-		console.log('no exams ');
 		setExercises(exercises);
 	}
 }

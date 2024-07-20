@@ -7,12 +7,20 @@ export interface optionType {
 	feedback: string;
 }
 
+export interface argumentType {
+	feed: string;
+	likes: number;
+	dislikes: number;
+	text: string;
+	icon: HTMLImageElement;
+}
+
 export interface exerciseType {
 	id: string;
 	question: Array<string>;
 	options: Array<Array<optionType>>;
 	correctOptions: Array<Array<string>>;
-	argument: string;
+	argument: Array<argumentType>;
 	pts: string;
 }
 
