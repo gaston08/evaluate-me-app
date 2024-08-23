@@ -24,15 +24,15 @@ export default function SignUp() {
 				email: '',
 				password: '',
 				confirmPassword: '',
-				firstName: '',
+				fullName: '',
 			}}
 			validate={(values) => {
 				const errors = {};
 
-				if (!values.firstName.trim()) {
-					errors.firstName = 'El campo es obligatorio';
-				} else if (values.firstName.trim().length < 8) {
-					errors.firstName = 'El nombre debe poseer al menos 8 caracteres';
+				if (!values.fullName.trim()) {
+					errors.fullName = 'El campo es obligatorio';
+				} else if (values.fullName.trim().length < 8) {
+					errors.fullName = 'El nombre debe poseer al menos 8 caracteres';
 				}
 
 				if (!values.email.trim()) {
@@ -63,7 +63,7 @@ export default function SignUp() {
 					email: values.email.trim(),
 					password: values.password,
 					confirmPassword: values.confirmPassword,
-					firstName: values.firstName.trim(),
+					fullName: values.fullName.trim(),
 					role: 'user',
 				};
 				const result = await axiosPost('api/signup', data);
@@ -119,18 +119,18 @@ export default function SignUp() {
 							<Grid container spacing={2}>
 								<Grid item xs={12}>
 									<TextField
-										error={errors.firstName && touched.firstName}
+										error={errors.fullName && touched.fullName}
 										helperText={
-											!errors.hasOwnProperty('firstName')
+											!errors.hasOwnProperty('fullName')
 												? 'Por ej: Ana María Cabrera'
-												: errors.firstName
+												: errors.fullName
 										}
 										onChange={handleChange}
 										onBlur={handleBlur}
-										value={values.firstName}
+										value={values.fullName}
 										fullWidth
 										label="Nombre completo"
-										name="firstName"
+										name="fullName"
 									/>
 								</Grid>
 								<Grid item xs={12}>
