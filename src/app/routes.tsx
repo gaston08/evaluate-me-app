@@ -6,6 +6,7 @@ import {
   SignIn,
   ForgotPassword,
   ResetPassword,
+  ActivateAccount,
   MyProfile,
   MyExams,
 } from 'app/pages/auth';
@@ -139,6 +140,10 @@ export const arrRoutes = [
       {
         path: '/auth/reset/password/:token',
         element: <ResetPassword />,
+      },
+      {
+        path: '/auth/activate/account/:token',
+        element: <ActivateAccount />,
       },
     ],
   },
