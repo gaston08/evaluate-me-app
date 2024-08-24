@@ -10,7 +10,6 @@ import LinkMui from '@mui/material/Link';
 import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import { axiosPost } from 'app/utils/axios';
-//import { useNavigate } from 'react-router-dom';
 import { expressError } from 'app/shared/interfaces/api-response';
 
 export default function SignUp() {
@@ -18,7 +17,6 @@ export default function SignUp() {
 	const [loading, setLoading] = useState<boolean>(false);
 	const [success, setSuccess] = useState<boolean>(false);
 	const [email, setEmail] = useState<string>('');
-	//const navigate = useNavigate();
 
 	return (
 		<Fragment>
@@ -45,6 +43,7 @@ export default function SignUp() {
 						password: 'Abcd1234',
 						confirmPassword: 'Abcd1234',
 						fullName: 'Gaston Pedraza',
+						username: 'gaston08pedraza',
 					}}
 					validate={(values) => {
 						const errors = {};
@@ -53,6 +52,12 @@ export default function SignUp() {
 							errors.fullName = 'El campo es obligatorio';
 						} else if (values.fullName.trim().length < 8) {
 							errors.fullName = 'El nombre debe poseer al menos 8 caracteres';
+						}
+
+						if (!values.username.trim()) {
+							errors.username = 'El campo es obligatorio';
+						} else if (values.username.trim().length < 8) {
+							errors.username = 'El usuario debe poseer al menos 8 caracteres';
 						}
 
 						if (!values.email.trim()) {
@@ -87,6 +92,7 @@ export default function SignUp() {
 							password: values.password,
 							confirmPassword: values.confirmPassword,
 							fullName: values.fullName.trim(),
+							username: values.username,
 							role: 'user',
 						};
 						const result = await axiosPost('api/signup', data);
@@ -107,6 +113,22 @@ export default function SignUp() {
 										})
 										.catch(console.error);
 								});
+							} else {
+								if (result.error.includes(values.email)) {
+									obj
+										.setFieldTouched('email', true)
+										.then(() => {
+											obj.setFieldError('email', 'Ya se encuentra en uso');
+										})
+										.catch(console.error);
+								} else if (result.error.includes(values.username)) {
+									obj
+										.setFieldTouched('username', true)
+										.then(() => {
+											obj.setFieldError('username', 'Ya se encuentra en uso');
+										})
+										.catch(console.error);
+								}
 							}
 						}
 						setLoading(false);
@@ -144,7 +166,7 @@ export default function SignUp() {
 									sx={{ mt: 3 }}
 								>
 									<Grid container spacing={2}>
-										<Grid item xs={12}>
+										<Grid item xs={12} md={6}>
 											<TextField
 												error={errors.fullName && touched.fullName}
 												helperText={
@@ -158,6 +180,22 @@ export default function SignUp() {
 												fullWidth
 												label="Nombre completo"
 												name="fullName"
+											/>
+										</Grid>
+										<Grid item xs={12} md={6}>
+											<TextField
+												error={errors.username && touched.username}
+												helperText={
+													!errors.hasOwnProperty('username')
+														? 'Por ej: ana_pibita_piola'
+														: errors.username
+												}
+												onChange={handleChange}
+												onBlur={handleBlur}
+												value={values.username}
+												fullWidth
+												label="Nombre de usuario"
+												name="username"
 											/>
 										</Grid>
 										<Grid item xs={12}>
