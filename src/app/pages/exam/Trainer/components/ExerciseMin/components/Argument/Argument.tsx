@@ -64,7 +64,7 @@ export default function Argument(props: argumentProps) {
 
 	return (
 		<Alert
-			sx={{ minHeight: 400, position: 'relative', paddingBottom: 10 }}
+			sx={{ minHeight: 200, position: 'relative', paddingBottom: 10 }}
 			severity="success"
 			id={exercise.id}
 		>
