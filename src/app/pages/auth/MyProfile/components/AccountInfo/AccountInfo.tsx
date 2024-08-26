@@ -13,15 +13,14 @@ export default function AccountInfo() {
   const { auth } = React.useContext<contextAuth>(AuthContext);
   const user = auth.user;
 
-  const firstName = user?.firstName || '';
-  const lastName = user?.lastName || '';
+  const fullName = user?.fullName || '';
 
   return (
     <Card sx={{ backgroundColor: 'white' }}>
       <CardContent>
         <Stack spacing={2} sx={{ alignItems: 'center' }}>
           <div>
-            <Avatar firstName={firstName} lastName={lastName} />
+            <Avatar fullName={fullName} />
           </div>
         </Stack>
       </CardContent>

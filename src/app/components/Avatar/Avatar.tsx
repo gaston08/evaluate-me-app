@@ -17,16 +17,16 @@ function stringToHslColor(str: string, s: number, l: number) {
 }
 
 interface AvatarProps {
-	firstName: string;
-	lastName: string;
+	fullName: string;
 }
 
 export default function Avatar(props: AvatarProps) {
-	const { firstName, lastName } = props;
-	const name = firstName + ' ' + lastName;
-	const hexColor = updateColor(name);
+	const { fullName } = props;
+	const hexColor = updateColor(fullName);
+	const arrNames = fullName.split(' ');
 	const text =
-		firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase();
+		arrNames[0].charAt(0).toUpperCase() +
+		arrNames[arrNames.length - 1].charAt(0).toUpperCase();
 	return (
 		<Box
 			sx={{

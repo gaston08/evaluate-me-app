@@ -21,8 +21,8 @@ import {
 import axios from 'axios';
 
 interface formDataType {
-  firstName: string;
-  lastName: string;
+  fullName: string;
+  username: string;
   email: string;
 }
 
@@ -35,8 +35,8 @@ interface formInfoType {
 export default function AccountDetailsForm() {
   const { auth } = React.useContext<contextAuth>(AuthContext);
   const [formData, setFormData] = React.useState<formDataType>({
-    firstName: auth.user.firstName,
-    lastName: auth.user.lastName,
+    fullName: auth.user.fullName,
+    username: auth.user.username,
     email: auth.user.email,
   });
   const [formInfo, setFormInfo] = React.useState<formInfoType>({
@@ -48,10 +48,10 @@ export default function AccountDetailsForm() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = { ...formData };
 
-    if (e.target.name === 'firstName') {
-      newValue.firstName = e.target.value;
-    } else if (e.target.name === 'lastName') {
-      newValue.lastName = e.target.value;
+    if (e.target.name === 'fullName') {
+      newValue.fullName = e.target.value;
+    } else if (e.target.name === 'username') {
+      newValue.username = e.target.value;
     } else if (e.target.name === 'email') {
       newValue.email = e.target.value;
     }
@@ -111,25 +111,25 @@ export default function AccountDetailsForm() {
             <FormControl fullWidth required>
               <InputLabel>Nombre</InputLabel>
               <OutlinedInput
-                value={formData.firstName}
+                value={formData.fullName}
                 label="Nombre"
-                name="firstName"
+                name="fullName"
                 onChange={handleChange}
               />
             </FormControl>
           </Grid>
           <Grid md={6} xs={12}>
             <FormControl fullWidth required>
-              <InputLabel>Apellido</InputLabel>
+              <InputLabel>Usuario</InputLabel>
               <OutlinedInput
-                value={formData.lastName}
-                label="Apellido"
-                name="lastName"
+                value={formData.username}
+                label="Usuario"
+                name="username"
                 onChange={handleChange}
               />
             </FormControl>
           </Grid>
-          <Grid md={6} xs={12}>
+          <Grid xs={12}>
             <FormControl fullWidth required>
               <InputLabel>Correo Electrónico</InputLabel>
               <OutlinedInput
