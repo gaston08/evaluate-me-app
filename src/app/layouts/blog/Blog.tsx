@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Header from './components/Header';
 import Main from './components/Main';
 import Sidebar from './components/Sidebar';
+import TokensMenu from './components/TokensMenu';
 import Footer from './components/Footer';
 import { axiosPost } from 'app/utils/axios';
 import { AuthContext } from 'app/contexts/Auth';
@@ -15,11 +16,12 @@ import ReactGA from 'react-ga4';
 
 interface BlogProps {
 	showSidebar: boolean;
+	showTokens: boolean;
 	requireAuth: boolean;
 }
 
 export default function Blog(props: BlogProps) {
-	const { showSidebar, requireAuth } = props;
+	const { showSidebar, requireAuth, showTokens } = props;
 	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -93,6 +95,7 @@ export default function Blog(props: BlogProps) {
 		>
 			<Container maxWidth="lg">
 				<Header />
+				{showTokens ? <TokensMenu /> : null}
 				<main>
 					<Grid container spacing={5} sx={{ mt: 3 }}>
 						<Main xs={12} md={showSidebar ? 8 : 12} />

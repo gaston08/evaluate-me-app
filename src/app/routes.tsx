@@ -94,7 +94,9 @@ export const arrRoutes = [
   },
   {
     path: '/entrenamiento',
-    element: <BlogLayout showSidebar={false} requireAuth={false} />,
+    element: (
+      <BlogLayout showSidebar={false} requireAuth={false} showTokens={true} />
+    ),
     children: [
       {
         path: '/entrenamiento/:subject',
