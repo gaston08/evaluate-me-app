@@ -4,6 +4,7 @@ export interface userType {
 	fullName: string;
 	username: string;
 	role: string;
+	avatarUrl: string | undefined;
 }
 
 export interface authType {

@@ -103,3 +103,40 @@ export const axiosGet = async (route: string): Promise<apiGetResponse> => {
 
 	return response;
 };
+
+export async function getSignedUrl({
+	key,
+	content_type,
+}: {
+	key: string;
+	content_type: string;
+}) {
+	const result: axiosPostInterface = await axios.post(
+		`${API_ROUTE}/api/s3/signed_url`,
+		{ key, content_type },
+	);
+	return result.data;
+}
+
+export function uploadFileToSignedUrl(
+	signedUrl: string,
+	file,
+	contentType: string,
+	onProgress: () => void,
+	onComplete: () => void,
+) {
+	axios
+		.put(signedUrl, file, {
+			onUploadProgress: onProgress,
+			headers: {
+				'Content-Type': contentType,
+				Authorization: undefined,
+			},
+		})
+		.then((response) => {
+			onComplete(response);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+}
