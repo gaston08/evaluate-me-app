@@ -3,8 +3,8 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import { exerciseType, argumentType } from 'app/shared/interfaces/exam';
+import LikeButtons from './components/LikeButtons';
 
 function getIcon(feed) {
 	if (feed === 'chat-gpt') return <ChatGptIcon />;
@@ -75,28 +75,7 @@ export default function Argument(props: argumentProps) {
 			</Tabs>
 			<AlertTitle>Correcto!</AlertTitle>
 			<div id="argument-container"></div>
-			<Box sx={{ position: 'absolute', bottom: 10, display: 'flex', gap: 4 }}>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-					}}
-				>
-					<LikeIcon />
-					<Box>{args[index].likes}</Box>
-				</Box>
-				<Box
-					sx={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-					}}
-				>
-					<DislikeIcon />
-					<Box>{args[index].dislikes}</Box>
-				</Box>
-			</Box>
+			<LikeButtons likes={args[index].likes} dislikes={args[index].dislikes} />
 		</Alert>
 	);
 }
@@ -138,12 +117,4 @@ function ChatGptIcon() {
 
 function DeepaiIcon() {
 	return <img src={'/logos/deepai.svg'} style={{ width: 30, height: 30 }} />;
-}
-
-function LikeIcon() {
-	return <img src={'/icons/like.svg'} style={{ width: 20, height: 20 }} />;
-}
-
-function DislikeIcon() {
-	return <img src={'/icons/dislike.svg'} style={{ width: 20, height: 20 }} />;
 }
