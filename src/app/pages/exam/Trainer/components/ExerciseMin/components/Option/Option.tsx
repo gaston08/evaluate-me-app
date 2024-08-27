@@ -1,14 +1,15 @@
-import * as React from 'react';
-import { useState, Fragment } from 'react';
+import { Dispatch, useContext, Fragment, useState } from 'react';
 import Box from '@mui/material/Box';
 import { useTheme } from '@mui/material/styles';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import { contextAuth } from 'app/shared/interfaces/auth';
+import { AuthContext } from 'app/contexts/Auth';
 
 interface OptionProps {
 	title: string;
 	isCorrect: boolean;
-	onSelect: () => React.Dispatch<React.SetStateAction<Array<string>>>;
+	onSelect: () => Dispatch<React.SetStateAction<Array<string>>>;
 	canSelect: boolean;
 	id: string;
 	arrSelected: Array<string>;
@@ -18,15 +19,27 @@ interface OptionProps {
 export default function Option(props: OptionProps) {
 	const { id, title, feedback, isCorrect, onSelect, arrSelected, canSelect } =
 		props;
+	const { auth, setAuth } = useContext<contextAuth>(AuthContext);
 	const [selected, setSelected] = useState<boolean>(false);
 	const theme = useTheme();
 
 	const selectOption = () => {
-		if (canSelect) {
-			setSelected(true);
-			if (isCorrect) {
-				if (!arrSelected.includes(id)) {
-					onSelect((prev: Array<string>) => [...prev, id]);
+		if (auth.coffees === 0) {
+			alert('No coffees');
+		} else {
+			if (canSelect) {
+				setSelected(true);
+				if (isCorrect) {
+					if (!arrSelected.includes(id)) {
+						onSelect((prev: Array<string>) => [...prev, id]);
+					}
+				} else {
+					setAuth((prev) => {
+						return {
+							...prev,
+							coffees: prev.coffees - 1,
+						};
+					});
 				}
 			}
 		}

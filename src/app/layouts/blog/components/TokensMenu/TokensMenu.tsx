@@ -2,12 +2,17 @@ import { Fragment } from 'react';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
 
-export default function TokensMenu() {
+interface TokensMenuProps {
+	coffees: number;
+}
+
+export default function TokensMenu(props: TokensMenuProps) {
+	const { coffees } = props;
 	return (
 		<Fragment>
 			<Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
 				<CoffeeIcon />
-				<Box sx={{ ml: 2 }}>Tienes 15 cafecitos</Box>
+				<Box sx={{ ml: 2 }}>Tienes {coffees} cafecitos</Box>
 			</Toolbar>
 		</Fragment>
 	);

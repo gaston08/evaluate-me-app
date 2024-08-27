@@ -13,6 +13,11 @@ import { axiosPost } from 'app/utils/axios';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth, userType } from 'app/shared/interfaces/auth';
 import ReactGA from 'react-ga4';
+import {
+	apiPostResponse,
+	expressError,
+} from 'app/shared/interfaces/api-response';
+import axios from 'axios';
 
 interface BlogProps {
 	showSidebar: boolean;
@@ -25,6 +30,36 @@ export default function Blog(props: BlogProps) {
 	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
 	const navigate = useNavigate();
 	const location = useLocation();
+
+	useEffect(() => {
+		if (requireAuth && auth.user) {
+			if (auth.coffees % 10 === 0) {
+				axiosPost('api/user/update/profile', {
+					fullName: auth.user.fullName,
+					username: auth.user.username,
+					email: auth.user.email,
+					coffees: auth.coffees,
+				})
+					.then((result: apiPostResponse) => {
+						if (result.ok) {
+							localStorage.setItem('access_token', result.data.token);
+							axios.defaults.headers.common['Authorization'] =
+								`Bearer ${result.data.token}`;
+						} else {
+							if (result.error) {
+								console.log(result.error);
+							}
+							if (result.errors) {
+								result.errors.forEach((err: expressError): void => {
+									console.log(err.msg);
+								});
+							}
+						}
+					})
+					.catch(console.error);
+			}
+		}
+	}, [auth.coffees]);
 
 	useEffect(() => {
 		if (import.meta.env.MODE !== 'development') {
@@ -45,6 +80,7 @@ export default function Blog(props: BlogProps) {
 				user: null,
 				isLoggedIn: false,
 				isLoading: false,
+				coffees: 0,
 			});
 			if (requireAuth) {
 				navigate('/auth/login');
@@ -61,6 +97,7 @@ export default function Blog(props: BlogProps) {
 				user,
 				isLoggedIn: true,
 				isLoading: false,
+				coffees: user.coffees,
 			});
 		} else {
 			localStorage.removeItem('access_token');
@@ -68,6 +105,7 @@ export default function Blog(props: BlogProps) {
 				user: null,
 				isLoggedIn: false,
 				isLoading: false,
+				coffees: 0,
 			});
 			if (requireAuth) {
 				navigate('/auth/login');
@@ -95,7 +133,7 @@ export default function Blog(props: BlogProps) {
 		>
 			<Container maxWidth="lg">
 				<Header />
-				{showTokens ? <TokensMenu /> : null}
+				{showTokens ? <TokensMenu coffees={auth.coffees} /> : null}
 				<main>
 					<Grid container spacing={5} sx={{ mt: 3 }}>
 						<Main xs={12} md={showSidebar ? 8 : 12} />

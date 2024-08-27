@@ -11,4 +11,5 @@ export const defaultAuth = {
 	user: null,
 	isLoggedIn: false,
 	isLoading: true,
+	coffees: 0,
 };

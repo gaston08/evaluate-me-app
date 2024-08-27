@@ -5,12 +5,14 @@ export interface userType {
 	username: string;
 	role: string;
 	avatarUrl: string | undefined;
+	coffees: number;
 }
 
 export interface authType {
 	user: userType | null;
 	isLoggedIn: boolean;
 	isLoading: boolean;
+	coffees: number;
 }
 
 export interface contextAuth {
