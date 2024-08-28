@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
 import Error from 'app/pages/error';
 import { View, Subjects, Trainer, TrainerForm } from 'app/pages/exam';
+import { Store } from 'app/pages/store';
 import {
   SignUp,
   SignIn,
@@ -119,6 +120,18 @@ export const arrRoutes = [
       {
         path: '/profile/exams',
         element: <MyExams />,
+      },
+    ],
+  },
+  {
+    path: '/tienda',
+    element: (
+      <BlogLayout showSidebar={false} requireAuth={true} showTokens={true} />
+    ),
+    children: [
+      {
+        path: '/tienda/cafecitos',
+        element: <Store />,
       },
     ],
   },
