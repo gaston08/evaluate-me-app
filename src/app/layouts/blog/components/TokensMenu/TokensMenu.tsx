@@ -23,7 +23,7 @@ export default function TokensMenu(props: TokensMenuProps) {
 		if (coffees === 0) {
 			setText('Te quedaste sin cafecitos');
 		} else if (coffees <= 10) {
-			setText('Te quedan pocos cafecitos ' + coffees);
+			setText(`Te quedan pocos cafecitos (${coffees})`);
 		} else {
 			setText(`Tenes ${coffees} cafecitos`);
 		}

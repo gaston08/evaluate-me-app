@@ -7,7 +7,7 @@ import SimpleDialog from './components/Reward/components/SimpleDialog';
 
 export default function Store() {
 	const { auth, setAuth } = useContext<contextAuth>(AuthContext);
-	const [current, setCurrent] = useState(0);
+	const [current, setCurrent] = useState(invitations_challenges.length - 1);
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
@@ -35,6 +35,11 @@ export default function Store() {
 					received_invitations={auth.user.received_invitations}
 					setAuth={setAuth}
 					setOpen={setOpen}
+					canReceive={
+						!auth.user.received_invitations.includes(
+							invitations_challenges[current].id,
+						)
+					}
 				/>
 			</Box>
 			<SimpleDialog open={open} setOpen={setOpen} />

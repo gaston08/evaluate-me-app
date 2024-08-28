@@ -39,6 +39,7 @@ interface RewardProps {
 	id: string;
 	setAuth: Dispatch<SetStateAction<authType>>;
 	setOpen: Dispatch<SetStateAction<boolean>>;
+	canReceive: boolean;
 }
 
 export default function Reward(props: RewardProps) {
@@ -52,6 +53,7 @@ export default function Reward(props: RewardProps) {
 		id,
 		setAuth,
 		setOpen,
+		canReceive,
 	} = props;
 	const [loading, setLoading] = useState<boolean>(false);
 	const [progress] = useState<number>(() => {
@@ -130,7 +132,7 @@ export default function Reward(props: RewardProps) {
 					onClick={() => {
 						getReward();
 					}}
-					disabled={!(invitations <= user_invitation) || loading}
+					disabled={!(invitations <= user_invitation) || loading || !canReceive}
 				>
 					Recibir recompensa
 				</Button>
