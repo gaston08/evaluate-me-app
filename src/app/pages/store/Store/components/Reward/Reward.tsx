@@ -40,6 +40,7 @@ interface RewardProps {
 	setAuth: Dispatch<SetStateAction<authType>>;
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	canReceive: boolean;
+	userCoffees: number;
 }
 
 export default function Reward(props: RewardProps) {
@@ -54,6 +55,7 @@ export default function Reward(props: RewardProps) {
 		setAuth,
 		setOpen,
 		canReceive,
+		userCoffees,
 	} = props;
 	const [loading, setLoading] = useState<boolean>(false);
 	const [progress] = useState<number>(() => {
@@ -75,6 +77,7 @@ export default function Reward(props: RewardProps) {
 
 		axiosPost('api/user/update/profile', {
 			received_invitations: arr,
+			coffees: userCoffees + coffees,
 		})
 			.then((result: apiPostResponse) => {
 				if (result.ok) {

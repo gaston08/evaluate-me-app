@@ -31,6 +31,7 @@ export default function Store() {
 					subtitle={invitations_challenges[current].body.subtitle}
 					invitations={invitations_challenges[current].invitations}
 					coffees={invitations_challenges[current].coffees}
+					userCoffees={auth.coffees}
 					user_invitation={auth.user.invitations}
 					received_invitations={auth.user.received_invitations}
 					setAuth={setAuth}
@@ -57,7 +58,7 @@ const invitations_challenges = [
 		invitations: 0,
 		coffees: 10,
 		body: {
-			title: 'Ganá ',
+			title: 'Ganá cafecitos gratis',
 			subtitle: 'Registrá tu cuenta',
 		},
 	},
