@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ReactTimeAgo from 'react-time-ago';
 import { useTheme } from '@mui/material/styles';
-import Confetti from './Confetti';
+import Confetti from 'app/components/Confetti';
 
 interface ExamResultProps {
 	score: number;
