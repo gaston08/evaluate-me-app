@@ -43,6 +43,7 @@ export default function RequireAuth() {
 
 	useEffect(() => {
 		if (location.state?.omitAuth) {
+			setIsLoading(false);
 			// omit auth
 		} else {
 			checkAuth().catch(console.error);
