@@ -30,7 +30,7 @@ export default function Store() {
 					title={invitations_challenges[current].body.title}
 					subtitle={invitations_challenges[current].body.subtitle}
 					invitations={invitations_challenges[current].invitations}
-					quantity={invitations_challenges[current].coffees}
+					coffees={invitations_challenges[current].coffees}
 					user_invitation={auth.user.invitations}
 					received_invitations={auth.user.received_invitations}
 					setAuth={setAuth}
@@ -42,7 +42,11 @@ export default function Store() {
 					}
 				/>
 			</Box>
-			<SimpleDialog open={open} setOpen={setOpen} />
+			<SimpleDialog
+				coffees={invitations_challenges[current].coffees}
+				open={open}
+				setOpen={setOpen}
+			/>
 		</Fragment>
 	);
 }

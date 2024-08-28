@@ -32,7 +32,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 interface RewardProps {
 	title: string;
 	subtitle: string;
-	quantity: string;
+	coffees: string;
 	invitations: string;
 	user_invitation: number;
 	received_invitations: Array<number>;
@@ -46,7 +46,7 @@ export default function Reward(props: RewardProps) {
 	const {
 		title,
 		subtitle,
-		quantity,
+		coffees,
 		invitations,
 		user_invitation,
 		received_invitations,
@@ -121,7 +121,7 @@ export default function Reward(props: RewardProps) {
 				</>
 				<Box sx={{ mt: 2, mb: 1, display: 'flex', alignItems: 'center' }}>
 					<CoffeeIcon />
-					<Box sx={{ ml: 1 }}>x{quantity} cafecitos</Box>
+					<Box sx={{ ml: 1 }}>x{coffees} cafecitos</Box>
 				</Box>
 			</CardContent>
 			<CardActions>
