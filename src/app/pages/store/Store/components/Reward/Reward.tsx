@@ -1,0 +1,150 @@
+import { useState, SetStateAction, Dispatch } from 'react';
+import Box from '@mui/material/Box';
+import { decodeToken } from 'react-jwt';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { styled } from '@mui/material/styles';
+import LinearProgress, {
+	linearProgressClasses,
+} from '@mui/material/LinearProgress';
+import Snackbar from './components/Snackbar';
+import { axiosPost } from 'app/utils/axios';
+import {
+	apiPostResponse,
+	expressError,
+} from 'app/shared/interfaces/api-response';
+import axios from 'axios';
+import { authType, userType } from 'app/shared/interfaces/auth';
+
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+	height: 10,
+	borderRadius: 5,
+	[`&.${linearProgressClasses.colorPrimary}`]: {
+		backgroundColor: theme.palette.grey[200],
+	},
+	[`& .${linearProgressClasses.bar}`]: {
+		borderRadius: 5,
+		backgroundColor: '#1a90ff',
+	},
+}));
+
+interface RewardProps {
+	title: string;
+	subtitle: string;
+	quantity: string;
+	invitations: string;
+	user_invitation: number;
+	received_invitations: Array<number>;
+	id: string;
+	setAuth: Dispatch<SetStateAction<authType>>;
+}
+
+export default function Reward(props: RewardProps) {
+	const {
+		title,
+		subtitle,
+		quantity,
+		invitations,
+		user_invitation,
+		received_invitations,
+		id,
+		setAuth,
+	} = props;
+	const [progress] = useState<number>(() => {
+		if (invitations === 0) {
+			return 100;
+		} else {
+			if (user_invitation >= invitations) {
+				return 100;
+			} else {
+				return (user_invitation / invitations) * 100;
+			}
+		}
+	});
+	const [open, setOpen] = useState(false);
+
+	const getReward = () => {
+		const arr = [...received_invitations];
+		arr.push(id);
+
+		axiosPost('api/user/update/profile', {
+			received_invitations: arr,
+		})
+			.then((result: apiPostResponse) => {
+				if (result.ok) {
+					localStorage.setItem('access_token', result.data.token);
+					axios.defaults.headers.common['Authorization'] =
+						`Bearer ${result.data.token}`;
+					const user = decodeToken(result.data.token) as userType;
+					setAuth({
+						user,
+						isLoggedIn: true,
+						isLoading: false,
+						coffees: user.coffees,
+					});
+				} else {
+					if (result.error) {
+						console.log(result.error);
+					}
+					if (result.errors) {
+						result.errors.forEach((err: expressError): void => {
+							console.log(err.msg);
+						});
+					}
+				}
+			})
+			.catch(console.error);
+
+		setOpen(true);
+	};
+
+	return (
+		<Card sx={{ minWidth: 275, backgroundColor: 'white' }}>
+			<CardContent sx={{ pb: 0 }}>
+				<Typography variant="h5" component="div">
+					{title}
+				</Typography>
+				<Typography sx={{ color: 'text.secondary', mb: 1.5 }}>
+					{subtitle}
+				</Typography>
+				<BorderLinearProgress variant="determinate" value={progress} />
+				<>
+					{progress === 100 ? (
+						<Typography variant="body1" sx={{ color: 'green', mt: 1 }}>
+							Completado!
+						</Typography>
+					) : (
+						<Typography variant="body2">
+							{user_invitation}/{invitations} invitaciones
+						</Typography>
+					)}
+				</>
+				<Box sx={{ mt: 2, mb: 1, display: 'flex', alignItems: 'center' }}>
+					<CoffeeIcon />
+					<Box sx={{ ml: 1 }}>x{quantity} cafecitos</Box>
+				</Box>
+			</CardContent>
+			<CardActions>
+				<Button
+					color="success"
+					variant="contained"
+					size="small"
+					onClick={() => {
+						getReward();
+					}}
+					disabled={!(invitations <= user_invitation)}
+				>
+					Recibir recompensa
+				</Button>
+			</CardActions>
+			<Snackbar open={open} setOpen={setOpen} />
+		</Card>
+	);
+}
+
+function CoffeeIcon() {
+	return <img src={'/icons/coffee.svg'} style={{ width: 40, height: 40 }} />;
+}

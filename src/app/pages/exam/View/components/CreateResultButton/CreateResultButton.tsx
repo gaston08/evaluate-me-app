@@ -9,6 +9,11 @@ import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
+import {
+	apiPostResponse,
+	expressError,
+} from 'app/shared/interfaces/api-response';
+import axios from 'axios';
 
 interface CreateResultButtonProps {
 	examId: string;
@@ -145,8 +150,21 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 
 			if (auth.isLoggedIn) {
 				axiosPost('api/user/update/profile', data)
-					.then(() => {
-						console.log('updated');
+					.then((result: apiPostResponse) => {
+						if (result.ok) {
+							localStorage.setItem('access_token', result.data.token);
+							axios.defaults.headers.common['Authorization'] =
+								`Bearer ${result.data.token}`;
+						} else {
+							if (result.error) {
+								console.log(result.error);
+							}
+							if (result.errors) {
+								result.errors.forEach((err: expressError): void => {
+									console.log(err.msg);
+								});
+							}
+						}
 					})
 					.catch(console.error);
 			}

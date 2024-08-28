@@ -6,6 +6,9 @@ export interface userType {
 	role: string;
 	avatarUrl: string | undefined;
 	coffees: number;
+	invitations: number;
+	invitation_code: number;
+	received_invitations: Array<string>;
 }
 
 export interface authType {
