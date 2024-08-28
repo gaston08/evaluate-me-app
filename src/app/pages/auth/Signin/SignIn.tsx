@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState, useContext } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -18,9 +17,19 @@ import {
 	expressError,
 } from 'app/shared/interfaces/api-response';
 import { GoogleLogin } from '@react-oauth/google';
+import { setUpAuth } from 'app/utils/auth';
+import { AuthContext } from 'app/contexts/Auth';
+import { contextAuth } from 'app/shared/interfaces/auth';
+
+interface LocationState {
+	state?: {
+		signup: boolean;
+	};
+}
 
 export default function SignIn() {
-	const location = useLocation() as { state?: { signup: string } };
+	const { setAuth } = useContext<contextAuth>(AuthContext);
+	const location = useLocation() as LocationState;
 	const [error, setError] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
@@ -35,10 +44,8 @@ export default function SignIn() {
 		const result: apiPostResponse = await axiosPost('api/login/google', data);
 
 		if (result.ok) {
-			localStorage.setItem('access_token', result.data.token);
-			axios.defaults.headers.common['Authorization'] =
-				`Bearer ${result.data.token}`;
-			navigate('/tests');
+			setUpAuth(result.data.token, true, setAuth);
+			navigate('/tests', { state: { omitAuth: true } });
 		} else {
 			if (result.error) {
 				setError(result.error);
@@ -81,10 +88,8 @@ export default function SignIn() {
 
 				const result: apiPostResponse = await axiosPost('api/login', data);
 				if (result.ok) {
-					localStorage.setItem('access_token', result.data.token);
-					axios.defaults.headers.common['Authorization'] =
-						`Bearer ${result.data.token}`;
-					navigate('/tests');
+					setUpAuth(result.data.token, true, setAuth);
+					navigate('/tests', { state: { omitAuth: true } });
 				} else {
 					setError(result.error);
 					if (result.errors) {

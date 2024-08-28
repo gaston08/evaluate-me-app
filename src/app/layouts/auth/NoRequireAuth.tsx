@@ -1,37 +1,52 @@
-import { useState, useEffect } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { axiosPost } from 'app/utils/axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Fragment } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { setUpAuth } from 'app/utils/auth';
+import { AuthContext } from 'app/contexts/Auth';
+import { contextAuth } from 'app/shared/interfaces/auth';
+
+interface LocationState {
+	state?: {
+		signup: boolean;
+	};
+}
 
 export default function RequireAuth() {
 	const [isLoading, setIsLoading] = useState(true);
+	const location = useLocation() as LocationState;
 	const navigate = useNavigate();
+	const { setAuth } = useContext<contextAuth>(AuthContext);
 
 	const checkAuth = async () => {
 		const access_token = localStorage.getItem('access_token');
 
 		if (!access_token) {
-			localStorage.removeItem('access_token');
+			setUpAuth('', false, setAuth);
 			setIsLoading(false);
 			return;
 		}
 		const result = await axiosPost('api/refresh-token', {});
 
 		if (result.ok) {
-			localStorage.setItem('access_token', result.data.token);
-			navigate('/tests');
+			setUpAuth(result.data.token, true, setAuth);
+			navigate('/tests', { state: { omitAuth: true } });
 		} else {
-			localStorage.removeItem('access_token');
+			setUpAuth('', false, setAuth);
 			setIsLoading(false);
 		}
 	};
 
 	useEffect(() => {
-		checkAuth().catch(console.error);
+		if (location.state?.omitAuth) {
+			// omit auth
+		} else {
+			checkAuth().catch(console.error);
+		}
 		document.title = 'ubaparciales';
 	}, []);
 

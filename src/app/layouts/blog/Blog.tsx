@@ -1,6 +1,5 @@
 import { useEffect, useContext } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { decodeToken } from 'react-jwt';
+import { useNavigate, useLocation, Location } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -10,14 +9,16 @@ import Sidebar from './components/Sidebar';
 import TokensMenu from './components/TokensMenu';
 import Footer from './components/Footer';
 import { axiosPost } from 'app/utils/axios';
+import { setUpAuth } from 'app/utils/auth';
 import { AuthContext } from 'app/contexts/Auth';
-import { contextAuth, userType } from 'app/shared/interfaces/auth';
+import { contextAuth } from 'app/shared/interfaces/auth';
 import ReactGA from 'react-ga4';
-import {
-	apiPostResponse,
-	expressError,
-} from 'app/shared/interfaces/api-response';
-import axios from 'axios';
+
+interface LocationState extends Location {
+	state?: {
+		signup: boolean;
+	};
+}
 
 interface BlogProps {
 	showSidebar: boolean;
@@ -29,37 +30,7 @@ export default function Blog(props: BlogProps) {
 	const { showSidebar, requireAuth, showTokens } = props;
 	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
 	const navigate = useNavigate();
-	const location = useLocation();
-
-	useEffect(() => {
-		if (requireAuth && auth.user) {
-			if (auth.coffees % 10 === 0) {
-				axiosPost('api/user/update/profile', {
-					fullName: auth.user.fullName,
-					username: auth.user.username,
-					email: auth.user.email,
-					coffees: auth.coffees,
-				})
-					.then((result: apiPostResponse) => {
-						if (result.ok) {
-							localStorage.setItem('access_token', result.data.token);
-							axios.defaults.headers.common['Authorization'] =
-								`Bearer ${result.data.token}`;
-						} else {
-							if (result.error) {
-								console.log(result.error);
-							}
-							if (result.errors) {
-								result.errors.forEach((err: expressError): void => {
-									console.log(err.msg);
-								});
-							}
-						}
-					})
-					.catch(console.error);
-			}
-		}
-	}, [auth.coffees]);
+	const location = useLocation() as LocationState;
 
 	useEffect(() => {
 		if (import.meta.env.MODE !== 'development') {
@@ -73,17 +44,13 @@ export default function Blog(props: BlogProps) {
 	}, [location.pathname, location.search]);
 
 	const checkAuth = async () => {
+		console.log('check auth');
 		const access_token: string = localStorage.getItem('access_token');
 
 		if (!access_token) {
-			setAuth({
-				user: null,
-				isLoggedIn: false,
-				isLoading: false,
-				coffees: 0,
-			});
+			setUpAuth('', false, setAuth);
 			if (requireAuth) {
-				navigate('/auth/login');
+				navigate('/auth/login', { state: { omitAuth: true } });
 				return;
 			}
 		}
@@ -91,31 +58,23 @@ export default function Blog(props: BlogProps) {
 		const result = await axiosPost('api/refresh-token', {});
 
 		if (result.ok) {
-			localStorage.setItem('access_token', result.data.token);
-			const user = decodeToken(result.data.token) as userType;
-			setAuth({
-				user,
-				isLoggedIn: true,
-				isLoading: false,
-				coffees: user.coffees,
-			});
+			setUpAuth(result.data.token, true, setAuth);
 		} else {
-			localStorage.removeItem('access_token');
-			setAuth({
-				user: null,
-				isLoggedIn: false,
-				isLoading: false,
-				coffees: 0,
-			});
+			setUpAuth('', false, setAuth);
+
 			if (requireAuth) {
-				navigate('/auth/login');
+				navigate('/auth/login', { state: { omitAuth: true } });
 				return;
 			}
 		}
 	};
 
 	useEffect(() => {
-		checkAuth().catch(console.error);
+		if (location.state?.omitAuth) {
+			// omit auth
+		} else {
+			checkAuth().catch(console.error);
+		}
 	}, []);
 
 	if (auth.isLoading) {

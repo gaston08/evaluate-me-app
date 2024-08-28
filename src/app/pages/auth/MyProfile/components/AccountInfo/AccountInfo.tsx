@@ -11,8 +11,8 @@ import { AuthContext } from 'app/contexts/Auth';
 import imageCompression from 'browser-image-compression';
 import { getSignedUrl, uploadFileToSignedUrl } from 'app/utils/axios';
 import Avatar from '@mui/material/Avatar';
-import { decodeToken } from 'react-jwt';
-import { userType, authType } from 'app/shared/interfaces/auth';
+import { authType } from 'app/shared/interfaces/auth';
+import { setUpAuth } from 'app/utils/auth';
 
 interface apiCall {
   data: {
@@ -43,7 +43,7 @@ async function handleImageUpload(
 
     getSignedUrl({ key, content_type })
       .then((response: apiCall) => {
-        localStorage.setItem('access_token', response.token);
+        setUpAuth(response.token, true, setAuth);
 
         uploadFileToSignedUrl(
           response.data.signedUrl,
@@ -51,12 +51,6 @@ async function handleImageUpload(
           content_type,
           null,
           () => {
-            const user = decodeToken(response.token) as userType;
-            setAuth({
-              user,
-              isLoggedIn: true,
-              isLoading: false,
-            });
             setLoading(false);
           },
         );

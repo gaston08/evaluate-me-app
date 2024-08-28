@@ -47,8 +47,6 @@ export default function App() {
   const [exams, setExams] = useState<contextExam>([]);
   const access_token: string = localStorage.getItem('access_token');
 
-  console.log(auth.user);
-
   if (access_token !== '') {
     axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
   }

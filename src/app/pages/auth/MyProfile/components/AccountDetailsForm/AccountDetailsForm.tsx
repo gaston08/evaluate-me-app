@@ -18,7 +18,7 @@ import {
   apiPostResponse,
   expressError,
 } from 'app/shared/interfaces/api-response';
-import axios from 'axios';
+import { setUpAuth } from 'app/utils/auth';
 
 interface formDataType {
   fullName: string;
@@ -33,7 +33,7 @@ interface formInfoType {
 }
 
 export default function AccountDetailsForm() {
-  const { auth } = React.useContext<contextAuth>(AuthContext);
+  const { auth, setAuth } = React.useContext<contextAuth>(AuthContext);
   const [formData, setFormData] = React.useState<formDataType>({
     fullName: auth.user.fullName,
     username: auth.user.username,
@@ -70,9 +70,7 @@ export default function AccountDetailsForm() {
       formData,
     );
     if (result.ok) {
-      localStorage.setItem('access_token', result.data.token);
-      axios.defaults.headers.common['Authorization'] =
-        `Bearer ${result.data.token}`;
+      setUpAuth(result.data.token, true, setAuth);
       setFormInfo({
         isLoading: false,
         success: true,

@@ -1,6 +1,5 @@
 import { useState, SetStateAction, Dispatch } from 'react';
 import Box from '@mui/material/Box';
-import { decodeToken } from 'react-jwt';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -16,8 +15,8 @@ import {
 	apiPostResponse,
 	expressError,
 } from 'app/shared/interfaces/api-response';
-import axios from 'axios';
-import { authType, userType } from 'app/shared/interfaces/auth';
+import { authType } from 'app/shared/interfaces/auth';
+import { setUpAuth } from 'app/utils/auth';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	height: 10,
@@ -75,17 +74,9 @@ export default function Reward(props: RewardProps) {
 		})
 			.then((result: apiPostResponse) => {
 				if (result.ok) {
-					localStorage.setItem('access_token', result.data.token);
-					axios.defaults.headers.common['Authorization'] =
-						`Bearer ${result.data.token}`;
-					const user = decodeToken(result.data.token) as userType;
-					setAuth({
-						user,
-						isLoggedIn: true,
-						isLoading: false,
-						coffees: user.coffees,
-					});
+					setUpAuth(result.data.token, true, setAuth);
 				} else {
+					setUpAuth('', false, setAuth);
 					if (result.error) {
 						console.log(result.error);
 					}

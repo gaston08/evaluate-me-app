@@ -99,9 +99,6 @@ export default function SignUp() {
 						if (result.ok) {
 							setEmail(values.email);
 							setSuccess(true);
-							/*navigate('/auth/login', {
-								state: { signup: true, reset: false },
-							});*/
 						} else {
 							setError(result.error);
 							if (result.errors) {

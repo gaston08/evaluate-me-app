@@ -11,6 +11,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { setUpAuth } from 'app/utils/auth';
 
 const subjectsArr = subjects.map((subject) => {
   return {
@@ -30,12 +31,7 @@ export default function Header() {
   };
 
   const logout = () => {
-    localStorage.removeItem('access_token');
-    setAuth({
-      user: null,
-      isLoggedIn: false,
-      isLoading: false,
-    });
+    setUpAuth('', false, setAuth);
     navigate('/auth/login');
   };
 
