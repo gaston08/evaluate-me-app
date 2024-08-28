@@ -3,10 +3,12 @@ import Reward from './components/Reward';
 import Box from '@mui/material/Box';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth } from 'app/shared/interfaces/auth';
+import SimpleDialog from './components/Reward/components/SimpleDialog';
 
 export default function Store() {
 	const { auth, setAuth } = useContext<contextAuth>(AuthContext);
 	const [current, setCurrent] = useState(0);
+	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		for (let i = 0; i < invitations_challenges.length; i++) {
@@ -32,8 +34,10 @@ export default function Store() {
 					user_invitation={auth.user.invitations}
 					received_invitations={auth.user.received_invitations}
 					setAuth={setAuth}
+					setOpen={setOpen}
 				/>
 			</Box>
+			<SimpleDialog open={open} setOpen={setOpen} />
 		</Fragment>
 	);
 }

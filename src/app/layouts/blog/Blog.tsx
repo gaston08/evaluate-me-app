@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { useNavigate, useLocation, Location } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -29,6 +29,7 @@ interface BlogProps {
 export default function Blog(props: BlogProps) {
 	const { showSidebar, requireAuth, showTokens } = props;
 	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
+	const [loading, setLoading] = useState<boolean>(true);
 	const navigate = useNavigate();
 	const location = useLocation() as LocationState;
 
@@ -52,6 +53,8 @@ export default function Blog(props: BlogProps) {
 			if (requireAuth) {
 				navigate('/auth/login', { state: { omitAuth: true } });
 				return;
+			} else {
+				setLoading(false);
 			}
 		}
 
@@ -59,25 +62,30 @@ export default function Blog(props: BlogProps) {
 
 		if (result.ok) {
 			setUpAuth(result.data.token, true, setAuth);
+			setLoading(false);
 		} else {
 			setUpAuth('', false, setAuth);
 
 			if (requireAuth) {
 				navigate('/auth/login', { state: { omitAuth: true } });
 				return;
+			} else {
+				setLoading(false);
 			}
 		}
 	};
 
 	useEffect(() => {
 		if (location.state?.omitAuth) {
+			setLoading(false);
+			console.log('OMIT');
 			// omit auth
 		} else {
 			checkAuth().catch(console.error);
 		}
-	}, []);
+	}, [location.pathname]);
 
-	if (auth.isLoading) {
+	if (loading) {
 		return <h1>Cargando...</h1>;
 	}
 
@@ -92,7 +100,9 @@ export default function Blog(props: BlogProps) {
 		>
 			<Container maxWidth="lg">
 				<Header />
-				{showTokens ? <TokensMenu coffees={auth.coffees} /> : null}
+				{showTokens && auth.isLoggedIn ? (
+					<TokensMenu coffees={auth.coffees} />
+				) : null}
 				<main>
 					<Grid container spacing={5} sx={{ mt: 3 }}>
 						<Main xs={12} md={showSidebar ? 8 : 12} />

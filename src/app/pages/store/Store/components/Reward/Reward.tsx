@@ -9,7 +9,6 @@ import { styled } from '@mui/material/styles';
 import LinearProgress, {
 	linearProgressClasses,
 } from '@mui/material/LinearProgress';
-import Snackbar from './components/Snackbar';
 import { axiosPost } from 'app/utils/axios';
 import {
 	apiPostResponse,
@@ -39,6 +38,7 @@ interface RewardProps {
 	received_invitations: Array<number>;
 	id: string;
 	setAuth: Dispatch<SetStateAction<authType>>;
+	setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export default function Reward(props: RewardProps) {
@@ -51,7 +51,9 @@ export default function Reward(props: RewardProps) {
 		received_invitations,
 		id,
 		setAuth,
+		setOpen,
 	} = props;
+	const [loading, setLoading] = useState<boolean>(false);
 	const [progress] = useState<number>(() => {
 		if (invitations === 0) {
 			return 100;
@@ -63,9 +65,9 @@ export default function Reward(props: RewardProps) {
 			}
 		}
 	});
-	const [open, setOpen] = useState(false);
 
 	const getReward = () => {
+		setLoading(true);
 		const arr = [...received_invitations];
 		arr.push(id);
 
@@ -75,6 +77,7 @@ export default function Reward(props: RewardProps) {
 			.then((result: apiPostResponse) => {
 				if (result.ok) {
 					setUpAuth(result.data.token, true, setAuth);
+					setLoading(false);
 				} else {
 					setUpAuth('', false, setAuth);
 					if (result.error) {
@@ -85,6 +88,7 @@ export default function Reward(props: RewardProps) {
 							console.log(err.msg);
 						});
 					}
+					setLoading(false);
 				}
 			})
 			.catch(console.error);
@@ -126,12 +130,11 @@ export default function Reward(props: RewardProps) {
 					onClick={() => {
 						getReward();
 					}}
-					disabled={!(invitations <= user_invitation)}
+					disabled={!(invitations <= user_invitation) || loading}
 				>
 					Recibir recompensa
 				</Button>
 			</CardActions>
-			<Snackbar open={open} setOpen={setOpen} />
 		</Card>
 	);
 }
