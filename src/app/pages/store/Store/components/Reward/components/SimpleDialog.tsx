@@ -1,4 +1,4 @@
-import { SetStateAction, Dispatch } from 'react';
+import { SetStateAction, Dispatch, useEffect } from 'react';
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
 import Box from '@mui/material/Box';
@@ -19,10 +19,12 @@ export default function SimpleDialog(props: SimpleDialogProps) {
     setOpen(false);
   };
 
-  if (open) {
-    const audio = new Audio('/success.mp3');
-    audio.play().catch(console.error);
-  }
+  useEffect(() => {
+    if (open) {
+      const audio = new Audio('/success.mp3');
+      audio.play().catch(console.error);
+    }
+  }, [open]);
 
   return (
     <>
