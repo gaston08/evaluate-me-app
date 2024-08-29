@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 import Error from 'app/pages/error';
 import { View, Subjects, Trainer, TrainerForm } from 'app/pages/exam';
 import { Store } from 'app/pages/store';
@@ -20,6 +20,8 @@ import {
   TrabajoYSociedad,
 } from 'app/pages/exam/components/SeoWrappers';
 
+import GetParams from 'app/components/GetParams';
+
 import BlogLayout from 'app/layouts/blog';
 import { NoRequireAuth } from 'app/layouts/auth';
 
@@ -38,7 +40,7 @@ const tra_soc_path = subjects.find(
 export const arrRoutes = [
   {
     path: '/',
-    element: <Navigate to="/tests" replace />,
+    element: <GetParams />,
   },
   {
     path: '/tests',

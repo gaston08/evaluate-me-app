@@ -18,7 +18,15 @@ export default function ResetPassword() {
 
 	async function callApi() {
 		setLoading(true);
-		const result = await axiosPost(`api/user/activate/account/${token}`);
+		const invitation_code = localStorage.getItem('invitation_code');
+		let result;
+		if (typeof invitation_code === 'string') {
+			result = await axiosPost(`api/user/activate/account/${token}`, {
+				invitation_code,
+			});
+		} else {
+			result = await axiosPost(`api/user/activate/account/${token}`);
+		}
 		if (result.ok) {
 			navigate('/auth/login', { state: { signup: true, reset: false } });
 		} else {
