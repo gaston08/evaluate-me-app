@@ -16,6 +16,7 @@ import {
 } from 'app/shared/interfaces/api-response';
 import { authType } from 'app/shared/interfaces/auth';
 import { setUpAuth } from 'app/utils/auth';
+import HelpGuide from '../HelpGuide';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	height: 10,
@@ -41,6 +42,7 @@ interface RewardProps {
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	canReceive: boolean;
 	userCoffees: number;
+	invitation_code: number;
 }
 
 export default function Reward(props: RewardProps) {
@@ -56,6 +58,7 @@ export default function Reward(props: RewardProps) {
 		setOpen,
 		canReceive,
 		userCoffees,
+		invitation_code,
 	} = props;
 	const [loading, setLoading] = useState<boolean>(false);
 	const [progress] = useState<number>(() => {
@@ -140,6 +143,7 @@ export default function Reward(props: RewardProps) {
 					Recibir recompensa
 				</Button>
 			</CardActions>
+			<HelpGuide invitation_code={invitation_code} />
 		</Card>
 	);
 }

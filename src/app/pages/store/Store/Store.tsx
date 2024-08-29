@@ -36,6 +36,7 @@ export default function Store() {
 					received_invitations={auth.user.received_invitations}
 					setAuth={setAuth}
 					setOpen={setOpen}
+					invitation_code={auth.user.invitation_code}
 					canReceive={
 						!auth.user.received_invitations.includes(
 							invitations_challenges[current].id,
