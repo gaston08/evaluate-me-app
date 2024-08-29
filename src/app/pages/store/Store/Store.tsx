@@ -4,6 +4,12 @@ import Box from '@mui/material/Box';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import SimpleDialog from './components/Reward/components/SimpleDialog';
+import { axiosPost } from 'app/utils/axios';
+import {
+	apiPostResponse,
+	expressError,
+} from 'app/shared/interfaces/api-response';
+import { setUpAuth } from 'app/utils/auth';
 
 export default function Store() {
 	const { auth, setAuth } = useContext<contextAuth>(AuthContext);
@@ -20,6 +26,26 @@ export default function Store() {
 			}
 		}
 	}, [auth.user]);
+
+	useEffect(() => {
+		axiosPost('api/user/refresh-token-db')
+			.then((result: apiPostResponse) => {
+				if (result.ok) {
+					setUpAuth(result.data.token, true, setAuth);
+				} else {
+					setUpAuth('', false, setAuth);
+					if (result.error) {
+						console.log(result.error);
+					}
+					if (result.errors) {
+						result.errors.forEach((err: expressError): void => {
+							console.log(err.msg);
+						});
+					}
+				}
+			})
+			.catch(console.error);
+	}, []);
 
 	return (
 		<Fragment>
