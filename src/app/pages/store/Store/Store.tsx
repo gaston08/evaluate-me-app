@@ -1,5 +1,6 @@
 import { Fragment, useContext, useState, useEffect } from 'react';
 import Reward from './components/Reward';
+import Prices from './components/Prices';
 import Box from '@mui/material/Box';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth } from 'app/shared/interfaces/auth';
@@ -69,6 +70,7 @@ export default function Store() {
 						)
 					}
 				/>
+				<Prices />
 			</Box>
 			<SimpleDialog
 				coffees={invitations_challenges[current].coffees}
