@@ -1,10 +1,9 @@
 import * as React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
+import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import WhatsappButton from 'app/components/WhatsappButton';
 
 export default function Failure() {
 	return (
@@ -18,21 +17,18 @@ export default function Failure() {
 				</Typography>
 				{/**<Typography sx={{ color: 'text.secondary', mb: 1.5 }}>$500</Typography>**/}
 				<Typography variant="body2">
-					Intentá pagar con otro método de pago, si el problema persiste
-					comunicate con el equipo de ubaparciales.
+					Intentá pagar con otro método de pago. <br />
+					<br />
+					Si el problema persiste comunicate con el equipo de ubaparciales
+					haciendo click en el ícono de whatsapp.
+					<br />
+					<br />O envíanos un correo:{' '}
+					<a href="mailto:ubaparciales@gmail.com">ubaparciales@gmail.com</a>
 				</Typography>
 			</CardContent>
-			<CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-				<Button
-					size="small"
-					variant="contained"
-					color="error"
-					component={RouterLink}
-					to="/tienda/cafecitos"
-				>
-					volver a la tienda
-				</Button>
-			</CardActions>
+			<Box sx={{ pb: 2 }}>
+				<WhatsappButton />
+			</Box>
 		</Card>
 	);
 }
