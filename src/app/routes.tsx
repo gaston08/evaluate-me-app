@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Error from 'app/pages/error';
 import { View, Subjects, Trainer, TrainerForm } from 'app/pages/exam';
-import { Store } from 'app/pages/store';
+import { Store, Success, Pending, Failure } from 'app/pages/store';
 import {
   SignUp,
   SignIn,
@@ -128,12 +128,24 @@ export const arrRoutes = [
   {
     path: '/tienda',
     element: (
-      <BlogLayout showSidebar={false} requireAuth={true} showTokens={true} />
+      <BlogLayout showSidebar={false} requireAuth={false} showTokens={true} />
     ),
     children: [
       {
         path: '/tienda/cafecitos',
         element: <Store />,
+      },
+      {
+        path: '/tienda/success',
+        element: <Success />,
+      },
+      {
+        path: '/tienda/pending',
+        element: <Pending />,
+      },
+      {
+        path: '/tienda/failure',
+        element: <Failure />,
       },
     ],
   },
