@@ -11,6 +11,9 @@ export interface apiPostResponse {
 	ok: boolean;
 	data: {
 		token?: string;
+		preference: {
+			init_point: string;
+		};
 	};
 	error: string | null;
 	errors: Array<expressError> | null;

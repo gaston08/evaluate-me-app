@@ -22,7 +22,7 @@ function CustomTabPanel(props: TabPanelProps) {
 }
 
 export default function PaymentMethods() {
-	const [value, setValue] = useState<number>(1);
+	const [value, setValue] = useState<number>(0);
 	const handleChange = (event: SyntheticEvent, newValue: number) => {
 		setValue(newValue);
 	};

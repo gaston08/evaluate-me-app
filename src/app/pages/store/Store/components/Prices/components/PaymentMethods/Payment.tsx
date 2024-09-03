@@ -1,9 +1,14 @@
+import { useState, useContext } from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { CoffeeIcon } from '../CoffeePrices/CoffeePrices';
+import PackListItem from './PackListItem';
+import { AuthContext } from 'app/contexts/Auth';
+import { contextAuth } from 'app/shared/interfaces/auth';
 
 export default function Payment() {
+	const { auth } = useContext<contextAuth>(AuthContext);
+	const [loading, setLoading] = useState<boolean>(false);
+
 	return (
 		<Box>
 			<Typography>
@@ -18,9 +23,30 @@ export default function Payment() {
 						<li>
 							<Typography>Pagá el pack que deseas adquirir.</Typography>
 							<Box sx={{ mt: 2 }}>
-								<PackListItem coffees="100" />
-								<PackListItem coffees="1.000" />
-								<PackListItem coffees="10.000" />
+								<PackListItem
+									loading={loading}
+									setLoading={setLoading}
+									coffees="100"
+									id="coffees-100"
+									email={auth.user.email}
+									user_id={auth.user._id}
+								/>
+								<PackListItem
+									loading={loading}
+									setLoading={setLoading}
+									coffees="1.000"
+									id="coffees-1000"
+									email={auth.user.email}
+									user_id={auth.user._id}
+								/>
+								<PackListItem
+									loading={loading}
+									setLoading={setLoading}
+									coffees="10.000"
+									id="coffees-10000"
+									email={auth.user.email}
+									user_id={auth.user._id}
+								/>
 							</Box>
 						</li>
 						<li>
@@ -32,36 +58,6 @@ export default function Payment() {
 					</ol>
 				</Box>
 			</Box>
-		</Box>
-	);
-}
-
-interface PackListItemProps {
-	coffees: string;
-}
-
-function PackListItem(props: PackListItemProps) {
-	const { coffees } = props;
-
-	return (
-		<Box
-			sx={{
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'space-around',
-				gap: 1,
-				mb: 3,
-			}}
-		>
-			<Box sx={{ display: 'flex', alignItems: 'center' }}>
-				<CoffeeIcon />
-				<Typography sx={{ ml: 1 }}>
-					<strong>x{coffees}</strong>
-				</Typography>
-			</Box>
-			<Button variant="contained" size="small" color="success">
-				PAGAR
-			</Button>
 		</Box>
 	);
 }
