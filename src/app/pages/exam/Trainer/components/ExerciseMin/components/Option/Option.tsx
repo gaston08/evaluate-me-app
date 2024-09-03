@@ -27,7 +27,7 @@ export default function Option(props: OptionProps) {
 		if (auth.coffees === 0) {
 			alert('Te quedaste sin cafecitos. :(');
 		} else {
-			if (canSelect) {
+			if (canSelect && !selected) {
 				setSelected(true);
 				if (isCorrect) {
 					if (!arrSelected.includes(id)) {

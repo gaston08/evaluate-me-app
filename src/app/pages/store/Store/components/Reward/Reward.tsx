@@ -73,6 +73,8 @@ export default function Reward(props: RewardProps) {
 		}
 	});
 
+	console.log(progress);
+
 	const getReward = () => {
 		setLoading(true);
 		const arr = [...received_invitations];
