@@ -13,6 +13,7 @@ import { axiosGet } from 'app/utils/axios';
 import { exam_types } from 'app/shared/exams/exam';
 import { subjects } from 'app/shared/exams/ubaxxi';
 import Faq from 'app/components/Faq';
+import ModalVideo from './components/ModalVideo';
 
 interface exam {
 	[key: string]: {
@@ -30,6 +31,25 @@ export default function SubjectExams({ subjectId }) {
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const [exams, setExams] = useState<exam>({});
 	const location = useLocation();
+	const [open, setOpen] = useState(() => {
+		const watched = localStorage.getItem('watched_trainer');
+		if (watched === null) {
+			return true;
+		} else {
+			const date = new Date(watched);
+			const ONE_HOUR = 60 * 60 * 1000; /* ms */
+
+			if (new Date() - date > ONE_HOUR) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	});
+	const handleClose = () => {
+		localStorage.setItem('watched_trainer', new Date().toString());
+		setOpen(false);
+	};
 
 	const subject = subjects.find((sub) => sub.value === subjectId);
 
@@ -56,6 +76,7 @@ export default function SubjectExams({ subjectId }) {
 			}
 		}
 		if (params.id === undefined) {
+			console.log('fetch exams');
 			fetchData().then().catch(console.error);
 		}
 	}, [subjectId, location.key]);
@@ -167,6 +188,7 @@ export default function SubjectExams({ subjectId }) {
 			<Box>
 				<Faq />
 			</Box>
+			{open ? <ModalVideo open={open} handleClose={handleClose} /> : null}
 		</Box>
 	);
 }
