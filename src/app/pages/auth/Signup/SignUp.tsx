@@ -39,11 +39,11 @@ export default function SignUp() {
 			) : (
 				<Formik
 					initialValues={{
-						email: 'profesorgasti@gmail.com',
-						password: 'Abcd1234',
-						confirmPassword: 'Abcd1234',
-						fullName: 'Gaston Pedraza',
-						username: 'gaston08pedraza',
+						email: '',
+						password: '',
+						confirmPassword: '',
+						fullName: '',
+						username: '',
 					}}
 					validate={(values) => {
 						const errors = {};
