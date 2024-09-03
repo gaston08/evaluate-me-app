@@ -121,67 +121,86 @@ export default function SubjectExams({ subjectId }) {
 					</Box>
 				) : (
 					<>
-						{Object.keys(exams)
-							.reverse()
-							.map((year) => {
-								return (
-									<Box key={year}>
-										<p>{year}</p>
-										<Box>
-											{Object.keys(exams[year]).map((type) => {
-												const labelType = exam_types.find(
-													(t) => t.value === type,
-												);
-												return (
-													<Box key={type}>
-														<Box sx={{ ml: 2 }}>
-															{Object.keys(exams[year][type]).map(
-																(department) => {
-																	return (
-																		<Box key={department}>
-																			<p>
-																				<strong>
-																					{labelType ? labelType.label : type},
-																				</strong>{' '}
-																				{
-																					subject.departments.find(
-																						(dep) => dep.value === department,
-																					).label
-																				}
-																			</p>
-																			<Grid gap={1} container sx={{ ml: 2 }}>
-																				{Object.keys(
-																					exams[year][type][department],
-																				).map((examNumber) => {
-																					return (
-																						<Grid item key={examNumber}>
-																							<Link
-																								component={RouterLink}
-																								to={
-																									exams[year][type][department][
-																										examNumber
-																									]
-																								}
-																								sx={{ mr: 4 }}
-																							>
-																								TEMA {examNumber}{' '}
-																							</Link>
-																						</Grid>
-																					);
-																				})}
-																			</Grid>
-																		</Box>
-																	);
-																},
-															)}
-														</Box>
-													</Box>
-												);
-											})}
-										</Box>
-									</Box>
-								);
-							})}
+						{Object.keys(exams).length === 0 ? (
+							<>
+								<Typography sx={{ mt: 2 }} variant="h6">
+									Estamos subiendo ejercicios para este exámen, volvé a ingresar
+									días antes del exámen.
+								</Typography>
+							</>
+						) : (
+							<>
+								{Object.keys(exams)
+									.reverse()
+									.map((year) => {
+										return (
+											<Box key={year}>
+												<p>{year}</p>
+												<Box>
+													{Object.keys(exams[year]).map((type) => {
+														const labelType = exam_types.find(
+															(t) => t.value === type,
+														);
+														return (
+															<Box key={type}>
+																<Box sx={{ ml: 2 }}>
+																	{Object.keys(exams[year][type]).map(
+																		(department) => {
+																			return (
+																				<Box key={department}>
+																					<p>
+																						<strong>
+																							{labelType
+																								? labelType.label
+																								: type}
+																							,
+																						</strong>{' '}
+																						{
+																							subject.departments.find(
+																								(dep) =>
+																									dep.value === department,
+																							).label
+																						}
+																					</p>
+																					<Grid
+																						gap={1}
+																						container
+																						sx={{ ml: 2 }}
+																					>
+																						{Object.keys(
+																							exams[year][type][department],
+																						).map((examNumber) => {
+																							return (
+																								<Grid item key={examNumber}>
+																									<Link
+																										component={RouterLink}
+																										to={
+																											exams[year][type][
+																												department
+																											][examNumber]
+																										}
+																										sx={{ mr: 4 }}
+																									>
+																										TEMA {examNumber}{' '}
+																									</Link>
+																								</Grid>
+																							);
+																						})}
+																					</Grid>
+																				</Box>
+																			);
+																		},
+																	)}
+																</Box>
+															</Box>
+														);
+													})}
+												</Box>
+											</Box>
+										);
+									})}
+							</>
+						)}
 					</>
 				)}
 			</Box>

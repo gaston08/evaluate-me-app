@@ -15,9 +15,9 @@ import { subjects } from 'app/shared/exams/ubaxxi';
 import {
   IpcSeoWrapper,
   IcseSeoWrapper,
-  DDHHSeoWrapper,
-  DerechoPrivado,
-  TrabajoYSociedad,
+  //  DDHHSeoWrapper,
+  // DerechoPrivado,
+  //TrabajoYSociedad,
 } from 'app/pages/exam/components/SeoWrappers';
 
 import GetParams from 'app/components/GetParams';
@@ -27,7 +27,7 @@ import { NoRequireAuth } from 'app/layouts/auth';
 
 const ipc_path = subjects.find((subject) => subject.short === 'IPC').value;
 const icse_path = subjects.find((subject) => subject.short === 'ICSE').value;
-const ddhh_path = subjects.find(
+/*const ddhh_path = subjects.find(
   (subject) => subject.short === 'DDHH y Derecho Constitucional',
 ).value;
 const der_pri_path = subjects.find(
@@ -35,7 +35,7 @@ const der_pri_path = subjects.find(
 ).value;
 const tra_soc_path = subjects.find(
   (subject) => subject.short === 'Trabajo y Sociedad',
-).value;
+).value;*/
 
 export const arrRoutes = [
   {
@@ -67,6 +67,7 @@ export const arrRoutes = [
         element: <View />,
       },
       //ddhh
+      /*
       {
         path: '/tests/' + ddhh_path,
         element: <DDHHSeoWrapper subjectId={ddhh_path} />,
@@ -92,7 +93,7 @@ export const arrRoutes = [
       {
         path: '/tests/' + tra_soc_path + '/:id',
         element: <View />,
-      },
+      },*/
     ],
   },
   {
@@ -128,7 +129,7 @@ export const arrRoutes = [
   {
     path: '/tienda',
     element: (
-      <BlogLayout showSidebar={false} requireAuth={false} showTokens={true} />
+      <BlogLayout showSidebar={false} requireAuth={true} showTokens={true} />
     ),
     children: [
       {

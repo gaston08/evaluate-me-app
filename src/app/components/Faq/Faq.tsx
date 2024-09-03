@@ -27,11 +27,6 @@ const faqs = [
       'Actualmente, nuestra plataforma ofrece parciales de IPC e ICSE de UBA XXI. Estamos trabajando activamente para expandir nuestra oferta y en el futuro incluir parciales de UBA XXI, CBC presencial y, finalmente, abarcar todas las materias de la UBA.',
   },
   {
-    question: '¿Cuál es el costo de la plataforma?',
-    answer:
-      'No hay ningún costo asociado con el uso de la plataforma. El equipo detrás de ubaparciales trabaja arduamente para su desarrollo y mantenimiento, por lo que tu colaboración es crucial para mantenerla en funcionamiento.',
-  },
-  {
     question: '¿Cómo puedo colaborar con la plataforma?',
     answer:
       'Tienes la opción de apoyarnos invitándonos un <a href="https://cafecito.app/ubaparciales" target="_blank">cafecito</a>. Tu contribución nos ayuda a mantener la plataforma en línea y a seguir mejorando nuestros servicios.',
