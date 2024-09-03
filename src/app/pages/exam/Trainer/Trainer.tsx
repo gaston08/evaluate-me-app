@@ -5,6 +5,7 @@ import ExerciseMin from './components/ExerciseMin';
 import { Link as RouterLink } from 'react-router-dom';
 import { axiosGet, axiosPost } from 'app/utils/axios';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import {
@@ -106,6 +107,8 @@ export default function Trainer() {
 		};
 	});
 
+	console.log(examInfo);
+
 	useEffect(() => {
 		async function fetchData() {
 			const result: apiGetAllSubjects = await axiosGet(
@@ -166,8 +169,24 @@ export default function Trainer() {
 		return (
 			<Box>
 				<Alert severity="warning">
-					No se encontraron exámenes {examInfo.examType} de {examInfo.subject},
+					{/**No se encontraron exámenes {examInfo.examType} de {examInfo.subject},
 					Cátedra {examInfo.department}
+				**/}
+					<Typography>
+						Estamos subiendo ejercicios para este exámen, volvé a ingresar días
+						antes del exámen.
+					</Typography>
+					<Typography sx={{ mb: 1 }}>
+						Comunicate al <strong>+54 3884542738</strong> para conocer el estado
+						del exámen.
+					</Typography>
+					<Typography
+						component={RouterLink}
+						to="https://wa.me/543884542738"
+						target="_blank"
+					>
+						https://wa.me/543884542738
+					</Typography>
 				</Alert>
 				<Button
 					variant="contained"
