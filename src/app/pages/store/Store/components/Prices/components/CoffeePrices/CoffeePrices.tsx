@@ -1,17 +1,14 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-
 export const CoffeeIcon = () => {
 	return <img src={'/icons/coffee.svg'} style={{ width: 40, height: 40 }} />;
 };
-
 interface CoffeePricesProps {
 	coffees: string;
 	originalPrice: string;
 	disccountPrice: string;
 	percentage: string;
 }
-
 export const CoffeePrices = (props: CoffeePricesProps) => {
 	const { coffees, originalPrice, disccountPrice, percentage } = props;
 	return (

@@ -2,7 +2,11 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { CoffeeIcon, CoffeePrices } from './CoffeePrices';
+import {
+	CoffeeIcon,
+	CoffeePrices,
+} from './components/CoffeePrices/CoffeePrices';
+import PaymentMethods from './components/PaymentMethods';
 
 export default function Prices() {
 	return (
@@ -37,23 +41,8 @@ export default function Prices() {
 					percentage="80"
 				/>
 			</CardContent>
-			<Box sx={{ p: 2 }}>
-				<Typography>
-					<strong>Pasos a seguir.</strong>
-				</Typography>
-				<ol>
-					<li>
-						<Typography>
-							Realizá una transferencia al alias gas.mp.ton con el monto
-							indicado en cada pack.
-						</Typography>
-					</li>
-					<li>
-						<Typography>
-							Envia el comprobante por whatsapp, indicando tu número
-						</Typography>
-					</li>
-				</ol>
+			<Box>
+				<PaymentMethods />
 			</Box>
 		</Card>
 	);
