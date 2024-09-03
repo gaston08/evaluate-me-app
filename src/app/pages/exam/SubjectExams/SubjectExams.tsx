@@ -42,11 +42,6 @@ export default function SubjectExams({ subjectId }) {
 			if (result.ok) {
 				setExams(result.data.exams);
 				setLoading(false);
-				localStorage.setItem(`${subjectId}-full-exams-list-date`, new Date());
-				localStorage.setItem(
-					`${subjectId}-full-exams-list`,
-					JSON.stringify(result.data.exams),
-				);
 			} else {
 				if (result.errors) {
 					const errorsArr: Array<string> = result.errors.map((err) => {
@@ -61,26 +56,7 @@ export default function SubjectExams({ subjectId }) {
 			}
 		}
 		if (params.id === undefined) {
-			const stored_exams_date = localStorage.getItem(
-				`${subjectId}-full-exams-list-date`,
-			);
-			if (stored_exams_date === null) {
-				fetchData().then().catch(console.error);
-			} else {
-				const date = new Date(stored_exams_date);
-				const now = new Date();
-
-				// check for a day
-				if (now - date >= 86400000) {
-					fetchData().then().catch(console.error);
-				} else {
-					setExams(
-						JSON.parse(
-							localStorage.getItem(`${subjectId}-full-exams-list`),
-						) as exam,
-					);
-				}
-			}
+			fetchData().then().catch(console.error);
 		}
 	}, [subjectId, location.key]);
 
@@ -88,33 +64,26 @@ export default function SubjectExams({ subjectId }) {
 		return <Typography variant="h3">Cargando...</Typography>;
 	}
 
-	const refreshExams = () => {
-		localStorage.removeItem(`${subjectId}-full-exams-list-date`);
-		localStorage.removeItem(`${subjectId}-full-exams-list`);
-		window.location.reload();
-	};
-
 	return (
 		<Box>
 			<Box sx={{ minHeight: 350 }}>
-				<Box>
+				<Box sx={{ mb: 3 }}>
+					<Typography variant="h5" sx={{ mb: 2, color: 'green' }}>
+						Aumenta 88% tus chances de aprobar ingresando al modo entrenamiento.
+					</Typography>
 					<Button
 						component={RouterLink}
 						to={`/entrenamiento/${subjectId}`}
 						variant="contained"
+						color="success"
 					>
-						Entrenamiento
+						INGRESAR
 					</Button>
 				</Box>
 				<Box>
 					<Typography variant="h5" component="h1">
 						Parciales de {subject.label.toLowerCase()}.
 					</Typography>
-				</Box>
-				<Box>
-					<Button variant="contained" onClick={refreshExams}>
-						Actualizar exámenes
-					</Button>
 				</Box>
 				{errors.length !== 0 ? (
 					<Box>
