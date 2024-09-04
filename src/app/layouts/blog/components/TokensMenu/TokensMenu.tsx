@@ -31,7 +31,7 @@ export default function TokensMenu(props: TokensMenuProps) {
 
 	useEffect(() => {
 		console.log(auth.coffees);
-		if (auth.coffees % 10 === 0) {
+		if (auth.coffees % 3 === 0 || auth.coffees < 10) {
 			axiosPost('api/user/update/profile', {
 				fullName: auth.user.fullName,
 				username: auth.user.username,

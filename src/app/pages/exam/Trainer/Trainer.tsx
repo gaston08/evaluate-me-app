@@ -110,7 +110,7 @@ export default function Trainer() {
 	useEffect(() => {
 		async function fetchData() {
 			const result: apiGetAllSubjects = await axiosGet(
-				`api/exam/get:${params.subject}`,
+				`api/exam/get/trainer/${params.subject}/${params.department}/${params.type}`,
 			);
 			if (result.ok) {
 				const exams: exams_interface = result.data.exams;
