@@ -31,7 +31,7 @@ const theme = createTheme({
 	},
 	custom: {
 		background: {
-			light: '#eeeeee',
+			light: 'rgba(238, 238, 238, 0.5)',
 			main: '#bbbbbb',
 		},
 	},

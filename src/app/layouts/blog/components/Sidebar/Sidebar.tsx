@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+//import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+//import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { subjects } from 'app/shared/exams/ubaxxi';
@@ -26,7 +26,7 @@ export default function Sidebar() {
           top: !matches ? 20 : 0,
         }}
       >
-        <Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.200' }}>
+        {/*<Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.200' }}>
           <Typography>
             Acordate de contarnos como te fué en el parcial,
             <strong> invitanos un cafecito.</strong>
@@ -34,7 +34,7 @@ export default function Sidebar() {
           <Box sx={{ mt: 2 }}>
             <CafecitoButton />
           </Box>
-        </Paper>
+        </Paper>*/}
         <>
           {matches ? null : (
             <Box sx={{ pb: 3, pt: 3 }}>
@@ -62,7 +62,7 @@ export default function Sidebar() {
   );
 }
 
-function CafecitoButton() {
+/*function CafecitoButton() {
   return (
     <a href="https://cafecito.app/ubaparciales" rel="noopener" target="_blank">
       <img
@@ -73,3 +73,4 @@ function CafecitoButton() {
     </a>
   );
 }
+*/

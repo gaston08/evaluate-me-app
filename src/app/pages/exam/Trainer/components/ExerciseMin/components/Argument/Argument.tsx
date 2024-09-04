@@ -67,6 +67,7 @@ export default function Argument(props: argumentProps) {
 			sx={{ minHeight: 200, position: 'relative', paddingBottom: 10 }}
 			severity="success"
 			id={exercise.id}
+			className="argument-feedback"
 		>
 			<Tabs value={index} onChange={handleChange} sx={{ mb: 4 }}>
 				{args.map((arg) => {
