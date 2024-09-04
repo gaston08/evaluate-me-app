@@ -27,14 +27,9 @@ const faqs = [
       'Actualmente, nuestra plataforma ofrece parciales de IPC e ICSE de UBA XXI. Estamos trabajando activamente para expandir nuestra oferta y en el futuro incluir parciales de UBA XXI, CBC presencial y, finalmente, abarcar todas las materias de la UBA.',
   },
   {
-    question: '¿Cómo puedo colaborar con la plataforma?',
-    answer:
-      'Tienes la opción de apoyarnos invitándonos un <a href="https://cafecito.app/ubaparciales" target="_blank">cafecito</a>. Tu contribución nos ayuda a mantener la plataforma en línea y a seguir mejorando nuestros servicios.',
-  },
-  {
     question: '¿Qué hago si no encuentro la materia que busco?',
     answer:
-      'Si no encuentras la materia que necesitas, puedes ayudarnos comprándonos un <a href="https://cafecito.app/ubaparciales" target="_blank">cafecito</a> y sugiriéndonos qué materia te gustaría que preparáramos. Priorizaremos las materias que reciban más cafecitos y seguiremos subiendo contenido basado en las preferencias de nuestra comunidad de usuarios.',
+      'Envianos un email a <strong>ubaparciales@gmail.com</strong> con el nombre de la materia que estás buscando.',
   },
 ];
 
