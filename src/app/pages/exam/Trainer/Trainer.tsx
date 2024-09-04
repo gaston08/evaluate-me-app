@@ -32,6 +32,7 @@ interface exams_interface {
 async function getExams(
 	array_id: Array<string>,
 	setExercises: React.Dispatch<React.SetStateAction<Array<exerciseType>>>,
+	setLoading: React.Dispatch<React.SetStateAction<Array<loading>>>,
 ) {
 	const exercises = [];
 
@@ -62,6 +63,8 @@ async function getExams(
 	} else {
 		setExercises(exercises);
 	}
+
+	setLoading(false);
 }
 
 interface TrainerStateInterface {
@@ -90,6 +93,7 @@ export default function Trainer() {
 		}
 	});
 	const [completed, setCompleted] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 	/*const [examInfo] = useState<examInfoInterface>(() => {
 		const subject: selectInterface = subjects.find(
 			(sub) => sub.value === params.subject,
@@ -126,16 +130,19 @@ export default function Trainer() {
 						if (exams_type[params.department]) {
 							// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 							const array_id = Object.values(exams_type[params.department]);
-							getExams(array_id, setExercises).catch(console.error);
+							getExams(array_id, setExercises, setLoading).catch(console.error);
 						} else {
 							console.log('no exams from department ' + params.department);
+							setLoading(false);
 						}
 					} else {
 						console.log('no exams with type ' + params.type);
+						setLoading(false);
 					}
 				}
 			} else {
 				console.log('can not load exercises');
+				setLoading(false);
 			}
 		}
 		fetchData().then().catch(console.error);
@@ -162,6 +169,10 @@ export default function Trainer() {
 			setCurrentIdx((prev) => prev + 1);
 		}
 	};
+
+	if (loading) {
+		return <Typography variant="body1">Cargando...</Typography>;
+	}
 
 	if (exercises.length === 0) {
 		return (
