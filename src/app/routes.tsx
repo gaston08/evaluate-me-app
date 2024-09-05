@@ -16,8 +16,9 @@ import {
   IpcSeoWrapper,
   IcseSeoWrapper,
   //  DDHHSeoWrapper,
-  // DerechoPrivado,
-  //TrabajoYSociedad,
+  DerechoPrivado,
+  TrabajoYSociedad,
+  Antropologia,
 } from 'app/pages/exam/components/SeoWrappers';
 
 import GetParams from 'app/components/GetParams';
@@ -30,12 +31,17 @@ const icse_path = subjects.find((subject) => subject.short === 'ICSE').value;
 /*const ddhh_path = subjects.find(
   (subject) => subject.short === 'DDHH y Derecho Constitucional',
 ).value;
+*/
 const der_pri_path = subjects.find(
   (subject) => subject.short === 'Derecho Privado',
 ).value;
 const tra_soc_path = subjects.find(
   (subject) => subject.short === 'Trabajo y Sociedad',
-).value;*/
+).value;
+
+const antropologia_path = subjects.find(
+  (subject) => subject.short === 'Antropología',
+).value;
 
 export const arrRoutes = [
   {
@@ -66,8 +72,8 @@ export const arrRoutes = [
         path: '/tests/' + icse_path + '/:id',
         element: <View />,
       },
-      //ddhh
       /*
+      //ddhh
       {
         path: '/tests/' + ddhh_path,
         element: <DDHHSeoWrapper subjectId={ddhh_path} />,
@@ -76,6 +82,7 @@ export const arrRoutes = [
         path: '/tests/' + ddhh_path + '/:id',
         element: <View />,
       },
+      */
       //der_pri_path
       {
         path: '/tests/' + der_pri_path,
@@ -93,7 +100,17 @@ export const arrRoutes = [
       {
         path: '/tests/' + tra_soc_path + '/:id',
         element: <View />,
-      },*/
+      },
+
+      //Antropologia
+      {
+        path: '/tests/' + antropologia_path,
+        element: <Antropologia subjectId={antropologia_path} />,
+      },
+      {
+        path: '/tests/' + antropologia_path + '/:id',
+        element: <View />,
+      },
     ],
   },
   {
