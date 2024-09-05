@@ -139,13 +139,19 @@ export default function Trainer() {
 						console.log('no exams with type ' + params.type);
 						setLoading(false);
 					}
+				} else {
+					setLoading(false);
 				}
 			} else {
 				console.log('can not load exercises');
 				setLoading(false);
 			}
 		}
-		fetchData().then().catch(console.error);
+		fetchData()
+			.then()
+			.catch((err) => {
+				console.log(err);
+			});
 	}, []);
 
 	useEffect(() => {
