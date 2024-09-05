@@ -51,7 +51,9 @@ export default function Blog(props: BlogProps) {
 		if (!access_token) {
 			setUpAuth('', false, setAuth);
 			if (requireAuth) {
-				navigate('/auth/login', { state: { omitAuth: true } });
+				navigate(`/auth/login?redirect=${location.pathname}`, {
+					state: { omitAuth: true },
+				});
 				return;
 			} else {
 				setLoading(false);
@@ -67,7 +69,9 @@ export default function Blog(props: BlogProps) {
 			setUpAuth('', false, setAuth);
 
 			if (requireAuth) {
-				navigate('/auth/login', { state: { omitAuth: true } });
+				navigate(`/auth/login?redirect=${location.pathname}`, {
+					state: { omitAuth: true },
+				});
 				return;
 			} else {
 				setLoading(false);

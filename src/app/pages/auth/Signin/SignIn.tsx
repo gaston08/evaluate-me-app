@@ -34,6 +34,17 @@ export default function SignIn() {
 	const [loading, setLoading] = useState<boolean>(false);
 	const navigate = useNavigate();
 
+	const { search } = useLocation();
+	const searchParams = new URLSearchParams(search);
+	const [redirect] = useState<string>(() => {
+		const param = searchParams.get('redirect');
+		if (param === null) {
+			return '/tests';
+		} else {
+			return param;
+		}
+	});
+
 	const login = async (token: string, clientId: string) => {
 		setLoading(true);
 		const data = {
@@ -45,7 +56,7 @@ export default function SignIn() {
 
 		if (result.ok) {
 			setUpAuth(result.data.token, true, setAuth);
-			navigate('/tests', { state: { omitAuth: true } });
+			navigate(redirect, { state: { omitAuth: true } });
 		} else {
 			if (result.error) {
 				setError(result.error);
@@ -89,7 +100,7 @@ export default function SignIn() {
 				const result: apiPostResponse = await axiosPost('api/login', data);
 				if (result.ok) {
 					setUpAuth(result.data.token, true, setAuth);
-					navigate('/tests', { state: { omitAuth: true } });
+					navigate(redirect, { state: { omitAuth: true } });
 				} else {
 					setError(result.error);
 					if (result.errors) {
