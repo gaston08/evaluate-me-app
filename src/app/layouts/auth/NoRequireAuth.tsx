@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
-import { axiosPost } from 'app/utils/axios';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -22,15 +21,18 @@ export default function RequireAuth() {
 	const navigate = useNavigate();
 	const { setAuth } = useContext<contextAuth>(AuthContext);
 
-	const checkAuth = async () => {
+	const checkAuth = (): void => {
 		const access_token = localStorage.getItem('access_token');
 
 		if (!access_token) {
 			setUpAuth('', false, setAuth);
 			setIsLoading(false);
 			return;
+		} else {
+			setUpAuth(access_token, true, setAuth);
+			navigate('/tests', { state: { omitAuth: true } });
 		}
-		const result = await axiosPost('api/refresh-token', {});
+		/*const result = await axiosPost('api/refresh-token', {});
 
 		if (result.ok) {
 			setUpAuth(result.data.token, true, setAuth);
@@ -38,7 +40,7 @@ export default function RequireAuth() {
 		} else {
 			setUpAuth('', false, setAuth);
 			setIsLoading(false);
-		}
+		}*/
 	};
 
 	useEffect(() => {
@@ -46,7 +48,7 @@ export default function RequireAuth() {
 			setIsLoading(false);
 			// omit auth
 		} else {
-			checkAuth().catch(console.error);
+			checkAuth();
 		}
 		document.title = 'ubaparciales';
 	}, []);

@@ -8,7 +8,6 @@ import Main from './components/Main';
 import Sidebar from './components/Sidebar';
 import TokensMenu from './components/TokensMenu';
 import Footer from './components/Footer';
-import { axiosPost } from 'app/utils/axios';
 import { setUpAuth } from 'app/utils/auth';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth } from 'app/shared/interfaces/auth';
@@ -44,7 +43,7 @@ export default function Blog(props: BlogProps) {
 		}
 	}, [location.pathname, location.search]);
 
-	const checkAuth = async () => {
+	const checkAuth = (): void => {
 		console.log('check auth');
 		const access_token: string = localStorage.getItem('access_token');
 
@@ -58,9 +57,12 @@ export default function Blog(props: BlogProps) {
 			} else {
 				setLoading(false);
 			}
+		} else {
+			setUpAuth(access_token, true, setAuth);
+			setLoading(false);
 		}
 
-		const result = await axiosPost('api/refresh-token', {});
+		/*const result = await axiosPost('api/refresh-token', {});
 
 		if (result.ok) {
 			setUpAuth(result.data.token, true, setAuth);
@@ -76,7 +78,7 @@ export default function Blog(props: BlogProps) {
 			} else {
 				setLoading(false);
 			}
-		}
+		}*/
 	};
 
 	useEffect(() => {
@@ -85,7 +87,7 @@ export default function Blog(props: BlogProps) {
 			console.log('OMIT');
 			// omit auth
 		} else {
-			checkAuth().catch(console.error);
+			checkAuth();
 		}
 	}, [location.pathname]);
 
