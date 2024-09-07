@@ -1,5 +1,9 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
+import likeIcon from 'assets/icons/like.svg';
+import dislikeIcon from 'assets/icons/dislike.svg';
+import likeIconDark from 'assets/icons/like-dark.svg';
+import dislikeIconDark from 'assets/icons/dislike-dark.svg';
 
 interface LikeButtonsProps {
 	likes: number;
@@ -70,19 +74,17 @@ export default function LikeButtons(props: LikeButtonsProps) {
 }
 
 function LikeIcon() {
-	return <img src={'/icons/like.svg'} style={{ width: 20, height: 20 }} />;
+	return <img src={likeIcon} style={{ width: 20, height: 20 }} />;
 }
 
 function LikeDarkIcon() {
-	return <img src={'/icons/like-dark.svg'} style={{ width: 20, height: 20 }} />;
+	return <img src={likeIconDark} style={{ width: 20, height: 20 }} />;
 }
 
 function DislikeIcon() {
-	return <img src={'/icons/dislike.svg'} style={{ width: 20, height: 20 }} />;
+	return <img src={dislikeIcon} style={{ width: 20, height: 20 }} />;
 }
 
 function DislikeDarkIcon() {
-	return (
-		<img src={'/icons/dislike-dark.svg'} style={{ width: 20, height: 20 }} />
-	);
+	return <img src={dislikeIconDark} style={{ width: 20, height: 20 }} />;
 }

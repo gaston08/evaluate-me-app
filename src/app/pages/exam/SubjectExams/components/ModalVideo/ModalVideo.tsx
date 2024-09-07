@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import video from '/public/assets/videos/demo_trainer.mp4';
+import video from 'assets/videos/demo_trainer.mp4';
 
 const style = {
 	position: 'absolute' as const,
@@ -32,7 +32,9 @@ export default function ModalVideo(props: ModalVideoProps) {
 			setCount((prev) => prev - 1);
 		}, 1000);
 
-		return () => { clearInterval(interval); };
+		return () => {
+			clearInterval(interval);
+		};
 	}, []);
 
 	useEffect(() => {

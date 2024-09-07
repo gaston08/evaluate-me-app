@@ -40,9 +40,11 @@ export default function Exercise(props: ExerciseProps) {
 									{exercise.question[i].python_code ? (
 										<Box
 											sx={{
-												borderTop: '2px solid black',
-												borderLeft: '2px solid black',
+												borderTop: '2px solid #555',
+												borderLeft: '2px solid #555',
+												overflow: 'scroll',
 											}}
+											id="exercise-title"
 											className="highlight-code"
 										>
 											<Box
@@ -56,10 +58,12 @@ export default function Exercise(props: ExerciseProps) {
 									) : (
 										<Box
 											sx={{
-												borderTop: '2px solid black',
-												borderLeft: '2px solid black',
-												borderRight: '2px solid black',
+												borderTop: '2px solid #555',
+												borderLeft: '2px solid #555',
+												borderRight: '2px solid #555',
+												borderBottom: '2px solid #555',
 											}}
+											id="exercise-title"
 											className="highlight-code"
 										>
 											<Box

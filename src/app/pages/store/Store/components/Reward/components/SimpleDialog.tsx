@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Confetti from 'app/components/Confetti';
+import CoffeeIconSvg from 'assets/icons/coffee.svg';
 
 export interface SimpleDialogProps {
   open: boolean;
@@ -54,5 +55,5 @@ export default function SimpleDialog(props: SimpleDialogProps) {
 }
 
 function CoffeeIcon() {
-  return <img src={'/icons/coffee.svg'} style={{ width: 50, height: 50 }} />;
+  return <img src={CoffeeIconSvg} style={{ width: 50, height: 50 }} />;
 }

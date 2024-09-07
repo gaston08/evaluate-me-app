@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import CoffeeIconSvg from 'assets/icons/coffee.svg';
 export const CoffeeIcon = () => {
-	return <img src={'/icons/coffee.svg'} style={{ width: 40, height: 40 }} />;
+	return <img src={CoffeeIconSvg} style={{ width: 40, height: 40 }} />;
 };
 interface CoffeePricesProps {
 	coffees: string;

@@ -9,6 +9,8 @@ import {
 	expressError,
 } from 'app/shared/interfaces/api-response';
 import { setUpAuth } from 'app/utils/auth';
+import CoffeeIconSvg from 'assets/icons/coffee.svg';
+import StoreIconSvg from 'assets/icons/store.svg';
 
 interface TokensMenuProps {
 	coffees: number;
@@ -109,9 +111,9 @@ export default function TokensMenu(props: TokensMenuProps) {
 }
 
 function CoffeeIcon() {
-	return <img src={'/icons/coffee.svg'} style={{ width: 40, height: 40 }} />;
+	return <img src={CoffeeIconSvg} style={{ width: 40, height: 40 }} />;
 }
 
 function StoreIcon() {
-	return <img src={'/icons/store.svg'} style={{ width: 30, height: 30 }} />;
+	return <img src={StoreIconSvg} style={{ width: 30, height: 30 }} />;
 }

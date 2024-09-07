@@ -17,6 +17,7 @@ import {
 import { authType } from 'app/shared/interfaces/auth';
 import { setUpAuth } from 'app/utils/auth';
 import HelpGuide from '../HelpGuide';
+import CoffeeIconSvg from 'assets/icons/coffee.svg';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 	height: 10,
@@ -151,5 +152,5 @@ export default function Reward(props: RewardProps) {
 }
 
 function CoffeeIcon() {
-	return <img src={'/icons/coffee.svg'} style={{ width: 40, height: 40 }} />;
+	return <img src={CoffeeIconSvg} style={{ width: 40, height: 40 }} />;
 }
