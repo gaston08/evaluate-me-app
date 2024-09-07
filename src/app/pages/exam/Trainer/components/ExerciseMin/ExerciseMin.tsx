@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
@@ -36,25 +35,59 @@ export default function Exercise(props: ExerciseProps) {
 				{Array.from(Array(exercise.question.length), (e, i: number) => {
 					return (
 						<Box key={i}>
-							<Paper
-								elevation={0}
-								sx={{ p: 2, background: theme.custom.background.light }}
+							{exercise.question[i].code ? (
+								<>
+									{exercise.question[i].python_code ? (
+										<Box className="highlight-code">
+											<Box
+												className="lightbulb"
+												dangerouslySetInnerHTML={{
+													// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+													__html: exercise.question[i].text,
+												}}
+											></Box>
+										</Box>
+									) : (
+										<Box className="highlight-code">
+											<Box
+												className="lightbulb"
+												dangerouslySetInnerHTML={{
+													// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+													__html: exercise.question[i].text,
+												}}
+												sx={{ p: 3 }}
+											></Box>
+										</Box>
+									)}
+								</>
+							) : (
+								<Paper
+									elevation={0}
+									sx={{ p: 2, background: theme.custom.background.light }}
+								>
+									<div
+										dangerouslySetInnerHTML={{
+											__html: exercise.question[i],
+										}}
+										className="tiptap"
+									></div>
+								</Paper>
+							)}
+
+							<Box
+								component="table"
+								sx={{
+									pt: 0,
+									pb: 0,
+									width: '100%',
+									borderCollapse: 'collapse',
+								}}
 							>
-								<div
-									dangerouslySetInnerHTML={{
-										__html: exercise.question[i],
-									}}
-									className="tiptap"
-								></div>
-							</Paper>
-							<List component="nav" sx={{ pt: 0, pb: 0 }}>
 								{exercise.options[i].map((option: optionType) => {
 									return (
 										<Option
 											key={option.id}
-											id={option.id}
-											title={option.title}
-											feedback={option.feedback}
+											option={option}
 											onSelect={setSelected}
 											arrSelected={selected}
 											isCorrect={exercise.correctOptions.some((b) =>
@@ -64,7 +97,7 @@ export default function Exercise(props: ExerciseProps) {
 										/>
 									);
 								})}
-							</List>
+							</Box>
 						</Box>
 					);
 				})}

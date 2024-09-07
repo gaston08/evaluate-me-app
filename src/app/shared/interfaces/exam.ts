@@ -5,6 +5,8 @@ export interface optionType {
 	id: string;
 	title: string;
 	feedback: string;
+	code: boolean;
+	python_code: boolean;
 }
 
 export interface argumentType {
@@ -15,9 +17,15 @@ export interface argumentType {
 	icon: HTMLImageElement;
 }
 
+interface questionType {
+	code: boolean;
+	python_code: boolean;
+	text: string;
+}
+
 export interface exerciseType {
 	id: string;
-	question: Array<string>;
+	question: Array<questionType | string>;
 	options: Array<Array<optionType>>;
 	correctOptions: Array<Array<string>>;
 	argument: Array<argumentType>;

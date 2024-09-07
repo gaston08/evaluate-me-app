@@ -7,18 +7,23 @@ import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
 
 interface OptionProps {
-	title: string;
+	option: {
+		title: string;
+		id: string;
+		feedback: string;
+		code: boolean;
+		python_code: boolean;
+		text: string;
+	};
 	isCorrect: boolean;
 	onSelect: () => Dispatch<React.SetStateAction<Array<string>>>;
 	canSelect: boolean;
-	id: string;
 	arrSelected: Array<string>;
-	feedback: string;
 }
 
 export default function Option(props: OptionProps) {
-	const { id, title, feedback, isCorrect, onSelect, arrSelected, canSelect } =
-		props;
+	const { option, isCorrect, onSelect, arrSelected, canSelect } = props;
+	const { id, title, feedback, code, python_code } = option;
 	const { auth, setAuth } = useContext<contextAuth>(AuthContext);
 	const [selected, setSelected] = useState<boolean>(false);
 	const theme = useTheme();
@@ -45,8 +50,8 @@ export default function Option(props: OptionProps) {
 		}
 	};
 
-	let bgColor;
-	let hoverColor;
+	let bgColor = '';
+	let hoverColor = '';
 	let color = '';
 
 	if (selected) {
@@ -63,37 +68,90 @@ export default function Option(props: OptionProps) {
 
 	return (
 		<Fragment>
-			<Box
-				sx={{
-					'&:hover, &.Mui-selected, &.Mui-selected:hover': {
-						backgroundColor: hoverColor,
-					},
-					color,
-					backgroundColor: bgColor,
-					display: 'flex',
-					justifyContent: 'space-between',
-					cursor: 'auto',
-					p: 2,
-					borderRadius: 1,
-				}}
-				onClick={selectOption}
-			>
-				<div dangerouslySetInnerHTML={{ __html: title }}></div>
-			</Box>
-			<Box>
-				{selected && !isCorrect ? (
-					<Alert severity="error">
-						<AlertTitle>Incorrecto!</AlertTitle>
-						{feedback !== '' ? (
-							<div
-								dangerouslySetInnerHTML={{
-									__html: title,
-								}}
-							></div>
+			{code ? (
+				<>
+					<Box
+						component="tr"
+						sx={{
+							width: '100%',
+							border:
+								bgColor !== '' ? `3px solid ${bgColor}` : '2px solid black',
+						}}
+						className="highlight-code"
+						onClick={selectOption}
+					>
+						<>
+							{python_code ? (
+								<div
+									className="lightbulb"
+									dangerouslySetInnerHTML={{
+										__html: title,
+									}}
+								></div>
+							) : (
+								<Box
+									className="lightbulb"
+									dangerouslySetInnerHTML={{
+										__html: title,
+									}}
+									sx={{ p: 2 }}
+								></Box>
+							)}
+						</>
+						<Box>
+							{selected && !isCorrect ? (
+								<Alert
+									severity="error"
+									sx={{ backgroundColor: '#1d2331', borderRadius: 0 }}
+								>
+									<AlertTitle sx={{ color: 'white' }}>Incorrecto!</AlertTitle>
+									{feedback !== '' ? (
+										<div
+											dangerouslySetInnerHTML={{
+												__html: title,
+											}}
+										></div>
+									) : null}
+								</Alert>
+							) : null}
+						</Box>
+					</Box>
+				</>
+			) : (
+				<>
+					<Box
+						sx={{
+							'&:hover, &.Mui-selected, &.Mui-selected:hover': {
+								backgroundColor: hoverColor,
+							},
+							color,
+							backgroundColor: bgColor,
+							display: 'flex',
+							justifyContent: 'space-between',
+							cursor: 'auto',
+							p: 2,
+							borderRadius: 1,
+						}}
+						onClick={selectOption}
+					>
+						<div dangerouslySetInnerHTML={{ __html: title }}></div>
+					</Box>
+					<Box>
+						{selected && !isCorrect ? (
+							<Alert severity="error">
+								<AlertTitle>Incorrecto!</AlertTitle>
+								{feedback !== '' ? (
+									<div
+										dangerouslySetInnerHTML={{
+											__html: title,
+										}}
+									></div>
+								) : null}
+							</Alert>
 						) : null}
-					</Alert>
-				) : null}
-			</Box>
+					</Box>
+				</>
+			)}
 		</Fragment>
 	);
 }
