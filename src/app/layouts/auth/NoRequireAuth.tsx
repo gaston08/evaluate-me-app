@@ -24,7 +24,11 @@ export default function RequireAuth() {
 
 	useEffect(() => {
 		const body = document.querySelector('body');
-		if (location.pathname.includes('/entrenamiento/antropologia-(16)/')) {
+		if (
+			location.pathname.includes(
+				'/entrenamiento/pensamiento-computacional-(90)/',
+			)
+		) {
 			body.classList.add('body-code');
 		} else {
 			body.classList.remove('body-code');

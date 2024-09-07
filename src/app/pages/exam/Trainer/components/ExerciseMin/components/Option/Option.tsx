@@ -5,6 +5,12 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
+import {
+	apiPostResponse,
+	expressError,
+} from 'app/shared/interfaces/api-response';
+import { setUpAuth } from 'app/utils/auth';
+import { axiosPost } from 'app/utils/axios';
 
 interface OptionProps {
 	option: {
@@ -45,6 +51,41 @@ export default function Option(props: OptionProps) {
 							coffees: prev.coffees - 1,
 						};
 					});
+
+					console.log(auth.coffees);
+
+					if ((auth.coffees - 1) % 3 === 0 || auth.coffees < 10) {
+						let change_coffees = 0;
+
+						if (auth.coffees < 10) {
+							change_coffees = -1;
+						} else {
+							change_coffees = -3;
+						}
+
+						axiosPost('api/user/update/profile', {
+							fullName: auth.user.fullName,
+							username: auth.user.username,
+							email: auth.user.email,
+							coffees: change_coffees,
+						})
+							.then((result: apiPostResponse) => {
+								if (result.ok) {
+									setUpAuth(result.data.token, true, setAuth);
+								} else {
+									setUpAuth('', false, setAuth);
+									if (result.error) {
+										console.log(result.error);
+									}
+									if (result.errors) {
+										result.errors.forEach((err: expressError): void => {
+											console.log(err.msg);
+										});
+									}
+								}
+							})
+							.catch(console.error);
+					}
 				}
 			}
 		}

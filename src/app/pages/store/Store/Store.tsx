@@ -72,11 +72,7 @@ export default function Store() {
 				/>
 				<Prices />
 			</Box>
-			<SimpleDialog
-				coffees={invitations_challenges[current].coffees}
-				open={open}
-				setOpen={setOpen}
-			/>
+			<SimpleDialog open={open} setOpen={setOpen} />
 		</Fragment>
 	);
 }
@@ -94,7 +90,7 @@ const invitations_challenges = [
 	{
 		id: 'invitations-1',
 		invitations: 1,
-		coffees: 30,
+		coffees: 20,
 		body: {
 			title: 'Ganá cafecitos gratis',
 			subtitle: 'Invitá a un amigo y recibí grandes recompensas',
@@ -103,7 +99,7 @@ const invitations_challenges = [
 	{
 		id: 'invitations-4',
 		invitations: 4,
-		coffees: 100,
+		coffees: 50,
 		body: {
 			title: 'Ganá cafecitos gratis',
 			subtitle: 'Invitá a 4 amigos y recibí grandes recompensas',
@@ -112,7 +108,7 @@ const invitations_challenges = [
 	{
 		id: 'invitations-10',
 		invitations: 10,
-		coffees: 200,
+		coffees: 100,
 		body: {
 			title: 'Ganá cafecitos gratis',
 			subtitle: 'Invitá a 10 amigos y recibí grandes recompensas',

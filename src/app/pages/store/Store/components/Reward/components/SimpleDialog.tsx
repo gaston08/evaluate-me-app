@@ -10,11 +10,10 @@ import CoffeeIconSvg from 'assets/icons/coffee.svg';
 export interface SimpleDialogProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
-  coffees: number;
 }
 
 export default function SimpleDialog(props: SimpleDialogProps) {
-  const { setOpen, open, coffees } = props;
+  const { setOpen, open } = props;
 
   const handleClose = () => {
     setOpen(false);
@@ -40,7 +39,7 @@ export default function SimpleDialog(props: SimpleDialogProps) {
         >
           <CoffeeIcon />
           <Box sx={{ ml: 2 }}>
-            <Typography variant="h6">Recibiste x{coffees} cafecitos</Typography>
+            <Typography variant="h6">Recibiste tus cafecitos</Typography>
           </Box>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', pt: 2, pb: 2 }}>

@@ -58,7 +58,6 @@ export default function Reward(props: RewardProps) {
 		setAuth,
 		setOpen,
 		canReceive,
-		userCoffees,
 		invitation_code,
 	} = props;
 	const [loading, setLoading] = useState<boolean>(false);
@@ -83,11 +82,12 @@ export default function Reward(props: RewardProps) {
 
 		axiosPost('api/user/update/profile', {
 			received_invitations: arr,
-			coffees: userCoffees + coffees,
+			coffees: coffees,
 		})
 			.then((result: apiPostResponse) => {
 				if (result.ok) {
 					setUpAuth(result.data.token, true, setAuth);
+					localStorage.setItem('received_coffees', coffees);
 					setLoading(false);
 				} else {
 					setUpAuth('', false, setAuth);

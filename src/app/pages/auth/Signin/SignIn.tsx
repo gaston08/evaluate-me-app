@@ -47,10 +47,16 @@ export default function SignIn() {
 
 	const login = async (token: string, clientId: string) => {
 		setLoading(true);
+
 		const data = {
 			token,
 			clientId,
 		};
+
+		const invitation_code = localStorage.getItem('invitation_code');
+		if (typeof invitation_code === 'string') {
+			data.invitation_code = invitation_code;
+		}
 
 		const result: apiPostResponse = await axiosPost('api/login/google', data);
 

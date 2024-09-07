@@ -91,32 +91,59 @@ export default function Exercise(props: ExerciseProps) {
 								</Paper>
 							)}
 
-							<Box
-								component="table"
-								sx={{
-									pt: 0,
-									pb: 0,
-									width: '100%',
-									borderCollapse: 'collapse',
-								}}
-							>
-								<tbody>
-									{exercise.options[i].map((option: optionType) => {
-										return (
-											<Option
-												key={option.id}
-												option={option}
-												onSelect={setSelected}
-												arrSelected={selected}
-												isCorrect={exercise.correctOptions.some((b) =>
-													b.includes(option.id),
-												)}
-												canSelect={!completed}
-											/>
-										);
-									})}
-								</tbody>
-							</Box>
+							<>
+								{exercise.question[i].code ? (
+									<Box
+										component="table"
+										sx={{
+											pt: 0,
+											pb: 0,
+											width: '100%',
+											borderCollapse: 'collapse',
+										}}
+									>
+										<tbody>
+											{exercise.options[i].map((option: optionType) => {
+												return (
+													<Option
+														key={option.id}
+														option={option}
+														onSelect={setSelected}
+														arrSelected={selected}
+														isCorrect={exercise.correctOptions.some((b) =>
+															b.includes(option.id),
+														)}
+														canSelect={!completed}
+													/>
+												);
+											})}
+										</tbody>
+									</Box>
+								) : (
+									<Box
+										sx={{
+											pt: 0,
+											pb: 0,
+											width: '100%',
+										}}
+									>
+										{exercise.options[i].map((option: optionType) => {
+											return (
+												<Option
+													key={option.id}
+													option={option}
+													onSelect={setSelected}
+													arrSelected={selected}
+													isCorrect={exercise.correctOptions.some((b) =>
+														b.includes(option.id),
+													)}
+													canSelect={!completed}
+												/>
+											);
+										})}
+									</Box>
+								)}
+							</>
 						</Box>
 					);
 				})}
