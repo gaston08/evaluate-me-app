@@ -47,7 +47,7 @@ export default function Sidebar() {
                     component={RouterLink}
                     display="block"
                     variant="body1"
-                    to={`/tests/${subject.value}`}
+                    to={`/entrenamiento/${subject.value}`}
                     key={subject.value}
                   >
                     {subject.label}

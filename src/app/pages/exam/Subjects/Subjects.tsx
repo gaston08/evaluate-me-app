@@ -19,7 +19,10 @@ export default function Subjects() {
 						return (
 							<Box sx={{ mb: 2 }} key={subject.value}>
 								<Typography variant="h6">
-									<Link component={RouterLink} to={subject.value}>
+									<Link
+										component={RouterLink}
+										to={`/entrenamiento/${subject.value}`}
+									>
 										<>{subject.short + ' '}</>
 										{subject.long !== '' ? `(${subject.long})` : null}
 									</Link>

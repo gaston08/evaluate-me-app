@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Error from 'app/pages/error';
-import { View, Subjects, Trainer, TrainerForm } from 'app/pages/exam';
+import { Subjects, Trainer, TrainerForm } from 'app/pages/exam';
 import { Store, Success, Pending, Failure } from 'app/pages/store';
 import {
   SignUp,
@@ -11,27 +11,25 @@ import {
   MyProfile,
   MyExams,
 } from 'app/pages/auth';
-import { subjects } from 'app/shared/exams/ubaxxi';
-import {
-  IpcSeoWrapper,
-  IcseSeoWrapper,
-  //  DDHHSeoWrapper,
-  DerechoPrivado,
-  TrabajoYSociedad,
-  Antropologia,
-} from 'app/pages/exam/components/SeoWrappers';
+//import { subjects } from 'app/shared/exams/ubaxxi';
+//import {} from //IpcSeoWrapper,
+//IcseSeoWrapper,
+//  DDHHSeoWrapper,
+//DerechoPrivado,
+//TrabajoYSociedad,
+//Antropologia,
+//('app/pages/exam/components/SeoWrappers');
 
 import GetParams from 'app/components/GetParams';
 
 import BlogLayout from 'app/layouts/blog';
 import { NoRequireAuth } from 'app/layouts/auth';
 
-const ipc_path = subjects.find((subject) => subject.short === 'IPC').value;
+/*const ipc_path = subjects.find((subject) => subject.short === 'IPC').value;
 const icse_path = subjects.find((subject) => subject.short === 'ICSE').value;
 /*const ddhh_path = subjects.find(
   (subject) => subject.short === 'DDHH y Derecho Constitucional',
 ).value;
-*/
 const der_pri_path = subjects.find(
   (subject) => subject.short === 'Derecho Privado',
 ).value;
@@ -41,7 +39,7 @@ const tra_soc_path = subjects.find(
 
 const antropologia_path = subjects.find(
   (subject) => subject.short === 'Antropología',
-).value;
+).value;*/
 
 export const arrRoutes = [
   {
@@ -50,12 +48,13 @@ export const arrRoutes = [
   },
   {
     path: '/tests',
-    element: <BlogLayout showSidebar={true} requireAuth={false} />,
+    element: <BlogLayout showSidebar={true} requireAuth={true} />,
     children: [
       {
         path: '/tests',
         element: <Subjects />,
       },
+      /*
       {
         path: '/tests/' + ipc_path,
         element: <IpcSeoWrapper subjectId={ipc_path} />,
@@ -82,7 +81,6 @@ export const arrRoutes = [
         path: '/tests/' + ddhh_path + '/:id',
         element: <View />,
       },
-      */
       //der_pri_path
       {
         path: '/tests/' + der_pri_path,
@@ -110,7 +108,7 @@ export const arrRoutes = [
       {
         path: '/tests/' + antropologia_path + '/:id',
         element: <View />,
-      },
+      },*/
     ],
   },
   {

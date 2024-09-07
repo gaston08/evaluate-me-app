@@ -16,7 +16,7 @@ import { setUpAuth } from 'app/utils/auth';
 const subjectsArr = subjects.map((subject) => {
   return {
     label: subject.label,
-    value: '/tests/' + subject.value,
+    value: '/entrenamiento/' + subject.value,
   };
 });
 
