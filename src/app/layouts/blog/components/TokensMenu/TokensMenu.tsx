@@ -82,12 +82,14 @@ export default function TokensMenu(props: TokensMenuProps) {
 					alignItems: 'center',
 					color: 'green',
 				}}
+				className="disccount-50"
 			>
 				50% DE DESCUENTO SOLO POR HOY
 			</Box>
 			<Box
 				to="/tienda/cafecitos"
 				component={RouterLink}
+				className="go-to-store"
 				sx={{
 					borderBottom: 1,
 					borderColor: 'divider',

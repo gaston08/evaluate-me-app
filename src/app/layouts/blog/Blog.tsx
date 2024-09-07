@@ -33,6 +33,13 @@ export default function Blog(props: BlogProps) {
 	const location = useLocation() as LocationState;
 
 	useEffect(() => {
+		const body = document.querySelector('body');
+		if (location.pathname.includes('/entrenamiento/antropologia-(16)/')) {
+			body.classList.add('body-code');
+		} else {
+			body.classList.remove('body-code');
+		}
+
 		if (import.meta.env.MODE !== 'development') {
 			const url = location.pathname + location.search;
 			ReactGA.send({

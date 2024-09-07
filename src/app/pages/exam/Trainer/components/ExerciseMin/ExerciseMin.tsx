@@ -38,7 +38,13 @@ export default function Exercise(props: ExerciseProps) {
 							{exercise.question[i].code ? (
 								<>
 									{exercise.question[i].python_code ? (
-										<Box className="highlight-code">
+										<Box
+											sx={{
+												borderTop: '2px solid black',
+												borderLeft: '2px solid black',
+											}}
+											className="highlight-code"
+										>
 											<Box
 												className="lightbulb"
 												dangerouslySetInnerHTML={{
@@ -48,7 +54,14 @@ export default function Exercise(props: ExerciseProps) {
 											></Box>
 										</Box>
 									) : (
-										<Box className="highlight-code">
+										<Box
+											sx={{
+												borderTop: '2px solid black',
+												borderLeft: '2px solid black',
+												borderRight: '2px solid black',
+											}}
+											className="highlight-code"
+										>
 											<Box
 												className="lightbulb"
 												dangerouslySetInnerHTML={{
@@ -83,20 +96,22 @@ export default function Exercise(props: ExerciseProps) {
 									borderCollapse: 'collapse',
 								}}
 							>
-								{exercise.options[i].map((option: optionType) => {
-									return (
-										<Option
-											key={option.id}
-											option={option}
-											onSelect={setSelected}
-											arrSelected={selected}
-											isCorrect={exercise.correctOptions.some((b) =>
-												b.includes(option.id),
-											)}
-											canSelect={!completed}
-										/>
-									);
-								})}
+								<tbody>
+									{exercise.options[i].map((option: optionType) => {
+										return (
+											<Option
+												key={option.id}
+												option={option}
+												onSelect={setSelected}
+												arrSelected={selected}
+												isCorrect={exercise.correctOptions.some((b) =>
+													b.includes(option.id),
+												)}
+												canSelect={!completed}
+											/>
+										);
+									})}
+								</tbody>
 							</Box>
 						</Box>
 					);

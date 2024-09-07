@@ -19,7 +19,10 @@ export default function LikeButtons(props: LikeButtonsProps) {
 	});
 
 	return (
-		<Box sx={{ position: 'absolute', bottom: 10, display: 'flex', gap: 4 }}>
+		<Box
+			id="like-buttons-container"
+			sx={{ position: 'absolute', bottom: 10, display: 'flex', gap: 4 }}
+		>
 			<Box
 				sx={{
 					display: 'flex',

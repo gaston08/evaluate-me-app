@@ -385,3 +385,52 @@ strong {
     color: #dfbfff;
   } /* Literal.Number.Integer.Long */
 }
+
+.body-code {
+  background-color: #1d2331 !important;
+  color: white;
+
+  .disccount-50 {
+    filter: brightness(100);
+  }
+
+  .go-to-store {
+    filter: brightness(100);
+    filter: invert(100%) sepia(0%) saturate(7487%) hue-rotate(110deg)
+      brightness(101%) contrast(104%);
+  }
+
+  svg {
+    filter: invert(100%) sepia(0%) saturate(7487%) hue-rotate(110deg)
+      brightness(101%) contrast(104%);
+  }
+
+  footer {
+    background-color: #1d2331 !important;
+    p {
+      filter: invert(100%) sepia(0%) saturate(7487%) hue-rotate(110deg)
+        brightness(101%) contrast(104%);
+    }
+  }
+
+  .argument-feedback {
+    background-color: #1d2331 !important;
+    border: 2px solid black;
+    .argument-container {
+      filter: invert(100%) sepia(0%) saturate(7487%) hue-rotate(110deg)
+        brightness(101%) contrast(104%) !important;
+      border: 1px solid red !important;
+    }
+
+    #alert-title-argument {
+      color: green !important;
+      filter: brightness(100);
+    }
+
+    #like-buttons-container {
+      filter: invert(100%) sepia(0%) saturate(7487%) hue-rotate(110deg)
+        brightness(101%) contrast(104%) !important;
+      color: black;
+    }
+  }
+}

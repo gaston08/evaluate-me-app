@@ -80,41 +80,43 @@ export default function Option(props: OptionProps) {
 						className="highlight-code"
 						onClick={selectOption}
 					>
-						<>
-							{python_code ? (
-								<div
-									className="lightbulb"
-									dangerouslySetInnerHTML={{
-										__html: title,
-									}}
-								></div>
-							) : (
-								<Box
-									className="lightbulb"
-									dangerouslySetInnerHTML={{
-										__html: title,
-									}}
-									sx={{ p: 2 }}
-								></Box>
-							)}
-						</>
-						<Box>
-							{selected && !isCorrect ? (
-								<Alert
-									severity="error"
-									sx={{ backgroundColor: '#1d2331', borderRadius: 0 }}
-								>
-									<AlertTitle sx={{ color: 'white' }}>Incorrecto!</AlertTitle>
-									{feedback !== '' ? (
-										<div
-											dangerouslySetInnerHTML={{
-												__html: title,
-											}}
-										></div>
-									) : null}
-								</Alert>
-							) : null}
-						</Box>
+						<td>
+							<>
+								{python_code ? (
+									<Box
+										className="lightbulb"
+										dangerouslySetInnerHTML={{
+											__html: title,
+										}}
+									></Box>
+								) : (
+									<Box
+										className="lightbulb"
+										dangerouslySetInnerHTML={{
+											__html: title,
+										}}
+										sx={{ p: 2 }}
+									></Box>
+								)}
+							</>
+							<Box>
+								{selected && !isCorrect ? (
+									<Alert
+										severity="error"
+										sx={{ backgroundColor: '#1d2331', borderRadius: 0 }}
+									>
+										<AlertTitle sx={{ color: 'white' }}>Incorrecto!</AlertTitle>
+										{feedback !== '' ? (
+											<div
+												dangerouslySetInnerHTML={{
+													__html: title,
+												}}
+											></div>
+										) : null}
+									</Alert>
+								) : null}
+							</Box>
+						</td>
 					</Box>
 				</>
 			) : (

@@ -13,6 +13,7 @@ interface LocationState {
 	state?: {
 		signup: boolean;
 	};
+	pathname: string;
 }
 
 export default function RequireAuth() {
@@ -20,6 +21,15 @@ export default function RequireAuth() {
 	const location = useLocation() as LocationState;
 	const navigate = useNavigate();
 	const { setAuth } = useContext<contextAuth>(AuthContext);
+
+	useEffect(() => {
+		const body = document.querySelector('body');
+		if (location.pathname.includes('/entrenamiento/antropologia-(16)/')) {
+			body.classList.add('body-code');
+		} else {
+			body.classList.remove('body-code');
+		}
+	}, [location.pathname, location.search]);
 
 	const checkAuth = (): void => {
 		const access_token = localStorage.getItem('access_token');

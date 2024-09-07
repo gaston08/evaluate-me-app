@@ -74,7 +74,7 @@ export default function Argument(props: argumentProps) {
 					return <Tab key={arg.feed} icon={arg.icon} label={arg.feed} />;
 				})}
 			</Tabs>
-			<AlertTitle>Correcto!</AlertTitle>
+			<AlertTitle id="alert-title-argument">Correcto!</AlertTitle>
 			<div id="argument-container"></div>
 			<LikeButtons likes={args[index].likes} dislikes={args[index].dislikes} />
 		</Alert>
