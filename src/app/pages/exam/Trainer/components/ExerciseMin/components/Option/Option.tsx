@@ -36,7 +36,7 @@ export default function Option(props: OptionProps) {
 
 	const selectOption = () => {
 		if (auth.coffees === 0) {
-			alert('Te quedaste sin cafecitos. :(');
+			console.log('no coffees');
 		} else {
 			if (canSelect && !selected) {
 				setSelected(true);

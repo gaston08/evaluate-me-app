@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
 import Argument from './components/Argument';
+import NoCoffeesDialog from './components/NoCoffeesDialog';
 import { exerciseType, optionType } from 'app/shared/interfaces/exam';
+import { contextAuth } from 'app/shared/interfaces/auth';
+import { AuthContext } from 'app/contexts/Auth';
 
 interface ExerciseProps {
 	exercise: exerciseType;
@@ -17,6 +20,8 @@ interface ExerciseProps {
 export default function Exercise(props: ExerciseProps) {
 	const { completed, setCompleted, exercise } = props;
 	const [selected, setSelected] = useState<Array<string>>([]);
+	const { auth } = useContext<contextAuth>(AuthContext);
+	const [open, setOpen] = useState<boolean>(false);
 
 	const theme = useTheme();
 
@@ -28,6 +33,12 @@ export default function Exercise(props: ExerciseProps) {
 			setCompleted(true);
 		}
 	}, [selected]);
+
+	const handleClickOption = () => {
+		if (auth.coffees === 0) {
+			setOpen(true);
+		}
+	};
 
 	return (
 		<Box className="exercise-exam">
@@ -101,6 +112,7 @@ export default function Exercise(props: ExerciseProps) {
 											width: '100%',
 											borderCollapse: 'collapse',
 										}}
+										onClick={handleClickOption}
 									>
 										<tbody>
 											{exercise.options[i].map((option: optionType) => {
@@ -126,6 +138,7 @@ export default function Exercise(props: ExerciseProps) {
 											pb: 0,
 											width: '100%',
 										}}
+										onClick={handleClickOption}
 									>
 										{exercise.options[i].map((option: optionType) => {
 											return (
@@ -152,6 +165,9 @@ export default function Exercise(props: ExerciseProps) {
 				<Box sx={{ pl: 2, mt: 2 }}>
 					{completed ? <Argument exercise={exercise} /> : null}
 				</Box>
+			</>
+			<>
+				<NoCoffeesDialog open={open} setOpen={setOpen} />
 			</>
 		</Box>
 	);
