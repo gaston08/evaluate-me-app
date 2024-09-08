@@ -45,7 +45,7 @@ export default function SignIn() {
 		}
 	});
 
-	const login = async (token: string, clientId: string) => {
+	const loginWithGoogle = async (token: string, clientId: string) => {
 		setLoading(true);
 
 		const data = {
@@ -105,8 +105,15 @@ export default function SignIn() {
 
 				const result: apiPostResponse = await axiosPost('api/login', data);
 				if (result.ok) {
-					setUpAuth(result.data.token, true, setAuth);
-					navigate(redirect, { state: { omitAuth: true } });
+					if (result.data.active === true) {
+						setUpAuth(result.data.token, true, setAuth);
+						navigate(redirect, { state: { omitAuth: true } });
+					} else {
+						setError(
+							'Debes activar tu cuenta para seguir. Te enviamos un email a tu dirección de correo electrónico.',
+						);
+						console.log('require login');
+					}
 				} else {
 					setError(result.error);
 					if (result.errors) {
@@ -150,7 +157,7 @@ export default function SignIn() {
 					<Box sx={{ mt: 2 }}>
 						<GoogleLogin
 							onSuccess={(credentialResponse) => {
-								login(
+								loginWithGoogle(
 									credentialResponse.credential,
 									credentialResponse.clientId,
 								).catch(console.error);
