@@ -174,6 +174,7 @@ export default function Option(props: OptionProps) {
 							cursor: 'auto',
 							p: 2,
 							borderRadius: 1,
+							borderBottom: '1px solid #ccc',
 						}}
 						onClick={selectOption}
 					>
