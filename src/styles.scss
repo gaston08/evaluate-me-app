@@ -386,7 +386,41 @@ strong {
   } /* Literal.Number.Integer.Long */
 }
 
+#date-result {
+  color: rgba(0, 0, 0, 0.6);
+}
+
 .body-code {
+  .normal-feedback {
+    filter: brightness(3);
+  }
+  #error-pre-button {
+    filter: brightness(2);
+  }
+  #exercise-feedback-view {
+    .alert-mui {
+      background-color: black !important;
+      color: white !important;
+      filter: brightness(2);
+    }
+  }
+  #exam-info-view {
+    h5 {
+      color: white !important;
+    }
+  }
+
+  .remake-exam-button {
+    filter: brightness(3) !important;
+  }
+
+  #exam-result {
+    filter: brightness(3) !important;
+  }
+  #date-result {
+    color: white !important;
+  }
+
   background-color: #1d2331 !important;
   color: white;
 

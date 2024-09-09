@@ -167,7 +167,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 						<>
 							{exercisesFeedback.some((ex) => ex.error !== '') ? (
 								<Box sx={{ mb: 3 }}>
-									<Typography color="error">
+									<Typography id="error-pre-button" color="error">
 										Asegurate de completar todos los ejercicios.
 									</Typography>
 								</Box>

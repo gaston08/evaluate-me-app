@@ -37,6 +37,7 @@ export default function Exercises() {
 									color="primary"
 									gutterBottom
 									sx={{ mt: 2 }}
+									className="exercise-number"
 								>
 									Ejercicio {idx + 1}
 								</Typography>

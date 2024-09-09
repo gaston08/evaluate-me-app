@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
-import List from '@mui/material/List';
 import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -41,57 +40,148 @@ export default function Exercise(props: ExerciseProps) {
 				{Array.from(Array(exercise.question.length), (e, i: number) => {
 					return (
 						<Box key={i}>
-							<Paper
-								elevation={0}
-								sx={{ p: 2, background: theme.custom.background.light }}
-							>
-								<div
-									dangerouslySetInnerHTML={{
-										__html: exercise.question[i],
-									}}
-									className="tiptap"
-								></div>
+							{exercise.question[i].code ? (
 								<>
-									{isPlayView ? (
-										<Box sx={{ mt: 2 }}>
-											<Typography color="primary" variant="body">
-												{selectedOptions[exerciseIdx][i].length}/
-												{exercise.correctOptions[i].length} seleccionados.
-											</Typography>
+									{exercise.question[i].python_code ? (
+										<Box
+											sx={{
+												borderTop: '2px solid #555',
+												borderLeft: '2px solid #555',
+												overflow: 'scroll',
+											}}
+											id="exercise-title"
+											className="highlight-code"
+										>
+											<Box
+												className="lightbulb"
+												dangerouslySetInnerHTML={{
+													// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+													__html: exercise.question[i].text,
+												}}
+											></Box>
 										</Box>
-									) : null}
+									) : (
+										<Box
+											sx={{
+												borderTop: '2px solid #555',
+												borderLeft: '2px solid #555',
+												borderRight: '2px solid #555',
+												borderBottom: '2px solid #555',
+											}}
+											id="exercise-title"
+											className="highlight-code"
+										>
+											<Box
+												className="lightbulb"
+												dangerouslySetInnerHTML={{
+													// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+													__html: exercise.question[i].text,
+												}}
+												sx={{ p: 3 }}
+											></Box>
+										</Box>
+									)}
 								</>
-							</Paper>
-							<List component="nav" sx={{ pt: 0, pb: 0 }}>
-								{exercise.options[i].map((option: optionType) => {
-									return (
-										<Option
-											key={option.id}
-											exerciseId={exercise.id}
-											id={option.id}
-											title={option.title}
-											correctOptionsLength={exercise.correctOptions[i].length}
-											exerciseIdx={exerciseIdx}
-											optionsIdx={i}
-											isSelected={selectedOptions[exerciseIdx][i].includes(
-												option.id,
-											)}
-											isCorrect={exercise.correctOptions[i].includes(option.id)}
-										/>
-									);
-								})}
-							</List>
+							) : (
+								<Paper
+									elevation={0}
+									sx={{ p: 2, background: theme.custom.background.light }}
+								>
+									<div
+										dangerouslySetInnerHTML={{
+											__html: exercise.question[i],
+										}}
+										className="tiptap"
+									></div>
+									<>
+										{isPlayView ? (
+											<Box sx={{ mt: 2 }}>
+												<Typography color="primary" variant="body">
+													{selectedOptions[exerciseIdx][i].length}/
+													{exercise.correctOptions[i].length} seleccionados.
+												</Typography>
+											</Box>
+										) : null}
+									</>
+								</Paper>
+							)}
+
+							<>
+								{exercise.question[i].code ? (
+									<Box
+										component="table"
+										sx={{
+											pt: 0,
+											pb: 0,
+											width: '100%',
+											borderCollapse: 'collapse',
+										}}
+									>
+										<tbody>
+											{exercise.options[i].map((option: optionType) => {
+												return (
+													<Option
+														key={option.id}
+														exerciseId={exercise.id}
+														option={option}
+														correctOptionsLength={
+															exercise.correctOptions[i].length
+														}
+														exerciseIdx={exerciseIdx}
+														optionsIdx={i}
+														isSelected={selectedOptions[exerciseIdx][
+															i
+														].includes(option.id)}
+														isCorrect={exercise.correctOptions[i].includes(
+															option.id,
+														)}
+													/>
+												);
+											})}
+										</tbody>
+									</Box>
+								) : (
+									<Box
+										sx={{
+											pt: 0,
+											pb: 0,
+											width: '100%',
+										}}
+									>
+										{exercise.options[i].map((option: optionType) => {
+											return (
+												<Option
+													key={option.id}
+													exerciseId={exercise.id}
+													option={option}
+													correctOptionsLength={
+														exercise.correctOptions[i].length
+													}
+													exerciseIdx={exerciseIdx}
+													optionsIdx={i}
+													isSelected={selectedOptions[exerciseIdx][i].includes(
+														option.id,
+													)}
+													isCorrect={exercise.correctOptions[i].includes(
+														option.id,
+													)}
+												/>
+											);
+										})}
+									</Box>
+								)}
+							</>
 						</Box>
 					);
 				})}
 			</>
 			<>
-				<Box sx={{ pl: 2, mt: 2 }}>
+				<Box sx={{ pl: 2, mt: 2 }} id="exercise-feedback-view">
 					<>
 						{exerciseFeedback.success !== '' ? (
 							<>
 								{exerciseFeedback.html ? (
-									<Alert severity="success">
+									<Alert severity="success" className="alert-mui">
 										<AlertTitle>Correcto!</AlertTitle>
 										<div
 											dangerouslySetInnerHTML={{
@@ -111,7 +201,7 @@ export default function Exercise(props: ExerciseProps) {
 						{exerciseFeedback.error !== '' ? (
 							<>
 								{exerciseFeedback.html ? (
-									<Alert severity="error">
+									<Alert severity="error" className="alert-mui">
 										<AlertTitle>Incorrecto.</AlertTitle>
 										<div
 											dangerouslySetInnerHTML={{
@@ -120,7 +210,7 @@ export default function Exercise(props: ExerciseProps) {
 										></div>
 									</Alert>
 								) : (
-									<Box sx={{ display: 'flex' }}>
+									<Box className="normal-feedback" sx={{ display: 'flex' }}>
 										<Box sx={{ mr: 1, color: 'red' }}>
 											<ExclamationIcon />
 										</Box>

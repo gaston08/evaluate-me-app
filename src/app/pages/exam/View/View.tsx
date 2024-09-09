@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -46,6 +46,7 @@ interface examInfoInterface {
 export default function View() {
 	const params = useParams();
 	const [loading, setLoading] = useState<boolean>(true);
+	const location = useLocation();
 	const [showSpinner, setShowSpinner] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const { exam, setExam, setSelectedOptions, setExercisesFeedback } =
@@ -200,6 +201,17 @@ export default function View() {
 						setShowSpinner(true);
 						setTimeout(() => {
 							setShowSpinner(false);
+
+							const body = document.querySelector('body');
+							if (
+								location.pathname.includes(
+									'/tests/pensamiento-computacional-(90)/',
+								)
+							) {
+								body.classList.add('body-code');
+							} else {
+								body.classList.remove('body-code');
+							}
 						}, 2000);
 					} else {
 						setUpAuth('', false, setAuth);
@@ -214,6 +226,13 @@ export default function View() {
 
 		setEnabling(false);
 	};
+
+	useEffect(() => {
+		if (!canSolve) {
+			const body = document.querySelector('body');
+			body.classList.remove('body-code');
+		}
+	}, [canSolve]);
 
 	return (
 		<>
@@ -233,6 +252,7 @@ export default function View() {
 										sx={{
 											mb: 3,
 										}}
+										id="exam-info-view"
 									>
 										<Typography
 											variant="h5"
@@ -265,7 +285,11 @@ export default function View() {
 							<>
 								{!examsUi.isPlayView ? (
 									<Box sx={{ mt: 1, mb: 4 }}>
-										<Button variant="outlined" onClick={cleanExam}>
+										<Button
+											className="remake-exam-button"
+											variant="outlined"
+											onClick={cleanExam}
+										>
 											Rehacer examen
 										</Button>
 									</Box>
@@ -340,7 +364,11 @@ export default function View() {
 								{!examsUi.isPlayView ? (
 									<Box>
 										<Box sx={{ mt: 1, mb: 4 }}>
-											<Button variant="outlined" onClick={cleanExam}>
+											<Button
+												className="remake-exam-button"
+												variant="outlined"
+												onClick={cleanExam}
+											>
 												Rehacer examen
 											</Button>
 										</Box>

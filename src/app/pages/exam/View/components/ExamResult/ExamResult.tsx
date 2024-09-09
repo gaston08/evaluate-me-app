@@ -67,14 +67,14 @@ export default function ExamResult(props: ExamResultProps) {
 	const { text, color, confetties } = getDataRender();
 
 	return (
-		<Box sx={{ mb: 3 }}>
+		<Box sx={{ mb: 3 }} id="exam-result">
 			<Typography variant="h4" sx={{ color, mt: 1 }}>
 				{text}
 			</Typography>
 			<Typography variant="h5" sx={{ color, mt: 1, fontWeight: 600 }}>
 				NOTA: {score}/{totalPts}
 			</Typography>
-			<Typography sx={{ color: theme.palette.text.secondary }}>
+			<Typography id="date-result">
 				<ReactTimeAgo date={new Date(date)} locale="es-AR" />
 			</Typography>
 			<Box sx={{ position: 'fixed', top: 0 }}>

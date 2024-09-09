@@ -14,22 +14,30 @@ interface OptionProps {
 	optionsIdx: number;
 	exerciseIdx: number;
 	isSelected: boolean;
+	option: {
+		title: string;
+		id: string;
+		feedback: string;
+		code: boolean;
+		python_code: boolean;
+		text: string;
+	};
 }
 
 export default function Option(props: OptionProps) {
 	const {
-		id,
-		title,
 		correctOptionsLength,
 		optionsIdx,
 		exerciseIdx,
 		isSelected,
 		isCorrect,
+		option,
 	} = props;
 	const { setSelectedOptions } = useContext<contextExam>(ExamContext);
 	const { examsUi } = useContext<contextUi>(UiContext);
 	const isPlayView = examsUi.isPlayView;
 	const theme = useTheme();
+	const { id, title, code, python_code } = option;
 
 	const selectOption = () => {
 		if (isPlayView) {
@@ -89,41 +97,76 @@ export default function Option(props: OptionProps) {
 
 	return (
 		<>
-			{isPlayView ? (
+			{code ? (
 				<Box
+					component="tr"
 					sx={{
-						'&:hover, &.Mui-selected, &.Mui-selected:hover': {
-							backgroundColor: hoverColor,
-						},
-						backgroundColor: bgColor,
-						display: 'flex',
-						justifyContent: 'space-between',
-						cursor: 'pointer',
-						p: 2,
-						borderRadius: 1,
+						width: '100%',
+						border: bgColor !== 'transparent' ? `3px solid ${bgColor}` : '',
 					}}
+					className="highlight-code"
 					onClick={selectOption}
 				>
-					<div dangerouslySetInnerHTML={{ __html: title }}></div>
+					<td>
+						<>
+							{python_code ? (
+								<Box
+									className="lightbulb"
+									dangerouslySetInnerHTML={{
+										__html: title,
+									}}
+								></Box>
+							) : (
+								<Box
+									className="lightbulb"
+									dangerouslySetInnerHTML={{
+										__html: title,
+									}}
+									sx={{ p: 2 }}
+								></Box>
+							)}
+						</>
+					</td>
 				</Box>
 			) : (
-				<Box
-					sx={{
-						'&:hover, &.Mui-selected, &.Mui-selected:hover': {
-							backgroundColor: hoverColor,
-						},
-						color,
-						backgroundColor: bgColor,
-						display: 'flex',
-						justifyContent: 'space-between',
-						cursor: 'auto',
-						p: 2,
-						borderRadius: 1,
-					}}
-					onClick={selectOption}
-				>
-					<div dangerouslySetInnerHTML={{ __html: title }}></div>
-				</Box>
+				<>
+					{isPlayView ? (
+						<Box
+							sx={{
+								'&:hover, &.Mui-selected, &.Mui-selected:hover': {
+									backgroundColor: hoverColor,
+								},
+								backgroundColor: bgColor,
+								display: 'flex',
+								justifyContent: 'space-between',
+								cursor: 'pointer',
+								p: 2,
+								borderRadius: 1,
+							}}
+							onClick={selectOption}
+						>
+							<div dangerouslySetInnerHTML={{ __html: title }}></div>
+						</Box>
+					) : (
+						<Box
+							sx={{
+								'&:hover, &.Mui-selected, &.Mui-selected:hover': {
+									backgroundColor: hoverColor,
+								},
+								color,
+								backgroundColor: bgColor,
+								display: 'flex',
+								justifyContent: 'space-between',
+								cursor: 'auto',
+								p: 2,
+								borderRadius: 1,
+							}}
+							onClick={selectOption}
+						>
+							<div dangerouslySetInnerHTML={{ __html: title }}></div>
+						</Box>
+					)}
+				</>
 			)}
 		</>
 	);
