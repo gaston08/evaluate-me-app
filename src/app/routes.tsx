@@ -19,6 +19,8 @@ import {
   DerechoPrivado,
   TrabajoYSociedad,
   Antropologia,
+  PensamientoComputacional,
+  Sociologia,
 } from 'app/pages/exam/components/SeoWrappers';
 
 import GetParams from 'app/components/GetParams';
@@ -40,6 +42,14 @@ const tra_soc_path = subjects.find(
 
 const antropologia_path = subjects.find(
   (subject) => subject.short === 'Antropología',
+).value;
+
+const sociologia_path = subjects.find(
+  (subject) => subject.short === 'Sociología',
+).value;
+
+const pensa_compu_path = subjects.find(
+  (subject) => subject.short === 'Pensamiento Computacional',
 ).value;
 
 export const arrRoutes = [
@@ -108,6 +118,26 @@ export const arrRoutes = [
       },
       {
         path: '/tests/' + antropologia_path + '/:id',
+        element: <View />,
+      },
+
+      //Sociologia
+      {
+        path: '/tests/' + sociologia_path,
+        element: <Sociologia subjectId={sociologia_path} />,
+      },
+      {
+        path: '/tests/' + sociologia_path + '/:id',
+        element: <View />,
+      },
+
+      //Pensamiento computacional
+      {
+        path: '/tests/' + pensa_compu_path,
+        element: <PensamientoComputacional subjectId={pensa_compu_path} />,
+      },
+      {
+        path: '/tests/' + pensa_compu_path + '/:id',
         element: <View />,
       },
     ],
