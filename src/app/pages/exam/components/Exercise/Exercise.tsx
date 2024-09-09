@@ -95,9 +95,7 @@ export default function Exercise(props: ExerciseProps) {
 										<AlertTitle>Correcto!</AlertTitle>
 										<div
 											dangerouslySetInnerHTML={{
-												//__html: exerciseFeedback.success,
-												__html:
-													'<p>Feedback disponible en el modo entrenamiento.</p>',
+												__html: exerciseFeedback.success,
 											}}
 										></div>
 									</Alert>
@@ -117,9 +115,7 @@ export default function Exercise(props: ExerciseProps) {
 										<AlertTitle>Incorrecto.</AlertTitle>
 										<div
 											dangerouslySetInnerHTML={{
-												//__html: exerciseFeedback.error,
-												__html:
-													'<p>Feedback disponible en el modo entrenamiento.</p>',
+												__html: exerciseFeedback.error,
 											}}
 										></div>
 									</Alert>

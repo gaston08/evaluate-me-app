@@ -99,12 +99,14 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 					sumScore += Number(exercises[i].pts);
 					exArr[i] = {
 						error: '',
-						success: exercises[i].argument,
+						// esto luego cambiar en caso de que hayan varios feedbacks
+						success: exercises[i].argument[0].text,
 						html: true,
 					};
 				} else {
 					exArr[i] = {
-						error: exercises[i].argument,
+						// esto luego cambiar en caso de que hayan varios feedbacks
+						error: exercises[i].argument[0].text,
 						success: '',
 						html: true,
 					};
