@@ -19,16 +19,6 @@ import {
 //import { exam_types } from 'app/shared/exams/exam';
 //import { subjects, selectInterface } from 'app/shared/exams/ubaxxi';
 
-interface exams_interface {
-	[key: string]: {
-		[key: string]: {
-			[key: string]: {
-				[key: string]: string;
-			};
-		};
-	};
-}
-
 async function getExams(
 	array_id: Array<string>,
 	setExercises: React.Dispatch<React.SetStateAction<Array<exerciseType>>>,
@@ -114,34 +104,12 @@ export default function Trainer() {
 	useEffect(() => {
 		async function fetchData() {
 			const result: apiGetAllSubjects = await axiosGet(
-				`api/exam/get/trainer/${params.subject}/${params.department}/${params.type}`,
+				`api/exam/get/${params.subject}/${params.department}/${params.type}`,
 			);
 			if (result.ok) {
-				const exams: exams_interface = result.data.exams;
-				const years = Object.keys(result.data.exams) as Array<number>;
-				const last_year: number = years[years.length - 1];
-				if (result.data.exams[last_year]) {
-					const exams_year: exams_interface = exams[last_year];
-					if (exams_year[params.type]) {
-						// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-						const exams_type = exams_year[params.type];
-
-						// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-						if (exams_type[params.department]) {
-							// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-							const array_id = Object.values(exams_type[params.department]);
-							getExams(array_id, setExercises, setLoading).catch(console.error);
-						} else {
-							console.log('no exams from department ' + params.department);
-							setLoading(false);
-						}
-					} else {
-						console.log('no exams with type ' + params.type);
-						setLoading(false);
-					}
-				} else {
-					setLoading(false);
-				}
+				const exams: Array<examInterface> = result.data.exams;
+				const array_id = exams.map((exam) => exam._id);
+				getExams(array_id, setExercises, setLoading).catch(console.error);
 			} else {
 				console.log('can not load exercises');
 				setLoading(false);
