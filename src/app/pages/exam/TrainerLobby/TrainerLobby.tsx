@@ -11,7 +11,7 @@ import { exam_types } from 'app/shared/exams/exam';
 
 import { subjects } from 'app/shared/exams/ubaxxi';
 
-export default function TrainerForm() {
+export default function TrainerLobby() {
 	const params = useParams();
 	const [subject, setSubject] = useState<string>(params.subject);
 	const [examType, setExamType] = useState<string>('');

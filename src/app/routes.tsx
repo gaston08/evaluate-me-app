@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Error from 'app/pages/error';
-import { Subjects, Trainer, TrainerForm } from 'app/pages/exam';
+import { Subjects, Trainer, TrainerLobby } from 'app/pages/exam';
 import { Store, Success, Pending, Failure } from 'app/pages/store';
 import {
   SignUp,
@@ -119,7 +119,7 @@ export const arrRoutes = [
     children: [
       {
         path: '/entrenamiento/:subject',
-        element: <TrainerForm />,
+        element: <TrainerLobby />,
       },
       {
         path: '/entrenamiento/:subject/:type/:department',
