@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ExerciseMin from './components/ExerciseMin';
 import { Link as RouterLink } from 'react-router-dom';
@@ -184,7 +184,7 @@ export default function Trainer() {
 	}
 
 	return (
-		<Fragment>
+		<Box sx={{ maxWidth: 800 }}>
 			<Box sx={{ mt: -5, mb: 4 }}>
 				<Typography>
 					{examInfo.subject}, {examInfo.examType}, {examInfo.department}
@@ -207,6 +207,6 @@ export default function Trainer() {
 					</Button>
 				</Box>
 			) : null}
-		</Fragment>
+		</Box>
 	);
 }
