@@ -21,7 +21,7 @@ export default function ExamResult(props: ExamResultProps) {
 		let text: string;
 		let color: string;
 		let confetties: number;
-		const roundedScore = Math.ceil(score);
+		const roundedScore = Math.ceil((score / totalPts) * 10);
 		switch (roundedScore) {
 			case 10:
 				text = '¡Perfecto!';
@@ -72,7 +72,7 @@ export default function ExamResult(props: ExamResultProps) {
 				{text}
 			</Typography>
 			<Typography variant="h5" sx={{ color, mt: 1, fontWeight: 600 }}>
-				NOTA: {score}/{totalPts}
+				NOTA: {Math.ceil((score / totalPts) * 10)}/10
 			</Typography>
 			<Typography id="date-result">
 				<ReactTimeAgo date={new Date(date)} locale="es-AR" />
