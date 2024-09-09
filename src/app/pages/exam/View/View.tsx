@@ -5,6 +5,8 @@ import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import { apiGetResponse } from 'app/shared/interfaces/api-response';
 import { axiosGet } from 'app/utils/axios';
 import NoExamFound from '../components/NoExamFound';
@@ -13,10 +15,10 @@ import CreateResultButton from './components/CreateResultButton';
 import ExamResult from './components/ExamResult';
 import Exercises from '../components/Exercises';
 import { ExamContext } from 'app/contexts/Exam';
+import { decodeToken } from 'react-jwt';
 import {
 	contextExam,
 	examType as examInterface,
-	examData,
 } from 'app/shared/interfaces/exam';
 import { exam_types } from 'app/shared/exams/exam';
 import { subjects, selectInterface } from 'app/shared/exams/ubaxxi';
@@ -24,6 +26,16 @@ import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
 import Loader from 'app/components/Loader';
 import { setUpExam } from './utils';
+import CoffeeIconSvg from 'assets/icons/coffee.svg';
+import { setUpAuth } from 'app/utils/auth';
+import { axiosPost } from 'app/utils/axios';
+import { contextAuth, userType } from 'app/shared/interfaces/auth';
+import { AuthContext } from 'app/contexts/Auth';
+import NoCoffeesDialog from 'app/components/NoCoffeesDialog';
+
+function CoffeeIcon() {
+	return <img src={CoffeeIconSvg} style={{ width: 30, height: 30 }} />;
+}
 
 interface examInfoInterface {
 	subject: string;
@@ -34,7 +46,7 @@ interface examInfoInterface {
 export default function View() {
 	const params = useParams();
 	const [loading, setLoading] = useState<boolean>(true);
-	const [showSpinner, setShowSpinner] = useState<boolean>(true);
+	const [showSpinner, setShowSpinner] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const { exam, setExam, setSelectedOptions, setExercisesFeedback } =
 		useContext<contextExam>(ExamContext);
@@ -46,8 +58,11 @@ export default function View() {
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
 	const [score, setScore] = useState<number>(0);
 	const [date, setDate] = useState<string>('');
-	const [start, setStart] = useState(new Date());
 	const theme = useTheme();
+	const { setAuth } = useContext<contextAuth>(AuthContext);
+	const [canSolve, setCanSolve] = useState<boolean>(false);
+	const [enabling, setEnabling] = useState<boolean>(false);
+	const [openDialog, setOpenDialog] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (!loading) {
@@ -114,33 +129,7 @@ export default function View() {
 
 		if (exam_data === null) {
 			fetchData()
-				.then((exam_data) => {
-					const exam_result = JSON.parse(
-						localStorage.getItem(`${params.id}-results`),
-					) as examData | null;
-					if (exam_result !== null) {
-						setExamsUi({ isPlayView: false });
-						setExercisesFeedback(() => {
-							return exam_result.exercisesFeedback.map((ex: boolean, i) => {
-								if (ex) {
-									return {
-										success: exam_data.exercises[i].argument,
-										error: '',
-										html: true,
-									};
-								} else {
-									return {
-										success: '',
-										error: exam_data.exercises[i].argument,
-										html: true,
-									};
-								}
-							});
-						});
-						setDate(exam_result.date);
-						setSelectedOptions(exam_result.selectedOptions);
-						setScore(Number(exam_result.score));
-					}
+				.then(() => {
 					setLoading(false);
 				})
 				.catch(console.error);
@@ -163,63 +152,20 @@ export default function View() {
 			});
 			setExam(exam_data);
 
-			const exam_result = JSON.parse(
-				localStorage.getItem(`${params.id}-results`),
-			) as examData | null;
-			if (exam_result === null) {
-				setUpExam(
-					exam_data.exercises,
-					setSelectedOptions,
-					setExercisesFeedback,
-					setExamsUi,
-				);
-			} else {
-				setExamsUi({ isPlayView: false });
-				setExercisesFeedback(() => {
-					return exam_result.exercisesFeedback.map((ex, i) => {
-						if (ex) {
-							return {
-								success: exam_data.exercises[i].argument,
-								error: '',
-								html: true,
-							};
-						} else {
-							return {
-								success: '',
-								error: exam_data.exercises[i].argument,
-								html: true,
-							};
-						}
-					});
-				});
-				setDate(exam_result.date);
-				setSelectedOptions(exam_result.selectedOptions);
-				setScore(Number(exam_result.score));
-			}
+			setUpExam(
+				exam_data.exercises,
+				setSelectedOptions,
+				setExercisesFeedback,
+				setExamsUi,
+			);
 			setLoading(false);
 		}
 	}, [params.id]);
 
-	useEffect(() => {
-		if (!loading) {
-			let time = 1400;
-			time -= new Date() - start;
-
-			if (time > 0) {
-				setTimeout(() => {
-					setShowSpinner(false);
-				}, time);
-			} else {
-				setShowSpinner(false);
-			}
-		} else {
-			setStart(new Date());
-			setShowSpinner(true);
-		}
-	}, [loading]);
-
 	const cleanExam = () => {
-		setLoading(true);
+		setShowSpinner(true);
+		localStorage.removeItem(`${exam._id}-results`);
+		setCanSolve(false);
 		setUpExam(
 			exam.exercises,
 			setSelectedOptions,
@@ -227,8 +173,46 @@ export default function View() {
 			setExamsUi,
 		);
 		setTimeout(() => {
-			setLoading(false);
-		}, 100);
+			setShowSpinner(false);
+		}, 1000);
+	};
+
+	const enableExam = async () => {
+		setEnabling(true);
+		try {
+			const result = await axiosPost('api/user/refresh-token-db');
+			if (result.ok) {
+				const user = decodeToken(result.data.token) as userType;
+				if (user.coffees < 5) {
+					setOpenDialog(true);
+					setEnabling(false);
+					return;
+				} else {
+					const change_coffees = -5;
+					const apiResponse = await axiosPost('api/user/update/profile', {
+						coffees: change_coffees,
+					});
+
+					if (apiResponse.ok) {
+						setUpAuth(result.data.token, true, setAuth);
+						setLoading(false);
+						setCanSolve(true);
+						setShowSpinner(true);
+						setTimeout(() => {
+							setShowSpinner(false);
+						}, 2000);
+					} else {
+						setUpAuth('', false, setAuth);
+					}
+				}
+			} else {
+				setUpAuth('', false, setAuth);
+			}
+		} catch (err) {
+			console.log(err);
+		}
+
+		setEnabling(false);
 	};
 
 	return (
@@ -243,25 +227,29 @@ export default function View() {
 						<NoExamFound errors={errors} />
 					) : (
 						<>
-							<Box
-								sx={{
-									mb: 3,
-								}}
-							>
-								<Typography
-									variant="h5"
-									sx={{
-										mb: 2,
-										color: theme.palette.text.secondary,
-									}}
-								>
-									{examInfo.subject}, {exam.year}
-								</Typography>
-								<Typography variant="h5">
-									{examInfo.examType}, TEMA {exam.exam_number},{' '}
-									{examInfo.department}
-								</Typography>
-							</Box>
+							<>
+								{canSolve ? (
+									<Box
+										sx={{
+											mb: 3,
+										}}
+									>
+										<Typography
+											variant="h5"
+											sx={{
+												mb: 2,
+												color: theme.palette.text.secondary,
+											}}
+										>
+											{examInfo.subject}, {exam.year}
+										</Typography>
+										<Typography variant="h5">
+											{examInfo.examType}, TEMA {exam.exam_number},{' '}
+											{examInfo.department}
+										</Typography>
+									</Box>
+								) : null}
+							</>
 							<>
 								{
 									// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -283,19 +271,71 @@ export default function View() {
 									</Box>
 								) : null}
 							</>
-							<Exercises />
-							<Box sx={{ m: 3 }}>
-								<CreateResultButton
-									examYear={exam.year}
-									examType={exam.type}
-									examNumber={exam.exam_number}
-									examSubject={exam.subject}
-									department={exam.department}
-									setScore={setScore}
-									setDate={setDate}
-									setLoading={setLoading}
-								/>
+							<Box>
+								{!canSolve ? (
+									<Box>
+										<Alert icon={false} severity="success">
+											<AlertTitle>Información del exámen</AlertTitle>
+											<Box sx={{ mt: 2 }}>
+												<Typography>
+													<strong>Materia</strong>: {examInfo.subject}
+												</Typography>
+												<Typography>
+													<strong>Tipo de exámen</strong>: {examInfo.examType}
+												</Typography>
+												<Typography>
+													<strong>TEMA</strong>: {exam.exam_number}
+												</Typography>
+												<Typography>
+													<strong>Cátedra</strong>: {examInfo.department}
+												</Typography>
+												<Box
+													sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
+												>
+													<Typography>
+														<strong>Costo</strong>:
+													</Typography>
+													<CoffeeIcon />
+													<Typography>
+														<strong>x5 cafecitos</strong>
+													</Typography>
+												</Box>
+												<Box sx={{ mt: 3 }}>
+													<Button
+														color="success"
+														variant="contained"
+														size="small"
+														onClick={() => {
+															enableExam().catch(console.error);
+														}}
+														disabled={enabling}
+													>
+														Confirmar
+													</Button>
+												</Box>
+											</Box>
+										</Alert>
+									</Box>
+								) : (
+									<Exercises />
+								)}
 							</Box>
+							<>
+								{canSolve ? (
+									<Box sx={{ m: 3 }}>
+										<CreateResultButton
+											examYear={exam.year}
+											examType={exam.type}
+											examNumber={exam.exam_number}
+											examSubject={exam.subject}
+											department={exam.department}
+											setScore={setScore}
+											setDate={setDate}
+											setShowSpinner={setShowSpinner}
+										/>
+									</Box>
+								) : null}
+							</>
 							<>
 								{!examsUi.isPlayView ? (
 									<Box>
@@ -321,6 +361,9 @@ export default function View() {
 					)}
 				</>
 			)}
+			<>
+				<NoCoffeesDialog open={openDialog} setOpen={setOpenDialog} />
+			</>
 		</>
 	);
 }

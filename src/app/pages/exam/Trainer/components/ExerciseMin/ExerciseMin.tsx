@@ -6,7 +6,7 @@ import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
 import Argument from './components/Argument';
-import NoCoffeesDialog from './components/NoCoffeesDialog';
+import NoCoffeesDialog from 'app/components/NoCoffeesDialog';
 import { exerciseType, optionType } from 'app/shared/interfaces/exam';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';

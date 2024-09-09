@@ -23,7 +23,7 @@ interface CreateResultButtonProps {
 	department: string;
 	setScore: () => void;
 	setDate: () => void;
-	setLoading: () => void;
+	setShowSpinner: () => void;
 }
 
 export default function CreateResultButton(props: CreateResultButtonProps) {
@@ -35,7 +35,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 		department,
 		setDate,
 		setScore,
-		setLoading,
+		setShowSpinner,
 	} = props;
 	const { selectedOptions, exam, setExercisesFeedback, exercisesFeedback } =
 		useContext<contextExam>(ExamContext);
@@ -43,7 +43,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 	const { auth } = useContext<contextAuth>(AuthContext);
 
 	const sendResult = (): void => {
-		setLoading(true);
+		setShowSpinner(true);
 		let sumScore: number = 0;
 
 		const newErrArr = JSON.parse(
@@ -81,7 +81,7 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 
 		if (hasError) {
 			setExercisesFeedback(newErrArr);
-			setLoading(false);
+			setShowSpinner(false);
 		} else {
 			const exArr = Array.from({ length: exercises.length }, () => []);
 			for (let i = 0; i < exercises.length; i++) {
@@ -127,18 +127,6 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 				},
 			};
 
-			localStorage.setItem(
-				`${exam._id}-results`,
-				JSON.stringify({
-					exercisesFeedback: exArr.map((ex) =>
-						ex.error !== '' ? false : true,
-					),
-					date: new Date().toString(),
-					selectedOptions,
-					score,
-				}),
-			);
-
 			setExercisesFeedback(exArr);
 			setExamsUi((prev) => {
 				return {
@@ -166,8 +154,8 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 					.catch(console.error);
 			}
 			setTimeout(() => {
-				setLoading(false);
-			}, 1);
+				setShowSpinner(false);
+			}, 2000);
 		}
 	};
 
