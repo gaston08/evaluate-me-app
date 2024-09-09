@@ -16,8 +16,8 @@ import {
 	apiPostGetAllExams,
 	apiGetAllSubjects,
 } from 'app/shared/interfaces/api-response';
-//import { exam_types } from 'app/shared/exams/exam';
-//import { subjects, selectInterface } from 'app/shared/exams/ubaxxi';
+import { exam_types } from 'app/shared/exams/exam';
+import { subjects, selectInterface } from 'app/shared/exams/ubaxxi';
 
 async function getExams(
 	array_id: Array<string>,
@@ -61,11 +61,11 @@ interface TrainerStateInterface {
 	currentIdx: number;
 }
 
-/*interface examInfoInterface {
+interface examInfoInterface {
 	subject: string;
 	examType: string;
 	department: string;
-}*/
+}
 
 export default function Trainer() {
 	const params = useParams();
@@ -84,7 +84,7 @@ export default function Trainer() {
 	});
 	const [completed, setCompleted] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(true);
-	/*const [examInfo] = useState<examInfoInterface>(() => {
+	const [examInfo] = useState<examInfoInterface>(() => {
 		const subject: selectInterface = subjects.find(
 			(sub) => sub.value === params.subject,
 		);
@@ -99,7 +99,7 @@ export default function Trainer() {
 			examType,
 			department,
 		};
-	});*/
+	});
 
 	useEffect(() => {
 		async function fetchData() {
@@ -185,6 +185,11 @@ export default function Trainer() {
 
 	return (
 		<Fragment>
+			<Box sx={{ mt: -5, mb: 4 }}>
+				<Typography>
+					{examInfo.subject}, {examInfo.examType}, {examInfo.department}
+				</Typography>
+			</Box>
 			<ExerciseMin
 				completed={completed}
 				setCompleted={setCompleted}
