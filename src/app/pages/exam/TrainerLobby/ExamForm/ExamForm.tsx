@@ -38,7 +38,10 @@ export default function ExamForm() {
 				]);
 				setLoading(false);
 			} else {
-				setExams(result.data.exams);
+				const examsArr = result.data.exams.sort((a, b) => {
+					return a.exam_number - b.exam_number;
+				});
+				setExams(examsArr);
 				setLoading(false);
 			}
 		} else {
