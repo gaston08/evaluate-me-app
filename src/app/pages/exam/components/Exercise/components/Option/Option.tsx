@@ -103,6 +103,7 @@ export default function Option(props: OptionProps) {
 					sx={{
 						width: '100%',
 						border: bgColor !== 'transparent' ? `3px solid ${bgColor}` : '',
+						borderBottom: bgColor === 'transparent' ? `2px solid black` : '',
 					}}
 					className="highlight-code"
 					onClick={selectOption}
@@ -142,6 +143,7 @@ export default function Option(props: OptionProps) {
 								cursor: 'pointer',
 								p: 2,
 								borderRadius: 1,
+								borderBottom: '1px solid #ccc',
 							}}
 							onClick={selectOption}
 						>
