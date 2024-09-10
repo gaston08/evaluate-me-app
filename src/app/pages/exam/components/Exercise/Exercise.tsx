@@ -115,6 +115,7 @@ export default function Exercise(props: ExerciseProps) {
 											pb: 0,
 											width: '100%',
 											borderCollapse: 'collapse',
+											tableLayout: 'fixed',
 										}}
 									>
 										<tbody>
