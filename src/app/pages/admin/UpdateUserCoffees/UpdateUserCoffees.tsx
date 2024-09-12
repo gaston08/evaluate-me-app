@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -12,6 +12,9 @@ import {
 	expressError,
 } from 'app/shared/interfaces/api-response';
 import { axiosPost } from 'app/utils/axios';
+import { AuthContext } from 'app/contexts/Auth';
+import { contextAuth } from 'app/shared/interfaces/auth';
+import { useNavigate } from 'react-router-dom';
 
 interface InfoCoffeesUser {
 	before_coffees: number;
@@ -20,9 +23,18 @@ interface InfoCoffeesUser {
 }
 
 export default function UpdateUserCoffees() {
+	const { auth } = useContext<contextAuth>(AuthContext);
+
 	const [error, setError] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [info, setInfo] = useState<InfoCoffeesUser>({});
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (auth.user.role !== 'admin') {
+			navigate('/tests');
+		}
+	}, [auth.user]);
 
 	return (
 		<Formik
