@@ -12,16 +12,6 @@ import {
   MyExams,
 } from 'app/pages/auth';
 import { subjects } from 'app/shared/exams/ubaxxi';
-import {
-  IpcSeoWrapper,
-  IcseSeoWrapper,
-  //DDHHSeoWrapper,
-  DerechoPrivado,
-  TrabajoYSociedad,
-  Antropologia,
-  PensamientoComputacional,
-  Sociologia,
-} from 'app/pages/exam/components/SeoWrappers';
 
 import GetParams from 'app/components/GetParams';
 
@@ -66,16 +56,8 @@ export const arrRoutes = [
         element: <Subjects />,
       },
       {
-        path: '/tests/' + ipc_path,
-        element: <IpcSeoWrapper subjectId={ipc_path} />,
-      },
-      {
         path: '/tests/' + ipc_path + '/:id',
         element: <View />,
-      },
-      {
-        path: '/tests/' + icse_path,
-        element: <IcseSeoWrapper subjectId={icse_path} />,
       },
       {
         path: '/tests/' + icse_path + '/:id',
@@ -84,28 +66,16 @@ export const arrRoutes = [
       /*
       //ddhh
       {
-        path: '/tests/' + ddhh_path,
-        element: <DDHHSeoWrapper subjectId={ddhh_path} />,
-      },
-      {
         path: '/tests/' + ddhh_path + '/:id',
         element: <View />,
       },
       */
       //der_pri_path
       {
-        path: '/tests/' + der_pri_path,
-        element: <DerechoPrivado subjectId={der_pri_path} />,
-      },
-      {
         path: '/tests/' + der_pri_path + '/:id',
         element: <View />,
       },
       //Trabajo y Sociedad
-      {
-        path: '/tests/' + tra_soc_path,
-        element: <TrabajoYSociedad subjectId={tra_soc_path} />,
-      },
       {
         path: '/tests/' + tra_soc_path + '/:id',
         element: <View />,
@@ -113,29 +83,17 @@ export const arrRoutes = [
 
       //Antropologia
       {
-        path: '/tests/' + antropologia_path,
-        element: <Antropologia subjectId={antropologia_path} />,
-      },
-      {
         path: '/tests/' + antropologia_path + '/:id',
         element: <View />,
       },
 
       //Sociologia
       {
-        path: '/tests/' + sociologia_path,
-        element: <Sociologia subjectId={sociologia_path} />,
-      },
-      {
         path: '/tests/' + sociologia_path + '/:id',
         element: <View />,
       },
 
       //Pensamiento computacional
-      {
-        path: '/tests/' + pensa_compu_path,
-        element: <PensamientoComputacional subjectId={pensa_compu_path} />,
-      },
       {
         path: '/tests/' + pensa_compu_path + '/:id',
         element: <View />,
