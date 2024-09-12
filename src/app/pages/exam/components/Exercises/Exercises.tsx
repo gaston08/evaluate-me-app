@@ -22,6 +22,9 @@ export default function Exercises() {
 		if (
 			location.pathname.includes(
 				'/tests/biologia-e-introduccion-a-la-biologia-celular-b-(91)/',
+			) ||
+			location.pathname.includes(
+				'/tests/biologia-e-introduccion-a-la-biologia-celular-(54)/',
 			)
 		) {
 			setWarningAlert(true);
