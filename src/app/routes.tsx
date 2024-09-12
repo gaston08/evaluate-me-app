@@ -11,6 +11,7 @@ import {
   MyProfile,
   MyExams,
 } from 'app/pages/auth';
+import { UpdateUserCoffees } from 'app/pages/admin';
 import { subjects } from 'app/shared/exams/ubaxxi';
 
 import GetParams from 'app/components/GetParams';
@@ -147,6 +148,16 @@ export const arrRoutes = [
       {
         path: '/profile/exams',
         element: <MyExams />,
+      },
+    ],
+  },
+  {
+    path: '/admin/user',
+    element: <BlogLayout showSidebar={false} requireAuth={true} />,
+    children: [
+      {
+        path: '/admin/user',
+        element: <UpdateUserCoffees />,
       },
     ],
   },
