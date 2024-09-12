@@ -11,6 +11,7 @@ import {
   MyProfile,
   MyExams,
 } from 'app/pages/auth';
+import { UpdateUserCoffees } from 'app/pages/admin';
 import { subjects } from 'app/shared/exams/ubaxxi';
 
 import GetParams from 'app/components/GetParams';
@@ -40,6 +41,14 @@ const sociologia_path = subjects.find(
 
 const pensa_compu_path = subjects.find(
   (subject) => subject.short === 'Pensamiento Computacional',
+).value;
+
+const biologia_54 = subjects.find(
+  (subject) => subject.short === 'Biología (54)',
+).value;
+
+const biologia_91 = subjects.find(
+  (subject) => subject.short === 'Biología (91)',
 ).value;
 
 export const arrRoutes = [
@@ -98,6 +107,18 @@ export const arrRoutes = [
         path: '/tests/' + pensa_compu_path + '/:id',
         element: <View />,
       },
+
+      // Biologia 54
+      {
+        path: '/tests/' + biologia_54 + '/:id',
+        element: <View />,
+      },
+
+      // Biologia 91
+      {
+        path: '/tests/' + biologia_91 + '/:id',
+        element: <View />,
+      },
     ],
   },
   {
@@ -127,6 +148,16 @@ export const arrRoutes = [
       {
         path: '/profile/exams',
         element: <MyExams />,
+      },
+    ],
+  },
+  {
+    path: '/admin/user',
+    element: <BlogLayout showSidebar={false} requireAuth={true} />,
+    children: [
+      {
+        path: '/admin/user',
+        element: <UpdateUserCoffees />,
       },
     ],
   },

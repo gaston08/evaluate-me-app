@@ -1,4 +1,5 @@
 import { examType } from './exam';
+import { userType } from './auth';
 
 export interface expressError {
 	type: string;
@@ -14,6 +15,9 @@ export interface apiPostResponse {
 		preference: {
 			init_point: string;
 		};
+		user: userType;
+		before_coffees: number;
+		after_coffees: number;
 	};
 	error: string | null;
 	errors: Array<expressError> | null;
