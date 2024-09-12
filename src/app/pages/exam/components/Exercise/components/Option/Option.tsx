@@ -5,6 +5,7 @@ import { contextExam } from 'app/shared/interfaces/exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { ExamContext } from 'app/contexts/Exam';
 import { UiContext } from 'app/contexts/Ui';
+import Alert from '@mui/material/Alert';
 
 interface OptionProps {
 	id: string;
@@ -37,7 +38,7 @@ export default function Option(props: OptionProps) {
 	const { examsUi } = useContext<contextUi>(UiContext);
 	const isPlayView = examsUi.isPlayView;
 	const theme = useTheme();
-	const { id, title, code, python_code } = option;
+	const { id, title, code, python_code, feedback } = option;
 
 	const selectOption = () => {
 		if (isPlayView) {
@@ -150,23 +151,34 @@ export default function Option(props: OptionProps) {
 							<div dangerouslySetInnerHTML={{ __html: title }}></div>
 						</Box>
 					) : (
-						<Box
-							sx={{
-								'&:hover, &.Mui-selected, &.Mui-selected:hover': {
-									backgroundColor: hoverColor,
-								},
-								color,
-								backgroundColor: bgColor,
-								display: 'flex',
-								justifyContent: 'space-between',
-								cursor: 'auto',
-								p: 2,
-								borderRadius: 1,
-							}}
-							onClick={selectOption}
-						>
-							<div dangerouslySetInnerHTML={{ __html: title }}></div>
-						</Box>
+						<>
+							<Box
+								sx={{
+									'&:hover, &.Mui-selected, &.Mui-selected:hover': {
+										backgroundColor: hoverColor,
+									},
+									color,
+									backgroundColor: bgColor,
+									display: 'flex',
+									justifyContent: 'space-between',
+									cursor: 'auto',
+									p: 2,
+									borderRadius: 1,
+								}}
+								onClick={selectOption}
+							>
+								<div dangerouslySetInnerHTML={{ __html: title }}></div>
+							</Box>
+							{feedback && isSelected && !isCorrect ? (
+								<Alert severity="error" className="alert-mui">
+									<div
+										dangerouslySetInnerHTML={{
+											__html: feedback,
+										}}
+									></div>
+								</Alert>
+							) : null}
+						</>
 					)}
 				</>
 			)}

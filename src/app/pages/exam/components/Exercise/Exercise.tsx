@@ -21,12 +21,14 @@ interface ExerciseProps {
 	exercise: exerciseType;
 	idx: number;
 	exerciseFeedback: exerciseFeedback;
+	warningAlert: boolean;
 }
 
 export default function Exercise(props: ExerciseProps) {
 	const exercise: exerciseType = props.exercise;
 	const exerciseIdx: number = props.idx;
 	const exerciseFeedback: exerciseFeedback = props.exerciseFeedback;
+	const warningAlert: boolean = props.warningAlert;
 
 	const { examsUi } = useContext<contextUi>(UiContext);
 	const isPlayView = examsUi.isPlayView;
@@ -202,7 +204,10 @@ export default function Exercise(props: ExerciseProps) {
 						{exerciseFeedback.error !== '' ? (
 							<>
 								{exerciseFeedback.html ? (
-									<Alert severity="error" className="alert-mui">
+									<Alert
+										severity={warningAlert ? 'warning' : 'error'}
+										className="alert-mui"
+									>
 										<AlertTitle>Incorrecto.</AlertTitle>
 										<div
 											dangerouslySetInnerHTML={{

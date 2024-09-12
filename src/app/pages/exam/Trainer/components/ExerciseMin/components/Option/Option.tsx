@@ -183,14 +183,15 @@ export default function Option(props: OptionProps) {
 					<Box>
 						{selected && !isCorrect ? (
 							<Alert severity="error">
-								<AlertTitle>Incorrecto!</AlertTitle>
 								{feedback !== '' ? (
 									<div
 										dangerouslySetInnerHTML={{
-											__html: title,
+											__html: feedback,
 										}}
 									></div>
-								) : null}
+								) : (
+									<AlertTitle>Incorrecto!</AlertTitle>
+								)}
 							</Alert>
 						) : null}
 					</Box>
