@@ -1,4 +1,3 @@
-import { Link as RouterLink } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
@@ -39,16 +38,9 @@ export default function Transfer() {
 					</li>
 					<li>
 						<Typography sx={{ mb: 1 }}>
-							Envía el comprobante por Whatsapp al número{' '}
-							<strong>+54 3884542738</strong> indicando tu correo con el que te
-							registraste en la plataforma. O en el siguiente enlace:
-						</Typography>
-						<Typography
-							component={RouterLink}
-							to="https://wa.me/543884542738"
-							target="_blank"
-						>
-							https://wa.me/543884542738
+							Envía el comprobante por email al correo:
+							<strong>ubaparciales@gmail.com</strong> indicando tu correo con el
+							que te registraste en la plataforma.
 						</Typography>
 					</li>
 					<li>

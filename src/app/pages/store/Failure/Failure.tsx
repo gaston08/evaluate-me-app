@@ -1,9 +1,7 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
-import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import WhatsappButton from 'app/components/WhatsappButton';
 
 export default function Failure() {
 	return (
@@ -19,16 +17,12 @@ export default function Failure() {
 				<Typography variant="body2">
 					Intentá pagar con otro método de pago. <br />
 					<br />
-					Si el problema persiste comunicate con el equipo de ubaparciales
-					haciendo click en el ícono de whatsapp.
+					Si el problema persiste comunicate con nosotros:{' '}
+					<strong>ubaparciales@gmail.com</strong>
 					<br />
-					<br />O envíanos un correo:{' '}
 					<a href="mailto:ubaparciales@gmail.com">ubaparciales@gmail.com</a>
 				</Typography>
 			</CardContent>
-			<Box sx={{ pb: 2 }}>
-				<WhatsappButton />
-			</Box>
 		</Card>
 	);
 }

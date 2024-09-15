@@ -160,15 +160,8 @@ export default function Trainer() {
 						antes del exámen.
 					</Typography>
 					<Typography sx={{ mb: 1 }}>
-						Comunicate al <strong>+54 3884542738</strong> para conocer el estado
-						del exámen.
-					</Typography>
-					<Typography
-						component={RouterLink}
-						to="https://wa.me/543884542738"
-						target="_blank"
-					>
-						https://wa.me/543884542738
+						Comunicate con <strong>ubaparciales@gmail.com</strong> para conocer
+						el estado del exámen.
 					</Typography>
 				</Alert>
 				<Button
