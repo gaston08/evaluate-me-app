@@ -38,10 +38,10 @@ export default function BasicTabs() {
 				</Tabs>
 			</Box>
 			<CustomTabPanel value={value} index={0}>
-				<TrainerForm />
+				<ExamForm />
 			</CustomTabPanel>
 			<CustomTabPanel value={value} index={1}>
-				<ExamForm />
+				<TrainerForm />
 			</CustomTabPanel>
 		</Box>
 	);
