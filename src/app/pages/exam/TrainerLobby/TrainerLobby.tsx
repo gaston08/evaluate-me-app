@@ -33,8 +33,8 @@ export default function BasicTabs() {
 		<Box sx={{ width: '100%' }}>
 			<Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
 				<Tabs value={value} onChange={handleChange}>
-					<Tab label="entrenamiento" />
 					<Tab label="resolver exámen" />
+					<Tab label="entrenamiento" />
 				</Tabs>
 			</Box>
 			<CustomTabPanel value={value} index={0}>
