@@ -21,9 +21,9 @@ import { NoRequireAuth } from 'app/layouts/auth';
 
 const ipc_path = subjects.find((subject) => subject.short === 'IPC').value;
 const icse_path = subjects.find((subject) => subject.short === 'ICSE').value;
-/*const ddhh_path = subjects.find(
+const ddhh_path = subjects.find(
   (subject) => subject.short === 'DDHH y Derecho Constitucional',
-).value;*/
+).value;
 const der_pri_path = subjects.find(
   (subject) => subject.short === 'Derecho Privado',
 ).value;
@@ -72,13 +72,11 @@ export const arrRoutes = [
         path: '/tests/' + icse_path + '/:id',
         element: <View />,
       },
-      /*
       //ddhh
       {
         path: '/tests/' + ddhh_path + '/:id',
         element: <View />,
       },
-      */
       //der_pri_path
       {
         path: '/tests/' + der_pri_path + '/:id',
