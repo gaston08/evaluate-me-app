@@ -46,7 +46,7 @@ export default function RequireAuth() {
 			setUpAuth(access_token, true, setAuth);
 			navigate('/tests', { state: { omitAuth: true } });
 		}
-		/*const result = await axiosPost('api/refresh-token', {});
+		/*const result = await axiosPost('api/user/refresh-token', {});
 
 		if (result.ok) {
 			setUpAuth(result.data.token, true, setAuth);

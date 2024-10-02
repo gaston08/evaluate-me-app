@@ -95,7 +95,7 @@ export default function SignUp() {
 							username: values.username,
 							role: 'user',
 						};
-						const result = await axiosPost('api/signup', data);
+						const result = await axiosPost('api/user/signup', data);
 						if (result.ok) {
 							setEmail(values.email);
 							setSuccess(true);

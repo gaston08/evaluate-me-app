@@ -58,7 +58,10 @@ export default function SignIn() {
 			data.invitation_code = invitation_code;
 		}
 
-		const result: apiPostResponse = await axiosPost('api/login/google', data);
+		const result: apiPostResponse = await axiosPost(
+			'api/user/login-google',
+			data,
+		);
 
 		if (result.ok) {
 			setUpAuth(result.data.token, true, setAuth);
@@ -103,7 +106,7 @@ export default function SignIn() {
 					password: values.password,
 				};
 
-				const result: apiPostResponse = await axiosPost('api/login', data);
+				const result: apiPostResponse = await axiosPost('api/user/login', data);
 				if (result.ok) {
 					if (result.data.active === true) {
 						setUpAuth(result.data.token, true, setAuth);

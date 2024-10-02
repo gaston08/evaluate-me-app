@@ -73,7 +73,7 @@ export default function Blog(props: BlogProps) {
 			setLoading(false);
 		}
 
-		/*const result = await axiosPost('api/refresh-token', {});
+		/*const result = await axiosPost('api/user/refresh-token', {});
 
 		if (result.ok) {
 			setUpAuth(result.data.token, true, setAuth);
