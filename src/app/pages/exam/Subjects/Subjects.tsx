@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
-import { subjects } from 'app/shared/exams/ubaxxi';
+import { subjects } from 'app/shared/data/ubaxxi';
 import Faq from 'app/components/Faq';
 import { Helmet } from 'react-helmet-async';
 

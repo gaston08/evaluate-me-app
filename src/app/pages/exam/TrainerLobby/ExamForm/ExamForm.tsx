@@ -8,10 +8,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { exam_types } from 'app/shared/exams/exam';
+import { exam_types } from 'app/shared/data/exam';
 import Link from '@mui/material/Link';
 
-import { subjects } from 'app/shared/exams/ubaxxi';
+import { subjects } from 'app/shared/data/ubaxxi';
 import { apiGetAllSubjects } from 'app/shared/interfaces/api-response';
 import { examType as examTypeInterface } from 'app/shared/interfaces/exam';
 import { axiosGet } from 'app/utils/axios';

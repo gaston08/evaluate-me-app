@@ -7,9 +7,9 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { exam_types } from 'app/shared/exams/exam';
+import { exam_types } from 'app/shared/data/exam';
 
-import { subjects } from 'app/shared/exams/ubaxxi';
+import { subjects } from 'app/shared/data/ubaxxi';
 
 export default function TrainerForm() {
 	const params = useParams();

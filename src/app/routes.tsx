@@ -11,7 +11,7 @@ import {
   MyProfile,
 } from 'app/pages/auth';
 import { UpdateUserCoffees } from 'app/pages/admin';
-import { subjects } from 'app/shared/exams/ubaxxi';
+import { subjects } from 'app/shared/data/ubaxxi';
 
 import GetParams from 'app/components/GetParams';
 

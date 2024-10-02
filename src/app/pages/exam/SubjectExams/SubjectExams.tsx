@@ -10,8 +10,8 @@ import Link from '@mui/material/Link';
 import { apiGetAllSubjects } from 'app/shared/interfaces/api-response';
 
 import { axiosGet } from 'app/utils/axios';
-import { exam_types } from 'app/shared/exams/exam';
-import { subjects } from 'app/shared/exams/ubaxxi';
+import { exam_types } from 'app/shared/data/exam';
+import { subjects } from 'app/shared/data/ubaxxi';
 import Faq from 'app/components/Faq';
 import ModalVideo from './components/ModalVideo';
 

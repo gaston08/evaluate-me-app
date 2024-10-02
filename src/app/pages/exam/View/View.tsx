@@ -20,8 +20,8 @@ import {
 	contextExam,
 	examType as examInterface,
 } from 'app/shared/interfaces/exam';
-import { exam_types } from 'app/shared/exams/exam';
-import { subjects, selectInterface } from 'app/shared/exams/ubaxxi';
+import { exam_types } from 'app/shared/data/exam';
+import { subjects, selectInterface } from 'app/shared/data/ubaxxi';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
 import Loader from 'app/components/Loader';

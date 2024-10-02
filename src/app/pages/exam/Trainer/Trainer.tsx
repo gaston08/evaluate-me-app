@@ -16,8 +16,8 @@ import {
 	apiPostGetAllExams,
 	apiGetAllSubjects,
 } from 'app/shared/interfaces/api-response';
-import { exam_types } from 'app/shared/exams/exam';
-import { subjects, selectInterface } from 'app/shared/exams/ubaxxi';
+import { exam_types } from 'app/shared/data/exam';
+import { subjects, selectInterface } from 'app/shared/data/ubaxxi';
 
 async function getExams(
 	array_id: Array<string>,
