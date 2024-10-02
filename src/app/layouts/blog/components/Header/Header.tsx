@@ -64,7 +64,6 @@ export default function Header() {
               icon={<UserIcon />}
               menuItems={[
                 { label: 'Mi perfil', value: '/profile/me' },
-                { label: 'Mis exámenes', value: '/profile/exams' },
                 {
                   label: 'Cerrar sesión',
                   onClick: logout,

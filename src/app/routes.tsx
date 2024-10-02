@@ -9,7 +9,6 @@ import {
   ResetPassword,
   ActivateAccount,
   MyProfile,
-  MyExams,
 } from 'app/pages/auth';
 import { UpdateUserCoffees } from 'app/pages/admin';
 import { subjects } from 'app/shared/exams/ubaxxi';
@@ -142,10 +141,6 @@ export const arrRoutes = [
       {
         path: '/profile/me',
         element: <MyProfile />,
-      },
-      {
-        path: '/profile/exams',
-        element: <MyExams />,
       },
     ],
   },
