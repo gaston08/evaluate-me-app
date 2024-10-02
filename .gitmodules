@@ -1,3 +1,6 @@
-[submodule "exams"]
-	path = src/app/shared/exams
-	url = https://github.com/gaston08/exams.git
+[submodule "data-ubaparciales"]
+	path = src/app/shared/data
+	url = https://github.com/gaston08/data-ubaparciales.git
+[submodule "src/app/shared/data"]
+	path = src/app/shared/data
+	url = https://github.com/gaston08/data-ubaparciales.git
