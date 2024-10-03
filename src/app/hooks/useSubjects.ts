@@ -20,8 +20,8 @@ import odontologia from 'app/shared/data/careers/odontologia';
 import psicologia from 'app/shared/data/careers/psicologia';
 
 export const useSubjects = (
-	facultyName,
-	careerName,
+	facultyName: string,
+	careerName: string,
 ): [Array<selectInterface>] => {
 	const [subjects, setSubjects] = useState<Array<selectInterface>>([]);
 
@@ -90,6 +90,9 @@ export const useSubjects = (
 			});
 
 			setSubjects(arr);
+
+			localStorage.setItem('faculty', facultyName);
+			localStorage.setItem('career', careerName);
 		}
 	}, [facultyName, careerName]);
 

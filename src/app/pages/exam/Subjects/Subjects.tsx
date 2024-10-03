@@ -15,8 +15,14 @@ import { useCareers } from 'app/hooks/useCareers';
 import { useSubjects } from 'app/hooks/useSubjects';
 
 export default function Subjects() {
-	const [faculty, setFaculty] = useState('');
-	const [career, setCareer] = useState('');
+	const [faculty, setFaculty] = useState(() => {
+		const faculty_local = localStorage.getItem('faculty');
+		return faculty_local !== null ? faculty_local : '';
+	});
+	const [career, setCareer] = useState(() => {
+		const career_local = localStorage.getItem('career');
+		return career_local !== null ? career_local : '';
+	});
 	const [careers] = useCareers(faculty);
 	const [subjects, setSubjects] = useSubjects(faculty, career);
 
