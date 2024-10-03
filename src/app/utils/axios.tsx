@@ -34,10 +34,12 @@ if (import.meta.env.MODE === 'development') {
 	API_ROUTE = import.meta.env.VITE_API_ROUTE_DEV as string;
 } else {
 	console.log('working on production mode');
-	API_ROUTE =
+	/*API_ROUTE =
 		Math.random() < 0.5
 			? (import.meta.env.VITE_API_ROUTE as string)
 			: (import.meta.env.VITE_API_ROUTE2 as string);
+	*/
+	API_ROUTE = import.meta.env.VITE_API_ROUTE2 as string;
 
 	console.log(API_ROUTE);
 }
