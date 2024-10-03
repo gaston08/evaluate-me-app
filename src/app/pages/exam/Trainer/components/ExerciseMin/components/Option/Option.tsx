@@ -173,13 +173,13 @@ export default function Option(props: OptionProps) {
 							justifyContent: 'space-between',
 							cursor: 'auto',
 							p: 2,
-							borderRadius: 1,
-							borderBottom: '1px solid #ccc',
+							borderBottom: selected ? '1px solid #fff' : '',
 						}}
 						onClick={selectOption}
 					>
 						<div dangerouslySetInnerHTML={{ __html: title }}></div>
 					</Box>
+					{/*
 					<Box>
 						{selected && !isCorrect ? (
 							<Alert severity="error">
@@ -195,6 +195,8 @@ export default function Option(props: OptionProps) {
 							</Alert>
 						) : null}
 					</Box>
+
+						*/}
 				</>
 			)}
 		</Fragment>
