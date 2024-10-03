@@ -170,7 +170,7 @@ export default function Trainer() {
 					variant="contained"
 					component={RouterLink}
 					to={`/entrenamiento/${params.subject}`}
-					sx={{ mt: 4, ml: 2 }}
+					sx={{ mt: 4, ml: 2, mb: 3 }}
 				>
 					Volver
 				</Button>
