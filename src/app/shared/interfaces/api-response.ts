@@ -8,6 +8,14 @@ export interface expressError {
 	location: string;
 }
 
+export interface examsListInterface {
+	primer_parcial: Array<examTypeInterface>;
+	segundo_parcial: Array<examTypeInterface>;
+	recuperatorio_primer_parcial: Array<examTypeInterface>;
+	recuperatorio_segundo_parcial: Array<examTypeInterface>;
+	final: Array<examTypeInterface>;
+}
+
 export interface apiPostResponse {
 	ok: boolean;
 	data: {
@@ -27,7 +35,7 @@ export interface apiGetResponse {
 	ok: boolean;
 	data: {
 		exam: examType;
-		result: resultType;
+		examsList: examsListInterface;
 		user: {
 			scores: Array<{
 				_id: string;
@@ -52,26 +60,12 @@ export interface apiPostGetAllExams extends apiPostResponse {
 
 export interface apiGetAllSubjects extends apiGetResponse {
 	data: {
+		examsList: examsListInterface;
+	};
+}
+
+export interface apiGetAllTrainer extends apiGetResponse {
+	data: {
 		exams: Array<examType>;
 	};
-}
-
-export interface apiGetAllResultsResponse extends apiGetResponse {
-	data: {
-		results: Array<resultType>;
-	};
-}
-
-export interface resultType {
-	_id: string;
-	answers: Array<Array<Array<string>>>;
-	createdAt: string;
-	date: string;
-	examId: examType;
-	exam_number: number;
-	exam_subject: string;
-	exam_type: string;
-	exam_year: number;
-	score: string;
-	userId: string;
 }

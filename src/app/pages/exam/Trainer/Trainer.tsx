@@ -14,7 +14,7 @@ import {
 } from 'app/shared/interfaces/exam';
 import {
 	apiPostGetAllExams,
-	apiGetAllSubjects,
+	apiGetAllTrainer,
 } from 'app/shared/interfaces/api-response';
 import { exam_types } from 'app/shared/data/exam';
 import { subjects, selectInterface } from 'app/shared/data/ubaxxi';
@@ -103,9 +103,11 @@ export default function Trainer() {
 
 	useEffect(() => {
 		async function fetchData() {
-			const result: apiGetAllSubjects = await axiosGet(
-				`api/exam/get/${params.subject}/${params.department}/${params.type}`,
+			const result: apiGetAllTrainer = await axiosGet(
+				`api/exam/get/trainer/${params.subject}/${params.department}/${params.type}`,
 			);
+
+			console.log(result);
 			if (result.ok) {
 				const exams: Array<examInterface> = result.data.exams;
 				const array_id = exams.map((exam) => exam._id);
