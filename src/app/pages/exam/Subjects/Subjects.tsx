@@ -14,6 +14,9 @@ import InputLabel from '@mui/material/InputLabel';
 import { useCareers } from 'app/hooks/useCareers';
 import { useSubjects } from 'app/hooks/useSubjects';
 
+import { apiPostResponse } from 'app/shared/interfaces/api-response';
+import { axiosPost } from 'app/utils/axios';
+
 export default function Subjects() {
 	const [faculty, setFaculty] = useState(() => {
 		const faculty_local = localStorage.getItem('faculty');
@@ -34,6 +37,19 @@ export default function Subjects() {
 
 	const handleChangeCareer = (event: SelectChangeEvent) => {
 		setCareer(event.target.value);
+		axiosPost('api/user/update/profile', {
+			career: event.target.value,
+			faculty,
+		})
+			.then((result: apiPostResponse) => {
+				if (result.ok) {
+					console.log('ok');
+				} else {
+					console.log(result.error);
+					console.log(result.errors);
+				}
+			})
+			.catch(console.error);
 	};
 
 	return (
