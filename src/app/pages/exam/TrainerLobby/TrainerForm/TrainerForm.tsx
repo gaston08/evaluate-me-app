@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link as RouterLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
@@ -16,6 +16,15 @@ export default function TrainerForm() {
 	const [subject, setSubject] = useState<string>(params.subject);
 	const [examType, setExamType] = useState<string>('');
 	const [department, setDepartment] = useState<string>('');
+
+	useEffect(() => {
+		const arr = subjects.find((sub) => sub.value === subject).departments;
+		if (arr.length === 1) {
+			setDepartment(arr[0].value);
+		} else {
+			setDepartment('');
+		}
+	}, [subject]);
 
 	const enableButton = () => {
 		if (examType === '' || department === '') {
