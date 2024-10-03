@@ -83,6 +83,7 @@ export default function Trainer() {
 		}
 	});
 	const [completed, setCompleted] = useState<boolean>(false);
+	const [referenceQuestion, setReferenceQuestion] = useState<Array<string>>([]);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [examInfo] = useState<examInfoInterface>(() => {
 		const subject: selectInterface = subjects.find(
@@ -130,7 +131,21 @@ export default function Trainer() {
 			`${params.department}-${params.type}-${params.subject}`,
 			JSON.stringify(current),
 		);
-	}, [currentIdx]);
+
+		if (
+			exercises[currentIdx] &&
+			exercises[currentIdx].referenceId !== undefined &&
+			exercises[currentIdx].referenceId !== ''
+		) {
+			const reference_exercise = exercises.find((ex) => {
+				return ex.id === exercises[currentIdx].referenceId;
+			});
+
+			setReferenceQuestion(reference_exercise.question);
+		} else {
+			setReferenceQuestion([]);
+		}
+	}, [currentIdx, exercises]);
 
 	const handleNext = () => {
 		setCompleted(false);
@@ -190,6 +205,7 @@ export default function Trainer() {
 				setCompleted={setCompleted}
 				exercise={exercises[currentIdx]}
 				key={currentIdx}
+				referenceQuestion={referenceQuestion}
 			/>
 			{completed ? (
 				<Box sx={{ mt: 3, mb: 3, ml: 3 }}>

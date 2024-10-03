@@ -1,11 +1,12 @@
-import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { Fragment, useState, useEffect, useContext } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 
 import Option from './components/Option';
 import Argument from './components/Argument';
+import ReferenceQuestionModal from './components/ReferenceQuestionModal';
 import NoCoffeesDialog from 'app/components/NoCoffeesDialog';
 import { exerciseType, optionType } from 'app/shared/interfaces/exam';
 import { contextAuth } from 'app/shared/interfaces/auth';
@@ -15,15 +16,20 @@ interface ExerciseProps {
 	exercise: exerciseType;
 	completed: boolean;
 	setCompleted: React.Dispatch<React.SetStateAction<boolean>>;
+	referenceQuestion: Array<string>;
 }
 
 export default function Exercise(props: ExerciseProps) {
-	const { completed, setCompleted, exercise } = props;
+	const { completed, setCompleted, exercise, referenceQuestion } = props;
 	const [selected, setSelected] = useState<Array<string>>([]);
 	const { auth } = useContext<contextAuth>(AuthContext);
 	const [open, setOpen] = useState<boolean>(false);
 
 	const theme = useTheme();
+
+	const [openReference, setOpenReference] = useState(false);
+	const handleOpenReference = () => { setOpenReference(true); };
+	const handleCloseReference = () => { setOpenReference(false); };
 
 	useEffect(() => {
 		if (
@@ -38,6 +44,10 @@ export default function Exercise(props: ExerciseProps) {
 		if (auth.coffees === 0) {
 			setOpen(true);
 		}
+	};
+
+	const showReferenceQuestion = () => {
+		handleOpenReference();
 	};
 
 	return (
@@ -99,6 +109,20 @@ export default function Exercise(props: ExerciseProps) {
 										}}
 										className="tiptap"
 									></div>
+									<Fragment>
+										{referenceQuestion.length !== 0 && i === 0 ? (
+											<Box sx={{ mt: 2, mb: 1 }}>
+												<Button
+													variant="contained"
+													size="small"
+													color="secondary"
+													onClick={showReferenceQuestion}
+												>
+													Ver ejercicio
+												</Button>
+											</Box>
+										) : null}
+									</Fragment>
 								</Paper>
 							)}
 
@@ -168,6 +192,13 @@ export default function Exercise(props: ExerciseProps) {
 			</>
 			<>
 				<NoCoffeesDialog open={open} setOpen={setOpen} />
+			</>
+			<>
+				<ReferenceQuestionModal
+					open={openReference}
+					handleClose={handleCloseReference}
+					referenceQuestion={referenceQuestion}
+				/>
 			</>
 		</Box>
 	);
