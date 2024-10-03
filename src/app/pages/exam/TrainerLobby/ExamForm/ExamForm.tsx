@@ -9,13 +9,13 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Link from '@mui/material/Link';
 
-import { subjects } from 'app/shared/data/ubaxxi';
 import {
 	apiGetAllSubjects,
 	examsListInterface,
 } from 'app/shared/interfaces/api-response';
 import { examType as examTypeInterface } from 'app/shared/interfaces/exam';
 import { axiosGet } from 'app/utils/axios';
+import { useSubjects } from 'app/hooks/useSubjects';
 
 const defaultExamsList = {
 	primer_parcial: [],
@@ -25,6 +25,24 @@ const defaultExamsList = {
 	final: [],
 };
 
+function getFaculty() {
+	const faculty = localStorage.getItem('faculty');
+	if (faculty === null) {
+		window.location.href = 'https://ubaparciales.com';
+	} else {
+		return faculty;
+	}
+}
+
+function getCareer() {
+	const career = localStorage.getItem('career');
+	if (career === null) {
+		window.location.href = 'https://ubaparciales.com';
+	} else {
+		return career;
+	}
+}
+
 export default function ExamForm() {
 	const params = useParams();
 	const [subject, setSubject] = useState<string>(params.subject);
@@ -33,6 +51,7 @@ export default function ExamForm() {
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const [examsList, setExamsList] =
 		useState<examsListInterface>(defaultExamsList);
+	const [subjects] = useSubjects(getFaculty(), getCareer());
 
 	useEffect(() => {
 		if (subject !== '' && department !== '') {
@@ -41,13 +60,15 @@ export default function ExamForm() {
 	}, [subject, department]);
 
 	useEffect(() => {
-		const arr = subjects.find((sub) => sub.value === subject).departments;
-		if (arr.length === 1) {
-			setDepartment(arr[0].value);
-		} else {
-			setDepartment('');
+		if (subjects.length !== 0) {
+			const arr = subjects.find((sub) => sub.value === subject).departments;
+			if (arr.length === 1) {
+				setDepartment(arr[0].value);
+			} else {
+				setDepartment('');
+			}
 		}
-	}, [subject]);
+	}, [subject, subjects]);
 
 	const fetchData = async () => {
 		setErrors([]);
@@ -116,15 +137,16 @@ export default function ExamForm() {
 								setDepartment(e.target.value);
 							}}
 						>
-							{subjects
-								.find((sub) => sub.value === subject)
-								.departments.map((dept) => {
-									return (
-										<MenuItem key={dept.value} value={dept.value}>
-											{dept.label}
-										</MenuItem>
-									);
-								})}
+							{subjects.length !== 0 &&
+								subjects
+									.find((sub) => sub.value === subject)
+									.departments.map((dept) => {
+										return (
+											<MenuItem key={dept.value} value={dept.value}>
+												{dept.label}
+											</MenuItem>
+										);
+									})}
 						</Select>
 					</FormControl>
 				</Grid>

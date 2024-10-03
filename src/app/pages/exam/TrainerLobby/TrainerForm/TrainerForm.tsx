@@ -8,23 +8,43 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { exam_types } from 'app/shared/data/exam';
+import { useSubjects } from 'app/hooks/useSubjects';
 
-import { subjects } from 'app/shared/data/ubaxxi';
+function getFaculty() {
+	const faculty = localStorage.getItem('faculty');
+	if (faculty === null) {
+		window.location.href = 'https://ubaparciales.com';
+	} else {
+		return faculty;
+	}
+}
+
+function getCareer() {
+	const career = localStorage.getItem('career');
+	if (career === null) {
+		window.location.href = 'https://ubaparciales.com';
+	} else {
+		return career;
+	}
+}
 
 export default function TrainerForm() {
 	const params = useParams();
 	const [subject, setSubject] = useState<string>(params.subject);
 	const [examType, setExamType] = useState<string>('');
 	const [department, setDepartment] = useState<string>('');
+	const [subjects] = useSubjects(getFaculty(), getCareer());
 
 	useEffect(() => {
-		const arr = subjects.find((sub) => sub.value === subject).departments;
-		if (arr.length === 1) {
-			setDepartment(arr[0].value);
-		} else {
-			setDepartment('');
+		if (subjects.length !== 0) {
+			const arr = subjects.find((sub) => sub.value === subject).departments;
+			if (arr.length === 1) {
+				setDepartment(arr[0].value);
+			} else {
+				setDepartment('');
+			}
 		}
-	}, [subject]);
+	}, [subject, subjects]);
 
 	const enableButton = () => {
 		if (examType === '' || department === '') {
@@ -89,15 +109,16 @@ export default function TrainerForm() {
 								setDepartment(e.target.value);
 							}}
 						>
-							{subjects
-								.find((sub) => sub.value === subject)
-								.departments.map((dept) => {
-									return (
-										<MenuItem key={dept.value} value={dept.value}>
-											{dept.label}
-										</MenuItem>
-									);
-								})}
+							{subjects.length !== 0 &&
+								subjects
+									.find((sub) => sub.value === subject)
+									.departments.map((dept) => {
+										return (
+											<MenuItem key={dept.value} value={dept.value}>
+												{dept.label}
+											</MenuItem>
+										);
+									})}
 						</Select>
 					</FormControl>
 				</Grid>
