@@ -24,7 +24,7 @@ const faqs = [
   {
     question: '¿Qué materias están disponibles?',
     answer:
-      'Actualmente, nuestra plataforma ofrece parciales de IPC e ICSE de UBA XXI. Estamos trabajando activamente para expandir nuestra oferta y en el futuro incluir parciales de UBA XXI, CBC presencial y, finalmente, abarcar todas las materias de la UBA.',
+      'Subiremos exámenes de todas las materias, trabajamos para tener exámenes incluso de las materias que no cuentan con un modelo de exámen.',
   },
   {
     question: '¿Qué hago si no encuentro la materia que busco?',
