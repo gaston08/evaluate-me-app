@@ -1,36 +1,109 @@
-import { Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
-import { subjects } from 'app/shared/data/ubaxxi';
+import { faculties } from 'app/shared/data/exam';
 import Faq from 'app/components/Faq';
 import { Helmet } from 'react-helmet-async';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+
+import { useCareers } from 'app/hooks/useCareers';
+import { useSubjects } from 'app/hooks/useSubjects';
 
 export default function Subjects() {
+	const [faculty, setFaculty] = useState('');
+	const [career, setCareer] = useState('');
+	const [careers] = useCareers(faculty);
+	const [subjects, setSubjects] = useSubjects(faculty, career);
+
+	const handleChangeFaculty = (event: SelectChangeEvent) => {
+		setFaculty(event.target.value);
+		setCareer('');
+		setSubjects([]);
+	};
+
+	const handleChangeCareer = (event: SelectChangeEvent) => {
+		setCareer(event.target.value);
+	};
+
 	return (
 		<Fragment>
+			<Box sx={{ mb: 3 }}>
+				<Typography variant="h5">Selecciona una carrera.</Typography>
+			</Box>
+			<Box sx={{ maxWidth: 300, mb: 2 }}>
+				<FormControl fullWidth>
+					<InputLabel id="faculty-select-label">Facultad</InputLabel>
+					<Select
+						labelId="faculty-select-label"
+						id="faculty-select"
+						value={faculty}
+						label="Facultad"
+						onChange={handleChangeFaculty}
+					>
+						{faculties.map((facu) => {
+							return (
+								<MenuItem key={facu} value={facu}>
+									{facu}
+								</MenuItem>
+							);
+						})}
+					</Select>
+				</FormControl>
+			</Box>
+			<Box sx={{ maxWidth: 300, mb: 2 }}>
+				<FormControl fullWidth>
+					<InputLabel id="career-select-label">Carrera</InputLabel>
+					<Select
+						labelId="career-select-label"
+						id="career-select"
+						value={career}
+						label="Carrera"
+						onChange={handleChangeCareer}
+						disabled={careers.length === 0}
+					>
+						{careers.map((career) => {
+							return (
+								<MenuItem key={career} value={career}>
+									{career}
+								</MenuItem>
+							);
+						})}
+					</Select>
+				</FormControl>
+			</Box>
 			<Box>
-				<Box sx={{ mb: 3 }}>
-					<Typography variant="h5">Selecciona una materia.</Typography>
-				</Box>
-				<Box sx={{ minHeight: 200 }}>
-					{subjects.map((subject) => {
-						return (
-							<Box sx={{ mb: 2 }} key={subject.value}>
-								<Typography variant="h6">
-									<Link
-										component={RouterLink}
-										to={`/entrenamiento/${subject.value}`}
-									>
-										<>{subject.short + ' '}</>
-										{subject.long !== '' ? `(${subject.long})` : null}
-									</Link>
-								</Typography>
-							</Box>
-						);
-					})}
-				</Box>
+				<Fragment>
+					{subjects.length !== 0 ? (
+						<Box sx={{ minHeight: 200, mt: 4 }}>
+							{subjects.map((subject) => {
+								return (
+									<Box sx={{ mb: 2 }} key={subject.value}>
+										<Typography variant="h6">
+											<Link
+												component={RouterLink}
+												to={`/entrenamiento/${subject.value}`}
+											>
+												<>{subject.short + ' '}</>
+												{subject.long !== '' ? `(${subject.long})` : null}
+											</Link>
+										</Typography>
+									</Box>
+								);
+							})}
+						</Box>
+					) : (
+						<Box sx={{ p: 4 }}>
+							<Typography variant="h6">
+								Elige una carrera para ver las materias.
+							</Typography>
+						</Box>
+					)}
+				</Fragment>
 				<Box>
 					<Faq />
 				</Box>
