@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 
-import ScreenshotButton from './components/ScreenshotButton';
+import ScreenshotButton from 'app/components/ScreenshotButton';
 import Option from './components/Option';
 import Argument from './components/Argument';
 import ReferenceQuestionModal from './components/ReferenceQuestionModal';

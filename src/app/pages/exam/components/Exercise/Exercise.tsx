@@ -1,10 +1,11 @@
-import { useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import useTheme from '@mui/material/styles/useTheme';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Typography from '@mui/material/Typography';
+import ScreenshotButton from 'app/components/ScreenshotButton';
 
 import Option from './components/Option';
 import {
@@ -38,6 +39,9 @@ export default function Exercise(props: ExerciseProps) {
 
 	return (
 		<Box className="exercise-exam">
+			<Fragment>
+				<ScreenshotButton exercise={exercise} />
+			</Fragment>
 			<>
 				{Array.from(Array(exercise.question.length), (e, i: number) => {
 					return (
