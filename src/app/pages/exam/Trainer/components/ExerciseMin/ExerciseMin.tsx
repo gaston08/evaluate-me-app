@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 
+import ScreenshotButton from './components/ScreenshotButton';
 import Option from './components/Option';
 import Argument from './components/Argument';
 import ReferenceQuestionModal from './components/ReferenceQuestionModal';
@@ -28,8 +29,12 @@ export default function Exercise(props: ExerciseProps) {
 	const theme = useTheme();
 
 	const [openReference, setOpenReference] = useState(false);
-	const handleOpenReference = () => { setOpenReference(true); };
-	const handleCloseReference = () => { setOpenReference(false); };
+	const handleOpenReference = () => {
+		setOpenReference(true);
+	};
+	const handleCloseReference = () => {
+		setOpenReference(false);
+	};
 
 	useEffect(() => {
 		if (
@@ -52,12 +57,15 @@ export default function Exercise(props: ExerciseProps) {
 
 	return (
 		<Box className="exercise-exam">
-			<>
+			<Fragment>
+				<ScreenshotButton exercise={exercise} />
+			</Fragment>
+			<Fragment>
 				{Array.from(Array(exercise.question.length), (e, i: number) => {
 					return (
 						<Box key={i}>
 							{exercise.question[i].code ? (
-								<>
+								<Fragment>
 									{exercise.question[i].python_code ? (
 										<Box
 											sx={{
@@ -97,7 +105,7 @@ export default function Exercise(props: ExerciseProps) {
 											></Box>
 										</Box>
 									)}
-								</>
+								</Fragment>
 							) : (
 								<Paper
 									elevation={0}
@@ -126,7 +134,7 @@ export default function Exercise(props: ExerciseProps) {
 								</Paper>
 							)}
 
-							<>
+							<Fragment>
 								{exercise.question[i].code ? (
 									<Box
 										component="table"
@@ -180,26 +188,26 @@ export default function Exercise(props: ExerciseProps) {
 										})}
 									</Box>
 								)}
-							</>
+							</Fragment>
 						</Box>
 					);
 				})}
-			</>
-			<>
+			</Fragment>
+			<Fragment>
 				<Box sx={{ pl: 2, mt: 2 }}>
 					{completed ? <Argument exercise={exercise} /> : null}
 				</Box>
-			</>
-			<>
+			</Fragment>
+			<Fragment>
 				<NoCoffeesDialog open={open} setOpen={setOpen} />
-			</>
-			<>
+			</Fragment>
+			<Fragment>
 				<ReferenceQuestionModal
 					open={openReference}
 					handleClose={handleCloseReference}
 					referenceQuestion={referenceQuestion}
 				/>
-			</>
+			</Fragment>
 		</Box>
 	);
 }
