@@ -90,28 +90,37 @@ const invitations_challenges = [
 	{
 		id: 'invitations-1',
 		invitations: 1,
-		coffees: 20,
+		coffees: 10,
 		body: {
 			title: 'Ganá cafecitos gratis',
-			subtitle: 'Invitá a un amigo y recibí grandes recompensas',
+			subtitle: 'Invitá a un amigo y recibí cafecitos gratis.',
 		},
 	},
 	{
 		id: 'invitations-4',
 		invitations: 4,
-		coffees: 50,
+		coffees: 20,
 		body: {
 			title: 'Ganá cafecitos gratis',
-			subtitle: 'Invitá a 4 amigos y recibí grandes recompensas',
+			subtitle: 'Invitá a 4 amigos y recibí cafecitos gratis.',
 		},
 	},
 	{
 		id: 'invitations-10',
 		invitations: 10,
-		coffees: 100,
+		coffees: 25,
 		body: {
 			title: 'Ganá cafecitos gratis',
-			subtitle: 'Invitá a 10 amigos y recibí grandes recompensas',
+			subtitle: 'Invitá a 10 amigos y recibí cafecitos gratis.',
+		},
+	},
+	{
+		id: 'invitations-20',
+		invitations: 20,
+		coffees: 25,
+		body: {
+			title: 'Ganá cafecitos gratis',
+			subtitle: 'Invitá a 20 amigos y recibí cafecitos gratis.',
 		},
 	},
 ];
