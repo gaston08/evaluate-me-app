@@ -283,14 +283,14 @@ export default function View() {
 								}
 							</>
 							<>
-								{!examsUi.isPlayView ? (
+								{!examsUi.isPlayView && canSolve ? (
 									<Box sx={{ mt: 1, mb: 4 }}>
 										<Button
 											className="remake-exam-button"
 											variant="outlined"
 											onClick={cleanExam}
 										>
-											Rehacer examen
+											Rehacer examen 1
 										</Button>
 									</Box>
 								) : null}
@@ -361,7 +361,7 @@ export default function View() {
 								) : null}
 							</>
 							<>
-								{!examsUi.isPlayView ? (
+								{!examsUi.isPlayView && canSolve ? (
 									<Box>
 										<Box sx={{ mt: 1, mb: 4 }}>
 											<Button
