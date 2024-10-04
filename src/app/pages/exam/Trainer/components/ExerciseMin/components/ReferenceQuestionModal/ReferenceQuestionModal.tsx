@@ -13,7 +13,6 @@ const style = {
 	width: '100%',
 	maxWidth: 700,
 	bgcolor: 'background.paper',
-	border: '2px solid #000',
 	boxShadow: 24,
 	p: 2,
 	fontSize: 16,
