@@ -23,7 +23,7 @@ export default function Payment() {
 					<ol>
 						<li>
 							<Typography>Pagá el pack que deseas adquirir.</Typography>
-							<Box sx={{ mt: 2 }}>
+							<Box sx={{ mt: 2, maxWidth: 500 }}>
 								{coffees_prices.map((price) => {
 									return (
 										<PackListItem
