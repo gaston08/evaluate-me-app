@@ -50,7 +50,7 @@ export default function Store() {
 
 	return (
 		<Fragment>
-			<Box sx={{ pb: 2 }}>
+			<Box sx={{ pb: 2, maxWidth: 850 }}>
 				<Reward
 					key={invitations_challenges[current].id}
 					id={invitations_challenges[current].id}
