@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import PackListItem from './PackListItem';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth } from 'app/shared/interfaces/auth';
+import { coffees_prices } from '../../prices';
 
 export default function Payment() {
 	const { auth } = useContext<contextAuth>(AuthContext);
@@ -23,30 +24,19 @@ export default function Payment() {
 						<li>
 							<Typography>Pagá el pack que deseas adquirir.</Typography>
 							<Box sx={{ mt: 2 }}>
-								<PackListItem
-									loading={loading}
-									setLoading={setLoading}
-									coffees="100"
-									id="coffees-100"
-									email={auth.user.email}
-									user_id={auth.user._id}
-								/>
-								<PackListItem
-									loading={loading}
-									setLoading={setLoading}
-									coffees="1.000"
-									id="coffees-1000"
-									email={auth.user.email}
-									user_id={auth.user._id}
-								/>
-								<PackListItem
-									loading={loading}
-									setLoading={setLoading}
-									coffees="10.000"
-									id="coffees-10000"
-									email={auth.user.email}
-									user_id={auth.user._id}
-								/>
+								{coffees_prices.map((price) => {
+									return (
+										<PackListItem
+											loading={loading}
+											setLoading={setLoading}
+											coffees={price.coffees}
+											id={price.id}
+											email={auth.user.email}
+											user_id={auth.user._id}
+											key={price.id}
+										/>
+									);
+								})}
 							</Box>
 						</li>
 						<li>

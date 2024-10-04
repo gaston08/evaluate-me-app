@@ -1,12 +1,12 @@
+import { Fragment } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import {
-	CoffeeIcon,
-	CoffeePrices,
-} from './components/CoffeePrices/CoffeePrices';
+import { CoffeePrices } from './components/CoffeePrices/CoffeePrices';
 import PaymentMethods from './components/PaymentMethods';
+
+import { coffees_prices } from './prices';
 
 export default function Prices() {
 	return (
@@ -18,28 +18,19 @@ export default function Prices() {
 				<Typography sx={{ color: 'text.secondary', mb: 1.5 }}>
 					Realizá una transferencia y recibí tus cafecitos al instante.
 				</Typography>
-				{/* normal */}
-				<Box sx={{ mt: 2, mb: 4, display: 'flex', alignItems: 'end' }}>
-					<CoffeeIcon />
-					<Box sx={{ ml: 1 }}>
-						<strong>x100</strong> cafecitos ($500)
-					</Box>
-				</Box>
-				{/* disccount 40%*/}
-				<CoffeePrices
-					coffees="1.000"
-					originalPrice="5.000"
-					disccountPrice="3.000"
-					percentage="40"
-				/>
 
-				{/* disccount 80%*/}
-				<CoffeePrices
-					coffees="10.000"
-					originalPrice="50.000"
-					disccountPrice="11.000"
-					percentage="80"
-				/>
+				<Fragment>
+					{coffees_prices.map((price) => {
+						return (
+							<CoffeePrices
+								coffees={price.coffees}
+								originalPrice={price.unit_price}
+								disccountPrice={price.disccount_price}
+								key={price.id}
+							/>
+						);
+					})}
+				</Fragment>
 			</CardContent>
 			<Box>
 				<PaymentMethods />

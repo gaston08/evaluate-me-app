@@ -8,6 +8,7 @@ import {
 	expressError,
 } from 'app/shared/interfaces/api-response';
 import { axiosPost } from 'app/utils/axios';
+import { coffees_prices } from '../../prices';
 
 interface PackListItemProps {
 	coffees: string;
@@ -46,7 +47,7 @@ export default function PackListItem(props: PackListItemProps) {
 			<Button
 				onClick={() => {
 					setLoading(true);
-					axiosPost('api/transaction/create', {
+					const data = {
 						email,
 						coffees: coffee_info.coffees,
 						user_id,
@@ -54,14 +55,15 @@ export default function PackListItem(props: PackListItemProps) {
 							{
 								currency_id: 'ARS',
 								title: coffee_info.title,
-								unit_price: coffee_info.unit_price,
+								unit_price: coffee_info.disccount_price,
 								quantity: 1,
 								description: coffee_info.description,
 								id: coffee_info.id,
 								category_id: coffee_info.category_id,
 							},
 						],
-					})
+					};
+					axiosPost('api/transaction/create', data)
 						.then((result: apiPostResponse) => {
 							if (result.ok) {
 								window.location.href = result.data.preference.init_point;
@@ -93,30 +95,3 @@ export default function PackListItem(props: PackListItemProps) {
 		</Box>
 	);
 }
-
-const coffees_prices = [
-	{
-		coffees: 100,
-		title: 'cafecitos x 100',
-		unit_price: 500,
-		description: '100 cafecitos por 500 pesos',
-		id: 'coffees-100',
-		category_id: 'coffees',
-	},
-	{
-		coffees: 1000,
-		title: 'cafecitos x 1.000',
-		unit_price: 3000,
-		description: '1.000 cafecitos por 3.000 pesos',
-		id: 'coffees-1000',
-		category_id: 'coffees',
-	},
-	{
-		coffees: 10000,
-		title: 'cafecitos x 10.000',
-		unit_price: 11000,
-		description: '10.000 cafecitos por 11.000 pesos',
-		id: 'coffees-10000',
-		category_id: 'coffees',
-	},
-];
