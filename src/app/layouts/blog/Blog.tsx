@@ -12,6 +12,8 @@ import { setUpAuth } from 'app/utils/auth';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import ReactGA from 'react-ga4';
+import { axiosPost } from 'app/utils/axios';
+import { apiPostResponse } from 'app/shared/interfaces/api-response';
 
 interface LocationState extends Location {
 	state?: {
@@ -53,6 +55,25 @@ export default function Blog(props: BlogProps) {
 			});
 		}
 	}, [location.pathname, location.search]);
+
+	useEffect(() => {
+		if (auth.user !== null) {
+			const update_ip = localStorage.getItem('update_ip_address');
+			if (update_ip !== 'true') {
+				axiosPost('api/user/update/ip')
+					.then((result: apiPostResponse) => {
+						if (result.ok) {
+							localStorage.setItem('update_ip_address', 'true');
+							console.log('ok uipa');
+						} else {
+							console.log(result.error);
+							console.log(result.errors);
+						}
+					})
+					.catch(console.error);
+			}
+		}
+	}, [auth]);
 
 	const checkAuth = (): void => {
 		console.log('check auth');
