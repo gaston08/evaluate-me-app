@@ -49,6 +49,10 @@ const biologia_91 = subjects.find(
   (subject) => subject.short === 'Biología (91)',
 ).value;
 
+const ciencia_politica = subjects.find(
+  (subject) => subject.short === 'Ciencia Política',
+).value;
+
 export const arrRoutes = [
   {
     path: '/',
@@ -113,6 +117,12 @@ export const arrRoutes = [
       // Biologia 91
       {
         path: '/tests/' + biologia_91 + '/:id',
+        element: <View />,
+      },
+
+      // Ciencia politica
+      {
+        path: '/tests/' + ciencia_politica + '/:id',
         element: <View />,
       },
     ],
