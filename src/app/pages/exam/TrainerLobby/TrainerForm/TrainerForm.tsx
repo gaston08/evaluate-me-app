@@ -9,6 +9,10 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { exam_types } from 'app/shared/data/exam';
 import { useSubjects } from 'app/hooks/useSubjects';
+import {
+	subjects as subjectsFull,
+	selectInterface,
+} from 'app/shared/data/ubaxxi';
 
 function getFaculty() {
 	const faculty = localStorage.getItem('faculty');
@@ -33,18 +37,27 @@ export default function TrainerForm() {
 	const [subject, setSubject] = useState<string>(params.subject);
 	const [examType, setExamType] = useState<string>('');
 	const [department, setDepartment] = useState<string>('');
-	const [subjects] = useSubjects(getFaculty(), getCareer());
+	const [subjects, setSubjects] = useSubjects(getFaculty(), getCareer());
 
 	useEffect(() => {
-		if (subjects.length !== 0) {
-			const arr = subjects.find((sub) => sub.value === subject).departments;
-			if (arr.length === 1) {
-				setDepartment(arr[0].value);
-			} else {
-				setDepartment('');
-			}
+		const arr = subjectsFull.find((sub) => sub.value === subject).departments;
+		if (arr.length === 1) {
+			setDepartment(arr[0].value);
+		} else {
+			setDepartment('');
 		}
-	}, [subject, subjects]);
+	}, [subject]);
+
+	useEffect(() => {
+		if (subjects.findIndex((s) => s.value === subject) === -1) {
+			setSubjects((prev: Array<selectInterface>) => {
+				return [
+					subjectsFull.find((s) => s.value === subject),
+					...prev,
+				] as Array<selectInterface>;
+			});
+		}
+	}, [subjects]);
 
 	const enableButton = () => {
 		if (examType === '' || department === '') {
@@ -109,16 +122,15 @@ export default function TrainerForm() {
 								setDepartment(e.target.value);
 							}}
 						>
-							{subjects.length !== 0 &&
-								subjects
-									.find((sub) => sub.value === subject)
-									.departments.map((dept) => {
-										return (
-											<MenuItem key={dept.value} value={dept.value}>
-												{dept.label}
-											</MenuItem>
-										);
-									})}
+							{subjectsFull
+								.find((sub) => sub.value === subject)
+								.departments.map((dept) => {
+									return (
+										<MenuItem key={dept.value} value={dept.value}>
+											{dept.label}
+										</MenuItem>
+									);
+								})}
 						</Select>
 					</FormControl>
 				</Grid>

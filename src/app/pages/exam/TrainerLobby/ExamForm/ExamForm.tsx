@@ -8,6 +8,10 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Link from '@mui/material/Link';
+import {
+	subjects as subjectsFull,
+	selectInterface,
+} from 'app/shared/data/ubaxxi';
 
 import {
 	apiGetAllSubjects,
@@ -51,7 +55,7 @@ export default function ExamForm() {
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const [examsList, setExamsList] =
 		useState<examsListInterface>(defaultExamsList);
-	const [subjects] = useSubjects(getFaculty(), getCareer());
+	const [subjects, setSubjects] = useSubjects(getFaculty(), getCareer());
 
 	useEffect(() => {
 		if (subject !== '' && department !== '') {
@@ -60,15 +64,24 @@ export default function ExamForm() {
 	}, [subject, department]);
 
 	useEffect(() => {
-		if (subjects.length !== 0) {
-			const arr = subjects.find((sub) => sub.value === subject).departments;
-			if (arr.length === 1) {
-				setDepartment(arr[0].value);
-			} else {
-				setDepartment('');
-			}
+		const arr = subjectsFull.find((sub) => sub.value === subject).departments;
+		if (arr.length === 1) {
+			setDepartment(arr[0].value);
+		} else {
+			setDepartment('');
 		}
-	}, [subject, subjects]);
+	}, [subject]);
+
+	useEffect(() => {
+		if (subjects.findIndex((s) => s.value === subject) === -1) {
+			setSubjects((prev: Array<selectInterface>) => {
+				return [
+					subjectsFull.find((s) => s.value === subject),
+					...prev,
+				] as Array<selectInterface>;
+			});
+		}
+	}, [subjects]);
 
 	const fetchData = async () => {
 		setErrors([]);
@@ -137,16 +150,15 @@ export default function ExamForm() {
 								setDepartment(e.target.value);
 							}}
 						>
-							{subjects.length !== 0 &&
-								subjects
-									.find((sub) => sub.value === subject)
-									.departments.map((dept) => {
-										return (
-											<MenuItem key={dept.value} value={dept.value}>
-												{dept.label}
-											</MenuItem>
-										);
-									})}
+							{subjectsFull
+								.find((sub) => sub.value === subject)
+								.departments.map((dept) => {
+									return (
+										<MenuItem key={dept.value} value={dept.value}>
+											{dept.label}
+										</MenuItem>
+									);
+								})}
 						</Select>
 					</FormControl>
 				</Grid>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction } from 'react';
 import {
 	subjects as subjectsArr,
 	selectInterface,
@@ -22,7 +22,7 @@ import psicologia from 'app/shared/data/careers/psicologia';
 export const useSubjects = (
 	facultyName: string,
 	careerName: string,
-): [Array<selectInterface>] => {
+): [Array<selectInterface>, SetStateAction<Array<selectInterface>>] => {
 	const [subjects, setSubjects] = useState<Array<selectInterface>>([]);
 
 	useEffect(() => {
