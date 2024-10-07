@@ -58,12 +58,12 @@ export default function Blog(props: BlogProps) {
 
 	useEffect(() => {
 		if (auth.user !== null) {
-			const update_ip = localStorage.getItem('update_ip_address');
+			const update_ip = localStorage.getItem('upt_ip');
 			if (update_ip !== 'true') {
 				axiosPost('api/user/update/ip')
 					.then((result: apiPostResponse) => {
 						if (result.ok) {
-							localStorage.setItem('update_ip_address', 'true');
+							localStorage.setItem('upt_ip', 'true');
 							console.log('ok uipa');
 						} else {
 							console.log(result.error);
