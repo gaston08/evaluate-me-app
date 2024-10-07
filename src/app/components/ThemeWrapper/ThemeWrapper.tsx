@@ -4,7 +4,7 @@ import React from 'react';
 
 declare module '@mui/material/styles' {
 	interface Theme {
-		custom: {
+		custom?: {
 			background: {
 				light: string;
 				main: string;

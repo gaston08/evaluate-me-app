@@ -109,7 +109,13 @@ export default function Exercise(props: ExerciseProps) {
 							) : (
 								<Paper
 									elevation={0}
-									sx={{ p: 2, background: theme.custom.background.light }}
+									sx={{
+										p: 2,
+										background:
+											theme.custom !== undefined
+												? theme.custom.background.light
+												: '',
+									}}
 								>
 									<div
 										dangerouslySetInnerHTML={{
