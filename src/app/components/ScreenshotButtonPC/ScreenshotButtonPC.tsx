@@ -9,7 +9,7 @@ interface ScreenshotButtonProps {
 	exercise: exerciseType;
 }
 
-export default function ScreenshotButton(props: ScreenshotButtonProps) {
+export default function ScreenshotButtonPC(props: ScreenshotButtonProps) {
 	const { exercise } = props;
 	const ref = useRef(null);
 	const [loading, setLoading] = useState<boolean>(false);
@@ -39,12 +39,13 @@ export default function ScreenshotButton(props: ScreenshotButtonProps) {
 
 	return (
 		<Fragment>
-			<Box sx={{ display: 'flex', gap: 1 }}>
+			<Box sx={{ display: 'flex', gap: 1, filter: 'brightness(1.3)' }}>
 				<Button
 					disabled={loading}
 					onClick={takeScreenshot}
 					variant="contained"
 					size="small"
+					color="success"
 				>
 					screenshot
 				</Button>
@@ -60,8 +61,8 @@ export default function ScreenshotButton(props: ScreenshotButtonProps) {
 			<Box
 				sx={{
 					position: 'absolute',
-					left: -550,
-					maxWidth: 500,
+					left: -1000,
+					top: -1000,
 				}}
 			>
 				<Box ref={ref}>
@@ -69,30 +70,81 @@ export default function ScreenshotButton(props: ScreenshotButtonProps) {
 						{Array.from(Array(exercise.question.length), (e, i: number) => {
 							return (
 								<Fragment key={i}>
-									<Box sx={{ p: 2, background: 'rgba(238, 238, 238, 1)' }}>
-										<div
-											dangerouslySetInnerHTML={{
-												__html: exercise.question[i],
-											}}
-										></div>
-									</Box>
+									<Fragment>
+										{exercise.question[i].python_code ? (
+											<Box
+												sx={{
+													border: '1px solid #ccc',
+													overflow: 'scroll',
+												}}
+												className="highlight-code"
+											>
+												<Box
+													className="lightbulb"
+													dangerouslySetInnerHTML={{
+														// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+														__html: exercise.question[i].text,
+													}}
+												></Box>
+											</Box>
+										) : (
+											<Box
+												sx={{
+													border: '1px solid white',
+												}}
+												className="highlight-code"
+											>
+												<Box
+													className="lightbulb"
+													dangerouslySetInnerHTML={{
+														// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+														__html: exercise.question[i].text,
+													}}
+													sx={{ p: 3 }}
+												></Box>
+											</Box>
+										)}
+									</Fragment>
+
 									<Fragment>
 										{exercise.options[i].map((option: optionType) => {
 											return (
 												<Box
-													key={option.id}
 													sx={{
-														display: 'flex',
-														justifyContent: 'space-between',
-														cursor: 'auto',
-														p: 2,
-														background: 'white',
-														borderBottom: '1px solid #ccc',
+														width: '100%',
 													}}
+													className="highlight-code"
+													key={option.id}
 												>
-													<div
-														dangerouslySetInnerHTML={{ __html: option.title }}
-													></div>
+													<Box>
+														{option.python_code ? (
+															<Box
+																className="lightbulb"
+																dangerouslySetInnerHTML={{
+																	__html: option.title,
+																}}
+																sx={{
+																	p: 2,
+																	border: 'none',
+																	width: '100%',
+																	borderBottom: '1px solid #ccc',
+																}}
+															></Box>
+														) : (
+															<Box
+																className="lightbulb"
+																dangerouslySetInnerHTML={{
+																	__html: option.title,
+																}}
+																sx={{
+																	p: 2,
+																	border: 'none',
+																	width: '100%',
+																	borderBottom: '1px solid #ccc',
+																}}
+															></Box>
+														)}
+													</Box>
 												</Box>
 											);
 										})}

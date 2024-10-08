@@ -10,48 +10,11 @@ import {
   ActivateAccount,
   MyProfile,
 } from 'app/pages/auth';
-import { subjects } from 'app/shared/data/ubaxxi';
 
 import GetParams from 'app/components/GetParams';
 
 import BlogLayout from 'app/layouts/blog';
 import { NoRequireAuth } from 'app/layouts/auth';
-
-const ipc_path = subjects.find((subject) => subject.short === 'IPC').value;
-const icse_path = subjects.find((subject) => subject.short === 'ICSE').value;
-const ddhh_path = subjects.find(
-  (subject) => subject.short === 'DDHH y Derecho Constitucional',
-).value;
-const der_pri_path = subjects.find(
-  (subject) => subject.short === 'Derecho Privado',
-).value;
-const tra_soc_path = subjects.find(
-  (subject) => subject.short === 'Trabajo y Sociedad',
-).value;
-
-const antropologia_path = subjects.find(
-  (subject) => subject.short === 'Antropología',
-).value;
-
-const sociologia_path = subjects.find(
-  (subject) => subject.short === 'Sociología',
-).value;
-
-const pensa_compu_path = subjects.find(
-  (subject) => subject.short === 'Pensamiento Computacional',
-).value;
-
-const biologia_54 = subjects.find(
-  (subject) => subject.short === 'Biología (54)',
-).value;
-
-const biologia_91 = subjects.find(
-  (subject) => subject.short === 'Biología (91)',
-).value;
-
-const ciencia_politica = subjects.find(
-  (subject) => subject.short === 'Ciencia Política',
-).value;
 
 export const arrRoutes = [
   {
@@ -67,62 +30,7 @@ export const arrRoutes = [
         element: <Subjects />,
       },
       {
-        path: '/tests/' + ipc_path + '/:id',
-        element: <View />,
-      },
-      {
-        path: '/tests/' + icse_path + '/:id',
-        element: <View />,
-      },
-      //ddhh
-      {
-        path: '/tests/' + ddhh_path + '/:id',
-        element: <View />,
-      },
-      //der_pri_path
-      {
-        path: '/tests/' + der_pri_path + '/:id',
-        element: <View />,
-      },
-      //Trabajo y Sociedad
-      {
-        path: '/tests/' + tra_soc_path + '/:id',
-        element: <View />,
-      },
-
-      //Antropologia
-      {
-        path: '/tests/' + antropologia_path + '/:id',
-        element: <View />,
-      },
-
-      //Sociologia
-      {
-        path: '/tests/' + sociologia_path + '/:id',
-        element: <View />,
-      },
-
-      //Pensamiento computacional
-      {
-        path: '/tests/' + pensa_compu_path + '/:id',
-        element: <View />,
-      },
-
-      // Biologia 54
-      {
-        path: '/tests/' + biologia_54 + '/:id',
-        element: <View />,
-      },
-
-      // Biologia 91
-      {
-        path: '/tests/' + biologia_91 + '/:id',
-        element: <View />,
-      },
-
-      // Ciencia politica
-      {
-        path: '/tests/' + ciencia_politica + '/:id',
+        path: `/tests/:subject/:id`,
         element: <View />,
       },
     ],

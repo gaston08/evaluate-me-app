@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 
 import ScreenshotButton from 'app/components/ScreenshotButton';
+import ScreenshotButtonPC from 'app/components/ScreenshotButtonPC';
 import Option from './components/Option';
 import Argument from './components/Argument';
 import ReferenceQuestionModal from './components/ReferenceQuestionModal';
@@ -12,6 +13,8 @@ import NoCoffeesDialog from 'app/components/NoCoffeesDialog';
 import { exerciseType, optionType } from 'app/shared/interfaces/exam';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
+import { SUBJECTS_ENUM } from 'app/shared/data/exam';
+import { useSubject } from 'app/hooks/useSubject';
 
 interface ExerciseProps {
 	exercise: exerciseType;
@@ -25,6 +28,7 @@ export default function Exercise(props: ExerciseProps) {
 	const [selected, setSelected] = useState<Array<string>>([]);
 	const { auth } = useContext<contextAuth>(AuthContext);
 	const [open, setOpen] = useState<boolean>(false);
+	const [subject] = useSubject();
 
 	const theme = useTheme();
 
@@ -58,7 +62,11 @@ export default function Exercise(props: ExerciseProps) {
 	return (
 		<Box className="exercise-exam">
 			<Fragment>
-				<ScreenshotButton exercise={exercise} />
+				{subject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL ? (
+					<ScreenshotButtonPC exercise={exercise} />
+				) : (
+					<ScreenshotButton exercise={exercise} />
+				)}
 			</Fragment>
 			<Fragment>
 				{Array.from(Array(exercise.question.length), (e, i: number) => {

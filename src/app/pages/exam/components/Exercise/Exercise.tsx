@@ -6,6 +6,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Typography from '@mui/material/Typography';
 import ScreenshotButton from 'app/components/ScreenshotButton';
+import ScreenshotButtonPC from 'app/components/ScreenshotButtonPC';
 
 import Option from './components/Option';
 import {
@@ -17,6 +18,8 @@ import {
 import { ExamContext } from 'app/contexts/Exam';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { UiContext } from 'app/contexts/Ui';
+import { useSubject } from 'app/hooks/useSubject';
+import { SUBJECTS_ENUM } from 'app/shared/data/exam';
 
 interface ExerciseProps {
 	exercise: exerciseType;
@@ -30,6 +33,7 @@ export default function Exercise(props: ExerciseProps) {
 	const exerciseIdx: number = props.idx;
 	const exerciseFeedback: exerciseFeedback = props.exerciseFeedback;
 	const warningAlert: boolean = props.warningAlert;
+	const [subject] = useSubject();
 
 	const { examsUi } = useContext<contextUi>(UiContext);
 	const isPlayView = examsUi.isPlayView;
@@ -40,7 +44,11 @@ export default function Exercise(props: ExerciseProps) {
 	return (
 		<Box className="exercise-exam">
 			<Fragment>
-				<ScreenshotButton exercise={exercise} />
+				{subject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL ? (
+					<ScreenshotButtonPC exercise={exercise} />
+				) : (
+					<ScreenshotButton exercise={exercise} />
+				)}
 			</Fragment>
 			<>
 				{Array.from(Array(exercise.question.length), (e, i: number) => {
