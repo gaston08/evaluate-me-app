@@ -16,7 +16,7 @@ import {
 	apiPostGetAllExams,
 	apiGetAllTrainer,
 } from 'app/shared/interfaces/api-response';
-import { exam_types } from 'app/shared/data/exam';
+import { exam_types, SUBJECTS_ENUM } from 'app/shared/data/exam';
 import { subjects, selectInterface } from 'app/shared/data/ubaxxi';
 
 async function getExams(
@@ -69,6 +69,7 @@ interface examInfoInterface {
 
 export default function Trainer() {
 	const params = useParams();
+	const [subject] = useState<SUBJECTS_ENUM>(params.subject);
 	const [exercises, setExercises] = useState<Array<exerciseType>>([]);
 	const [currentIdx, setCurrentIdx] = useState<number>(() => {
 		const prev = localStorage.getItem(
@@ -104,18 +105,45 @@ export default function Trainer() {
 
 	useEffect(() => {
 		async function fetchData() {
-			const result: apiGetAllTrainer = await axiosGet(
-				`api/exam/get/trainer/${params.subject}/${params.department}/${params.type}`,
-			);
+			if (
+				subject === SUBJECTS_ENUM.BIOLOGIA_91 ||
+				subject === SUBJECTS_ENUM.BIOLOGIA_54
+			) {
+				const array_id: Array<string> = [];
 
-			console.log(result);
-			if (result.ok) {
-				const exams: Array<examInterface> = result.data.exams;
-				const array_id = exams.map((exam) => exam._id);
+				const bio_91: apiGetAllTrainer = await axiosGet(
+					`api/exam/get/trainer/${SUBJECTS_ENUM.BIOLOGIA_91}/${params.department}/${params.type}`,
+				);
+
+				const bio_54: apiGetAllTrainer = await axiosGet(
+					`api/exam/get/trainer/${SUBJECTS_ENUM.BIOLOGIA_54}/${params.department}/${params.type}`,
+				);
+
+				if (bio_91.ok) {
+					const exams: Array<examInterface> = bio_91.data.exams;
+					array_id.push(...exams.map((exam) => exam._id));
+				}
+
+				if (bio_54.ok) {
+					const exams: Array<examInterface> = bio_54.data.exams;
+					array_id.push(...exams.map((exam) => exam._id));
+				}
+
 				getExams(array_id, setExercises, setLoading).catch(console.error);
 			} else {
-				console.log('can not load exercises');
-				setLoading(false);
+				const result: apiGetAllTrainer = await axiosGet(
+					`api/exam/get/trainer/${params.subject}/${params.department}/${params.type}`,
+				);
+
+				console.log(result);
+				if (result.ok) {
+					const exams: Array<examInterface> = result.data.exams;
+					const array_id = exams.map((exam) => exam._id);
+					getExams(array_id, setExercises, setLoading).catch(console.error);
+				} else {
+					console.log('can not load exercises');
+					setLoading(false);
+				}
 			}
 		}
 		fetchData()
