@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from 'react';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -56,6 +56,7 @@ export default function ExamForm() {
 	const [examsList, setExamsList] =
 		useState<examsListInterface>(defaultExamsList);
 	const [subjects, setSubjects] = useSubjects(getFaculty(), getCareer());
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (subject !== '' && department !== '') {
@@ -129,6 +130,7 @@ export default function ExamForm() {
 							onChange={(e: SelectChangeEvent) => {
 								setExamsList(defaultExamsList);
 								setSubject(e.target.value);
+								navigate(`/entrenamiento/${e.target.value}`);
 							}}
 						>
 							{subjects.map((subj) => {
