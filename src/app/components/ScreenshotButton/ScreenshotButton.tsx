@@ -65,42 +65,54 @@ export default function ScreenshotButton(props: ScreenshotButtonProps) {
 				}}
 			>
 				<Box ref={ref}>
-					{Array.from(Array(exercise.question.length), (e, i: number) => {
-						return (
-							<Fragment key={i}>
-								<Box
-									elevation={0}
-									sx={{ p: 2, background: 'rgba(238, 238, 238, 1)' }}
-								>
-									<div
-										dangerouslySetInnerHTML={{
-											__html: exercise.question[i],
-										}}
-									></div>
-								</Box>
-								<Fragment>
-									{exercise.options[i].map((option: optionType) => {
-										return (
-											<Box
-												key={option.id}
-												sx={{
-													display: 'flex',
-													justifyContent: 'space-between',
-													cursor: 'auto',
-													p: 2,
-													background: 'white',
-												}}
-											>
-												<div
-													dangerouslySetInnerHTML={{ __html: option.title }}
-												></div>
-											</Box>
-										);
-									})}
+					<Fragment>
+						{Array.from(Array(exercise.question.length), (e, i: number) => {
+							return (
+								<Fragment key={i}>
+									<Box sx={{ p: 2, background: 'rgba(238, 238, 238, 1)' }}>
+										<div
+											dangerouslySetInnerHTML={{
+												__html: exercise.question[i],
+											}}
+										></div>
+									</Box>
+									<Fragment>
+										{exercise.options[i].map((option: optionType) => {
+											return (
+												<Box
+													key={option.id}
+													sx={{
+														display: 'flex',
+														justifyContent: 'space-between',
+														cursor: 'auto',
+														p: 2,
+														background: 'white',
+														borderBottom: '1px solid #ccc',
+													}}
+												>
+													<div
+														dangerouslySetInnerHTML={{ __html: option.title }}
+													></div>
+												</Box>
+											);
+										})}
+									</Fragment>
 								</Fragment>
-							</Fragment>
-						);
-					})}
+							);
+						})}
+					</Fragment>
+					<Box
+						sx={{
+							background: 'black',
+							color: 'white',
+							display: 'flex',
+							justifyContent: 'center',
+							pb: 1,
+							pt: 1,
+						}}
+					>
+						<Typography>Capturado en: ubaparciales.com</Typography>
+					</Box>
 				</Box>
 			</Box>
 		</Fragment>
