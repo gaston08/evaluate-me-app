@@ -1,5 +1,10 @@
 import { useEffect, useContext, useState } from 'react';
-import { useNavigate, useLocation, Location } from 'react-router-dom';
+import {
+	useNavigate,
+	useLocation,
+	Location,
+	useParams,
+} from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -10,10 +15,14 @@ import TokensMenu from './components/TokensMenu';
 import Footer from './components/Footer';
 import { setUpAuth } from 'app/utils/auth';
 import { AuthContext } from 'app/contexts/Auth';
+import { UiContext } from 'app/contexts/Ui';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import ReactGA from 'react-ga4';
 import { axiosPost } from 'app/utils/axios';
 import { apiPostResponse } from 'app/shared/interfaces/api-response';
+import { useSubject } from 'app/hooks/useSubject';
+import { contextUi } from 'app/shared/interfaces/ui';
+import { SUBJECTS_ENUM } from 'app/shared/data/exam';
 
 interface LocationState extends Location {
 	state?: {
@@ -30,22 +39,59 @@ interface BlogProps {
 export default function Blog(props: BlogProps) {
 	const { showSidebar, requireAuth, showTokens } = props;
 	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
+	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
 	const [loading, setLoading] = useState<boolean>(true);
 	const navigate = useNavigate();
 	const location = useLocation() as LocationState;
+	const params = useParams();
+
+	const [subject] = useSubject();
+
+	useEffect(() => {
+		if (location.pathname.includes('/tests/')) {
+			setExamsUi((prev) => {
+				return {
+					...prev,
+					isTrainer: false,
+					isTest: true,
+				};
+			});
+		} else if (
+			location.pathname.includes('/entrenamiento/') &&
+			params.department !== undefined
+		) {
+			setExamsUi((prev) => {
+				return {
+					...prev,
+					isTrainer: true,
+					isTest: false,
+				};
+			});
+		} else {
+			setExamsUi((prev) => {
+				return {
+					...prev,
+					isTrainer: false,
+					isTest: false,
+				};
+			});
+		}
+	}, [location.pathname]);
 
 	useEffect(() => {
 		const body = document.querySelector('body');
 		if (
-			location.pathname.includes(
-				'/entrenamiento/pensamiento-computacional-(90)/',
-			)
+			subject &&
+			subject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL &&
+			examsUi.isTrainer === true
 		) {
 			body.classList.add('body-code');
 		} else {
 			body.classList.remove('body-code');
 		}
+	}, [examsUi, subject]);
 
+	useEffect(() => {
 		if (import.meta.env.MODE !== 'development') {
 			const url = location.pathname + location.search;
 			ReactGA.send({
@@ -93,24 +139,6 @@ export default function Blog(props: BlogProps) {
 			setUpAuth(access_token, true, setAuth);
 			setLoading(false);
 		}
-
-		/*const result = await axiosPost('api/user/refresh-token', {});
-
-		if (result.ok) {
-			setUpAuth(result.data.token, true, setAuth);
-			setLoading(false);
-		} else {
-			setUpAuth('', false, setAuth);
-
-			if (requireAuth) {
-				navigate(`/auth/login?redirect=${location.pathname}`, {
-					state: { omitAuth: true },
-				});
-				return;
-			} else {
-				setLoading(false);
-			}
-		}*/
 	};
 
 	useEffect(() => {
