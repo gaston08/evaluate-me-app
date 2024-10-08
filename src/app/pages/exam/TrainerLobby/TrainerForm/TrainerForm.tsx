@@ -49,7 +49,10 @@ export default function TrainerForm() {
 	}, [subject]);
 
 	useEffect(() => {
-		if (subjects.findIndex((s) => s.value === subject) === -1) {
+		if (
+			subjects.length !== 0 &&
+			subjects.findIndex((s) => s.value === subject) === -1
+		) {
 			setSubjects((prev: Array<selectInterface>) => {
 				return [
 					subjectsFull.find((s) => s.value === subject),
