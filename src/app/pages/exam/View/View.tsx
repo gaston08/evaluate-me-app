@@ -290,7 +290,7 @@ export default function View() {
 											variant="outlined"
 											onClick={cleanExam}
 										>
-											Rehacer examen 1
+											Rehacer examen
 										</Button>
 									</Box>
 								) : null}
