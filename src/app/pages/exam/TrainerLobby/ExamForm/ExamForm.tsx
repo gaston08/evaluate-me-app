@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from 'react';
-import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -12,6 +12,7 @@ import {
 	subjects as subjectsFull,
 	selectInterface,
 } from 'app/shared/data/ubaxxi';
+import { SUBJECTS_ENUM } from 'app/shared/data/exam';
 
 import {
 	apiGetAllSubjects,
@@ -20,6 +21,7 @@ import {
 import { examType as examTypeInterface } from 'app/shared/interfaces/exam';
 import { axiosGet } from 'app/utils/axios';
 import { useSubjects } from 'app/hooks/useSubjects';
+import { useSubject } from 'app/hooks/useSubject';
 
 const defaultExamsList = {
 	primer_parcial: [],
@@ -48,8 +50,6 @@ function getCareer() {
 }
 
 export default function ExamForm() {
-	const params = useParams();
-	const [subject, setSubject] = useState<string>(params.subject);
 	const [department, setDepartment] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
@@ -57,15 +57,31 @@ export default function ExamForm() {
 		useState<examsListInterface>(defaultExamsList);
 	const [subjects, setSubjects] = useSubjects(getFaculty(), getCareer());
 	const navigate = useNavigate();
+	const [subject] = useSubject();
 
 	useEffect(() => {
-		if (subject !== '' && department !== '') {
-			fetchData().catch(console.error);
+		if (department !== '') {
+			if (
+				subject.departments.findIndex(
+					(departm) => departm.value === department,
+				) !== -1
+			) {
+				if (
+					subject.value === SUBJECTS_ENUM.BIOLOGIA_54 ||
+					subject.value === SUBJECTS_ENUM.BIOLOGIA_91
+				) {
+					fetchData('both_biologias').catch(console.error);
+				} else {
+					fetchData().catch(console.error);
+				}
+			}
 		}
 	}, [subject, department]);
 
 	useEffect(() => {
-		const arr = subjectsFull.find((sub) => sub.value === subject).departments;
+		const arr = subjectsFull.find(
+			(sub) => sub.value === subject.value,
+		).departments;
 		if (arr.length === 1) {
 			setDepartment(arr[0].value);
 		} else {
@@ -76,44 +92,100 @@ export default function ExamForm() {
 	useEffect(() => {
 		if (
 			subjects.length !== 0 &&
-			subjects.findIndex((s) => s.value === subject) === -1
+			subjects.findIndex((s) => s.value === subject.value) === -1
 		) {
 			setSubjects((prev: Array<selectInterface>) => {
 				return [
-					subjectsFull.find((s) => s.value === subject),
+					subjectsFull.find((s) => s.value === subject.value),
 					...prev,
 				] as Array<selectInterface>;
 			});
 		}
 	}, [subjects]);
 
-	const fetchData = async () => {
-		setErrors([]);
-		setLoading(true);
-		const result: apiGetAllSubjects = await axiosGet(
-			`api/exam/get/${subject}/${department}`,
-		);
-		if (result.ok) {
-			if (result.data.examsList.length === 0) {
-				setErrors([
-					'No se encontraron exámenes. Mandanos un correo contandonos que parciales estás buscando: ubaparciales@gmail.com',
-				]);
+	const fetchData = async (subjectName) => {
+		if (subjectName === undefined) {
+			setErrors([]);
+			setLoading(true);
+			const result: apiGetAllSubjects = await axiosGet(
+				`api/exam/get/${subject.value}/${department}`,
+			);
+			if (result.ok) {
+				setExamsList(result.data.examsList);
 				setLoading(false);
 			} else {
-				setExamsList(result.data.examsList);
+				if (result.errors) {
+					const errorsArr: Array<string> = result.errors.map((err) => {
+						return err.msg;
+					});
+
+					setErrors(errorsArr);
+				} else if (result.error) {
+					setErrors([result.error]);
+				}
 				setLoading(false);
 			}
 		} else {
-			if (result.errors) {
-				const errorsArr: Array<string> = result.errors.map((err) => {
-					return err.msg;
-				});
+			if (subjectName === 'both_biologias') {
+				setErrors([]);
+				setLoading(true);
 
-				setErrors(errorsArr);
-			} else if (result.error) {
-				setErrors([result.error]);
+				const bio_54: apiGetAllSubjects = await axiosGet(
+					`api/exam/get/${SUBJECTS_ENUM.BIOLOGIA_54}/${department}`,
+				);
+
+				const bio_91: apiGetAllSubjects = await axiosGet(
+					`api/exam/get/${SUBJECTS_ENUM.BIOLOGIA_91}/${department}`,
+				);
+
+				if (bio_54.ok || bio_91.ok) {
+					const obj = {
+						primer_parcial: [],
+						segundo_parcial: [],
+						recuperatorio_primer_parcial: [],
+						recuperatorio_segundo_parcial: [],
+						final: [],
+					};
+
+					if (bio_91.ok) {
+						obj.primer_parcial.push(...bio_91.data.examsList.primer_parcial);
+						obj.segundo_parcial.push(...bio_91.data.examsList.segundo_parcial);
+						obj.recuperatorio_primer_parcial.push(
+							...bio_91.data.examsList.recuperatorio_primer_parcial,
+						);
+						obj.recuperatorio_segundo_parcial.push(
+							...bio_91.data.examsList.recuperatorio_segundo_parcial,
+						);
+						obj.final.push(...bio_91.data.examsList.final);
+					}
+
+					if (bio_54.ok) {
+						obj.primer_parcial.push(...bio_54.data.examsList.primer_parcial);
+						obj.segundo_parcial.push(...bio_54.data.examsList.segundo_parcial);
+						obj.recuperatorio_primer_parcial.push(
+							...bio_54.data.examsList.recuperatorio_primer_parcial,
+						);
+						obj.recuperatorio_segundo_parcial.push(
+							...bio_54.data.examsList.recuperatorio_segundo_parcial,
+						);
+						obj.final.push(...bio_54.data.examsList.final);
+					}
+
+					setExamsList(obj);
+					setLoading(false);
+				} else {
+					if (bio_54.errors) {
+						const errorsArr: Array<string> = bio_54.errors.map((err) => {
+							return err.msg;
+						});
+
+						setErrors(errorsArr);
+					} else if (bio_54.error) {
+						setErrors([bio_54.error]);
+					}
+					setLoading(false);
+				}
 			}
-			setLoading(false);
 		}
 	};
 
@@ -125,11 +197,10 @@ export default function ExamForm() {
 						<InputLabel id="select-subject">Materia:</InputLabel>
 						<Select
 							labelId="select-subject"
-							value={subject}
+							value={subject.value}
 							label="Materia"
 							onChange={(e: SelectChangeEvent) => {
 								setExamsList(defaultExamsList);
-								setSubject(e.target.value);
 								navigate(`/entrenamiento/${e.target.value}`);
 							}}
 						>
@@ -156,7 +227,7 @@ export default function ExamForm() {
 							}}
 						>
 							{subjectsFull
-								.find((sub) => sub.value === subject)
+								.find((sub) => sub.value === subject.value)
 								.departments.map((dept) => {
 									return (
 										<MenuItem key={dept.value} value={dept.value}>

@@ -81,7 +81,6 @@ export default function Blog(props: BlogProps) {
 	useEffect(() => {
 		const body = document.querySelector('body');
 		if (
-			subject &&
 			subject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL &&
 			examsUi.isTrainer === true
 		) {

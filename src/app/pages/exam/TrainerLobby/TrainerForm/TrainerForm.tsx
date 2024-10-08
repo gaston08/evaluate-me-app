@@ -7,7 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { exam_types } from 'app/shared/data/exam';
+import { exam_types, SUBJECTS_ENUM } from 'app/shared/data/exam';
 import { useSubjects } from 'app/hooks/useSubjects';
 import {
 	subjects as subjectsFull,
@@ -34,7 +34,7 @@ function getCareer() {
 
 export default function TrainerForm() {
 	const params = useParams();
-	const [subject, setSubject] = useState<string>(params.subject);
+	const [subject, setSubject] = useState<SUBJECTS_ENUM>(params.subject);
 	const [examType, setExamType] = useState<string>('');
 	const [department, setDepartment] = useState<string>('');
 	const [subjects, setSubjects] = useSubjects(getFaculty(), getCareer());

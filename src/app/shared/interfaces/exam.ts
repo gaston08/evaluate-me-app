@@ -1,5 +1,6 @@
 import React from 'react';
 import { examsUiType } from './ui';
+import { SUBJECTS_ENUM } from 'app/shared/data/exam';
 
 export interface optionType {
 	id: string;
@@ -37,7 +38,7 @@ export interface examType {
 	year: number;
 	type: string;
 	exam_number: number;
-	subject: string;
+	subject: SUBJECTS_ENUM;
 	exercises: exerciseType[];
 	department: string;
 	totalPts: number;

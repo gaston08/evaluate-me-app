@@ -9,11 +9,11 @@ export interface expressError {
 }
 
 export interface examsListInterface {
-	primer_parcial: Array<examTypeInterface>;
-	segundo_parcial: Array<examTypeInterface>;
-	recuperatorio_primer_parcial: Array<examTypeInterface>;
-	recuperatorio_segundo_parcial: Array<examTypeInterface>;
-	final: Array<examTypeInterface>;
+	primer_parcial: Array<examType>;
+	segundo_parcial: Array<examType>;
+	recuperatorio_primer_parcial: Array<examType>;
+	recuperatorio_segundo_parcial: Array<examType>;
+	final: Array<examType>;
 }
 
 export interface apiPostResponse {
