@@ -173,22 +173,20 @@ export default function Option(props: OptionProps) {
 							justifyContent: 'space-between',
 							cursor: 'auto',
 							p: 2,
-							borderBottom: selected ? '1px solid #fff' : '',
+							borderBottom: selected ? '1px solid #fff' : '1px solid #ccc',
 						}}
 						onClick={selectOption}
 					>
 						<div dangerouslySetInnerHTML={{ __html: title }}></div>
 					</Box>
 					<Box>
-						{selected && !isCorrect ? (
+						{selected && !isCorrect && feedback !== '' ? (
 							<Alert severity="error">
-								{feedback !== '' ? (
-									<div
-										dangerouslySetInnerHTML={{
-											__html: feedback,
-										}}
-									></div>
-								) : null}
+								<div
+									dangerouslySetInnerHTML={{
+										__html: feedback,
+									}}
+								></div>
 							</Alert>
 						) : null}
 					</Box>
