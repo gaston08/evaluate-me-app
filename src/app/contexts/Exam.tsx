@@ -8,8 +8,6 @@ export const ExamContext = createContext<contextExam>({
 	setExams: [],
 	selectedOptions: [],
 	setSelectedOptions: () => {},
-	exercisesFeedback: [],
-	setExercisesFeedback: () => {},
 });
 
 // eslint-disable-next-line react-refresh/only-export-components

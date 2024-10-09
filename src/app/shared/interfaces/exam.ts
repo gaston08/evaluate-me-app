@@ -2,6 +2,13 @@ import React from 'react';
 import { examsUiType } from './ui';
 import { SUBJECTS_ENUM } from 'app/shared/data/exam';
 
+export interface examResultType {
+	completed: boolean;
+	enabled: boolean;
+	selected_options: Array<{ exerciseId: string; optionId: string }>;
+	options_to_select: number;
+}
+
 export interface optionType {
 	id: string;
 	title: string;
@@ -18,7 +25,7 @@ export interface argumentType {
 	icon: HTMLImageElement;
 }
 
-interface questionType {
+export interface questionType {
 	code: boolean;
 	python_code: boolean;
 	text: string;
