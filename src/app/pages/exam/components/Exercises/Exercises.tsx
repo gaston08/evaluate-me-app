@@ -13,7 +13,7 @@ import DialogLogin from './components/DialogLogin';
 
 export default function Exercises() {
 	const [open, setOpen] = useState<boolean>(false);
-	const { exam, exercisesFeedback } = useContext<contextExam>(ExamContext);
+	const { exam } = useContext<contextExam>(ExamContext);
 	const { auth } = useContext<contextAuth>(AuthContext);
 	const [warningAlert, setWarningAlert] = useState<string>(false);
 	const location = useLocation();
@@ -61,7 +61,6 @@ export default function Exercises() {
 									idx={idx}
 									exercise={exercise}
 									isPlayView={true}
-									exerciseFeedback={exercisesFeedback[idx]}
 									warningAlert={warningAlert}
 								/>
 							</Box>
