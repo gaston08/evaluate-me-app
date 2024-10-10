@@ -1,4 +1,4 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useContext, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
@@ -11,13 +11,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
-import { useCareers } from 'app/hooks/useCareers';
-import { useSubjects } from 'app/hooks/useSubjects';
-
 import { apiPostResponse } from 'app/shared/interfaces/api-response';
 import { axiosPost } from 'app/utils/axios';
+import { getSubjects, getCareers } from 'app/utils/subjects';
+
+import { contextExam } from 'app/shared/interfaces/exam';
+import { ExamContext } from 'app/contexts/Exam';
 
 export default function Subjects() {
+	const { subjects, setSubjects } = useContext<contextExam>(ExamContext);
 	const [faculty, setFaculty] = useState(() => {
 		const faculty_local = localStorage.getItem('faculty');
 		return faculty_local !== null ? faculty_local : '';
@@ -26,16 +28,34 @@ export default function Subjects() {
 		const career_local = localStorage.getItem('career');
 		return career_local !== null ? career_local : '';
 	});
-	const [careers] = useCareers(faculty);
-	const [subjects, setSubjects] = useSubjects(faculty, career);
+	const [careers, setCareers] = useState<Array<string>>([]);
+
+	useEffect(() => {
+		if (career === '') {
+			setSubjects([]);
+		} else {
+			const subjects_arr = getSubjects();
+			setSubjects(subjects_arr);
+		}
+	}, [faculty, career]);
+
+	useEffect(() => {
+		if (faculty !== '') {
+			const careers_arr = getCareers();
+			setCareers(careers_arr);
+		}
+	}, [faculty]);
 
 	const handleChangeFaculty = (event: SelectChangeEvent) => {
+		localStorage.setItem('faculty', event.target.value);
+		localStorage.setItem('career', '');
 		setFaculty(event.target.value);
 		setCareer('');
 		setSubjects([]);
 	};
 
 	const handleChangeCareer = (event: SelectChangeEvent) => {
+		localStorage.setItem('career', event.target.value);
 		setCareer(event.target.value);
 		axiosPost('api/user/update/profile', {
 			career: event.target.value,

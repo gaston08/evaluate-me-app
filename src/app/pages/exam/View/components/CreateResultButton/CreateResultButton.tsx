@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { contextExam, exerciseFeedback } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import { axiosPost } from 'app/utils/axios';
@@ -37,18 +36,15 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 		setScore,
 		setShowSpinner,
 	} = props;
-	const { selectedOptions, exam, setExercisesFeedback, exercisesFeedback } =
-		useContext<contextExam>(ExamContext);
-	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
+	const { selectedOptions, exam } = useContext<contextExam>(ExamContext);
+	const { setExamsUi } = useContext<contextUi>(UiContext);
 	const { auth } = useContext<contextAuth>(AuthContext);
 
 	const sendResult = (): void => {
 		setShowSpinner(true);
 		let sumScore: number = 0;
 
-		const newErrArr = JSON.parse(
-			JSON.stringify(exercisesFeedback),
-		) as Array<exerciseFeedback>;
+		const newErrArr = JSON.parse(JSON.stringify({})) as Array<exerciseFeedback>;
 		let hasError: boolean = false;
 
 		const exercises = exam.exercises;
@@ -80,7 +76,6 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 		}
 
 		if (hasError) {
-			setExercisesFeedback(newErrArr);
 			setShowSpinner(false);
 		} else {
 			const exArr = Array.from({ length: exercises.length }, () => []);
@@ -127,7 +122,6 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 				},
 			};
 
-			setExercisesFeedback(exArr);
 			setExamsUi((prev) => {
 				return {
 					...prev,
@@ -161,24 +155,9 @@ export default function CreateResultButton(props: CreateResultButtonProps) {
 
 	return (
 		<Box>
-			<>
-				{!examsUi.isPlayView ? null : (
-					<>
-						<>
-							{exercisesFeedback.some((ex) => ex.error !== '') ? (
-								<Box sx={{ mb: 3 }}>
-									<Typography id="error-pre-button" color="error">
-										Asegurate de completar todos los ejercicios.
-									</Typography>
-								</Box>
-							) : null}
-						</>
-						<Button variant="contained" color="primary" onClick={sendResult}>
-							finalizar examen
-						</Button>
-					</>
-				)}
-			</>
+			<Button variant="contained" color="primary" onClick={sendResult}>
+				finalizar examen
+			</Button>
 		</Box>
 	);
 }

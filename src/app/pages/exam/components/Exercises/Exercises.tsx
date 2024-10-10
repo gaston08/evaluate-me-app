@@ -5,8 +5,6 @@ import Exercise from '../Exercise';
 import { exerciseType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import { contextExam } from 'app/shared/interfaces/exam';
-import { contextAuth } from 'app/shared/interfaces/auth';
-import { AuthContext } from 'app/contexts/Auth';
 import { useLocation } from 'react-router-dom';
 
 import DialogLogin from './components/DialogLogin';
@@ -14,7 +12,6 @@ import DialogLogin from './components/DialogLogin';
 export default function Exercises() {
 	const [open, setOpen] = useState<boolean>(false);
 	const { exam } = useContext<contextExam>(ExamContext);
-	const { auth } = useContext<contextAuth>(AuthContext);
 	const [warningAlert, setWarningAlert] = useState<string>(false);
 	const location = useLocation();
 
@@ -31,19 +28,13 @@ export default function Exercises() {
 		}
 	}, [location.pathname]);
 
-	const handleClick = () => {
-		if (!auth.isLoggedIn) {
-			//setOpen(true);
-		}
-	};
-
 	const handleClose = () => {
 		setOpen(false);
 	};
 
 	return (
 		<>
-			<div onClick={handleClick}>
+			<div>
 				<>
 					{exam.exercises.map((exercise: exerciseType, idx: number) => {
 						return (

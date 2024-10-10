@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, Fragment, useContext } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -13,6 +13,7 @@ import {
 	selectInterface,
 } from 'app/shared/data/ubaxxi';
 import { SUBJECTS_ENUM } from 'app/shared/data/exam';
+import { getSubjects } from 'app/utils/subjects';
 
 import {
 	apiGetAllSubjects,
@@ -20,8 +21,8 @@ import {
 } from 'app/shared/interfaces/api-response';
 import { examType as examTypeInterface } from 'app/shared/interfaces/exam';
 import { axiosGet } from 'app/utils/axios';
-import { useSubjects } from 'app/hooks/useSubjects';
-import { useSubject } from 'app/hooks/useSubject';
+import { contextExam } from 'app/shared/interfaces/exam';
+import { ExamContext } from 'app/contexts/Exam';
 
 const defaultExamsList = {
 	primer_parcial: [],
@@ -31,44 +32,26 @@ const defaultExamsList = {
 	final: [],
 };
 
-function getFaculty() {
-	const faculty = localStorage.getItem('faculty');
-	if (faculty === null) {
-		window.location.href = 'https://ubaparciales.com';
-	} else {
-		return faculty;
-	}
-}
-
-function getCareer() {
-	const career = localStorage.getItem('career');
-	if (career === null) {
-		window.location.href = 'https://ubaparciales.com';
-	} else {
-		return career;
-	}
-}
-
 export default function ExamForm() {
 	const [department, setDepartment] = useState<string>('');
 	const [loading, setLoading] = useState<boolean>(false);
 	const [errors, setErrors] = useState<Array<string>>([]);
 	const [examsList, setExamsList] =
 		useState<examsListInterface>(defaultExamsList);
-	const [subjects, setSubjects] = useSubjects(getFaculty(), getCareer());
 	const navigate = useNavigate();
-	const [subject] = useSubject();
+	const { subjects, setSubjects, currentSubject } =
+		useContext<contextExam>(ExamContext);
 
 	useEffect(() => {
 		if (department !== '') {
 			if (
-				subject.departments.findIndex(
+				currentSubject.departments.findIndex(
 					(departm) => departm.value === department,
 				) !== -1
 			) {
 				if (
-					subject.value === SUBJECTS_ENUM.BIOLOGIA_54 ||
-					subject.value === SUBJECTS_ENUM.BIOLOGIA_91
+					currentSubject.value === SUBJECTS_ENUM.BIOLOGIA_54 ||
+					currentSubject.value === SUBJECTS_ENUM.BIOLOGIA_91
 				) {
 					fetchData('both_biologias').catch(console.error);
 				} else {
@@ -76,39 +59,52 @@ export default function ExamForm() {
 				}
 			}
 		}
-	}, [subject, department]);
+	}, [currentSubject, department]);
 
 	useEffect(() => {
-		const arr = subjectsFull.find(
-			(sub) => sub.value === subject.value,
-		).departments;
-		if (arr.length === 1) {
-			setDepartment(arr[0].value);
-		} else {
-			setDepartment('');
+		if (currentSubject !== null) {
+			const subj = subjectsFull.find(
+				(sub) => sub.value === currentSubject.value,
+			);
+
+			if (subj !== undefined) {
+				const arr_departments = subj.departments;
+				if (arr_departments.length === 1) {
+					setDepartment(arr_departments[0].value);
+				} else {
+					setDepartment('');
+				}
+			}
 		}
-	}, [subject]);
+	}, [currentSubject]);
 
 	useEffect(() => {
-		if (
-			subjects.length !== 0 &&
-			subjects.findIndex((s) => s.value === subject.value) === -1
-		) {
-			setSubjects((prev: Array<selectInterface>) => {
-				return [
-					subjectsFull.find((s) => s.value === subject.value),
-					...prev,
-				] as Array<selectInterface>;
-			});
+		if (currentSubject !== null) {
+			if (
+				subjects.length !== 0 &&
+				subjects.findIndex((s) => s.value === currentSubject.value) === -1
+			) {
+				setSubjects((prev: Array<selectInterface>) => {
+					return [
+						subjectsFull.find((s) => s.value === currentSubject.value),
+						...prev,
+					] as Array<selectInterface>;
+				});
+			}
 		}
 	}, [subjects]);
+
+	useEffect(() => {
+		const subjects_arr = getSubjects();
+		setSubjects(subjects_arr);
+	}, []);
 
 	const fetchData = async (subjectName) => {
 		if (subjectName === undefined) {
 			setErrors([]);
 			setLoading(true);
 			const result: apiGetAllSubjects = await axiosGet(
-				`api/exam/get/${subject.value}/${department}`,
+				`api/exam/get/${currentSubject.value}/${department}`,
 			);
 			if (result.ok) {
 				setExamsList(result.data.examsList);
@@ -189,6 +185,10 @@ export default function ExamForm() {
 		}
 	};
 
+	if (currentSubject === null) {
+		return null;
+	}
+
 	return (
 		<>
 			<Grid container gap={3}>
@@ -197,7 +197,7 @@ export default function ExamForm() {
 						<InputLabel id="select-subject">Materia:</InputLabel>
 						<Select
 							labelId="select-subject"
-							value={subject.value}
+							value={currentSubject.value}
 							label="Materia"
 							onChange={(e: SelectChangeEvent) => {
 								setExamsList(defaultExamsList);
@@ -227,7 +227,7 @@ export default function ExamForm() {
 							}}
 						>
 							{subjectsFull
-								.find((sub) => sub.value === subject.value)
+								.find((sub) => sub.value === currentSubject.value)
 								.departments.map((dept) => {
 									return (
 										<MenuItem key={dept.value} value={dept.value}>

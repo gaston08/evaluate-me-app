@@ -1,15 +1,15 @@
-import { Fragment } from 'react';
+import { Fragment, useContext } from 'react';
 import Box from '@mui/material/Box';
 import ScreenshotButton from 'app/components/ScreenshotButton';
 import ScreenshotButtonPC from 'app/components/ScreenshotButtonPC';
-
 import CodeOptions from './components/CodeOptions';
 import Options from './components/Options';
 import PythonQuestion from './components/PythonQuestion';
 import Question from './components/Question';
 import { exerciseType } from 'app/shared/interfaces/exam';
-import { useSubject } from 'app/hooks/useSubject';
 import { SUBJECTS_ENUM } from 'app/shared/data/exam';
+import { ExamContext } from 'app/contexts/Exam';
+import { contextExam } from 'app/shared/interfaces/exam';
 
 interface ExerciseProps {
 	exercise: exerciseType;
@@ -18,12 +18,12 @@ interface ExerciseProps {
 
 export default function Exercise(props: ExerciseProps) {
 	const { exercise } = props;
-	const [subject] = useSubject();
+	const { currentSubject } = useContext<contextExam>(ExamContext);
 
 	return (
 		<Box className="exercise-exam">
 			<Fragment>
-				{subject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL ? (
+				{currentSubject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL ? (
 					<ScreenshotButtonPC exercise={exercise} />
 				) : (
 					<ScreenshotButton exercise={exercise} />

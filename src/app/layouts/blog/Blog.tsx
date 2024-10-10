@@ -20,9 +20,10 @@ import { contextAuth } from 'app/shared/interfaces/auth';
 import ReactGA from 'react-ga4';
 import { axiosPost } from 'app/utils/axios';
 import { apiPostResponse } from 'app/shared/interfaces/api-response';
-import { useSubject } from 'app/hooks/useSubject';
 import { contextUi } from 'app/shared/interfaces/ui';
 import { SUBJECTS_ENUM } from 'app/shared/data/exam';
+import { ExamContext } from 'app/contexts/Exam';
+import { contextExam } from 'app/shared/interfaces/exam';
 
 interface LocationState extends Location {
 	state?: {
@@ -40,12 +41,11 @@ export default function Blog(props: BlogProps) {
 	const { showSidebar, requireAuth, showTokens } = props;
 	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
+	const { currentSubject } = useContext<contextExam>(ExamContext);
 	const [loading, setLoading] = useState<boolean>(true);
 	const navigate = useNavigate();
 	const location = useLocation() as LocationState;
 	const params = useParams();
-
-	const [subject] = useSubject();
 
 	useEffect(() => {
 		if (location.pathname.includes('/tests/')) {
@@ -79,16 +79,18 @@ export default function Blog(props: BlogProps) {
 	}, [location.pathname]);
 
 	useEffect(() => {
-		const body = document.querySelector('body');
-		if (
-			subject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL &&
-			examsUi.isTrainer === true
-		) {
-			body.classList.add('body-code');
-		} else {
-			body.classList.remove('body-code');
+		if (currentSubject !== null) {
+			const body = document.querySelector('body');
+			if (
+				currentSubject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL &&
+				(examsUi.isTrainer || examsUi.isTest)
+			) {
+				body.classList.add('body-code');
+			} else {
+				body.classList.remove('body-code');
+			}
 		}
-	}, [examsUi, subject]);
+	}, [examsUi, currentSubject]);
 
 	useEffect(() => {
 		if (import.meta.env.MODE !== 'development') {

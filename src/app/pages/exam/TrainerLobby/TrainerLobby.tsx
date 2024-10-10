@@ -1,13 +1,23 @@
-import * as React from 'react';
+import {
+	useEffect,
+	ReactNode,
+	useContext,
+	useState,
+	SyntheticEvent,
+} from 'react';
+import { useParams } from 'react-router-dom';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 
 import TrainerForm from './TrainerForm';
 import ExamForm from './ExamForm';
+import { getCurrentSubject } from 'app/utils/subjects';
+import { ExamContext } from 'app/contexts/Exam';
+import { contextExam } from 'app/shared/interfaces/exam';
 
 interface TabPanelProps {
-	children?: React.ReactNode;
+	children?: ReactNode;
 	index: number;
 	value: number;
 }
@@ -22,10 +32,19 @@ function CustomTabPanel(props: TabPanelProps) {
 	);
 }
 
-export default function BasicTabs() {
-	const [value, setValue] = React.useState(0);
+export default function TrainerLobby() {
+	const [value, setValue] = useState(0);
+	const params = useParams();
+	const { setCurrentSubject } = useContext<contextExam>(ExamContext);
 
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+	useEffect(() => {
+		if (params.subject !== undefined) {
+			const subject = getCurrentSubject(params.subject);
+			setCurrentSubject(subject);
+		}
+	}, [params.subject]);
+
+	const handleChange = (event: SyntheticEvent, newValue: number) => {
 		setValue(newValue);
 	};
 

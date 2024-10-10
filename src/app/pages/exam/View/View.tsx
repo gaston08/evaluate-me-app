@@ -8,6 +8,7 @@ import { ExamContext } from 'app/contexts/Exam';
 import { contextExam } from 'app/shared/interfaces/exam';
 
 import { examResultType } from 'app/shared/interfaces/exam';
+import { getCurrentSubject } from 'app/utils/subjects';
 
 interface examState {
 	showInitialForm: boolean;
@@ -16,7 +17,7 @@ interface examState {
 }
 
 export default function View() {
-	const { setExam } = useContext<contextExam>(ExamContext);
+	const { setExam, setCurrentSubject } = useContext<contextExam>(ExamContext);
 	const params = useParams();
 	const [loading, exam, examLabels] = useExam(params.id);
 	const [examState, setExamState] = useState<examState>({
@@ -24,6 +25,13 @@ export default function View() {
 		showSolveExam: false,
 		showExamResult: false,
 	});
+
+	useEffect(() => {
+		if (params.subject !== undefined) {
+			const subject = getCurrentSubject(params.subject);
+			setCurrentSubject(subject);
+		}
+	}, [params.subject]);
 
 	useEffect(() => {
 		if (exam !== null) {

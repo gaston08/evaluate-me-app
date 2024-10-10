@@ -1,6 +1,7 @@
 import React from 'react';
 import { examsUiType } from './ui';
 import { SUBJECTS_ENUM } from 'app/shared/data/exam';
+import { selectInterface } from 'app/shared/data/ubaxxi';
 
 export interface examResultType {
 	completed: boolean;
@@ -59,17 +60,15 @@ export interface exerciseFeedback {
 
 export interface contextExam {
 	exam: examType;
-	exams: Array<examType>;
 	setExam: React.Dispatch<React.SetStateAction<examType>>;
-	setExam: React.Dispatch<React.SetStateAction<Array<examType>>>;
 	selectedOptions: Array<Array<Array<string>>>;
 	setSelectedOptions: React.Dispatch<
 		React.SetStateAction<Array<Array<Array<string>>>>
 	>;
-	exercisesFeedback: Array<exerciseFeedback>;
-	setExercisesFeedback: React.Dispatch<
-		React.SetStateAction<Array<exerciseFeedback>>
-	>;
+	subjects: Array<selectInterface>;
+	setSubjects: React.Dispatch<React.SetStateAction<Array<selectInterface>>>;
+	currentSubject: selectInterface | null;
+	setCurrentSubject: React.Dispatch<React.SetStateAction<selectInterface>>;
 }
 
 export interface examData {

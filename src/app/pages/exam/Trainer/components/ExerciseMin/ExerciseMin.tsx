@@ -14,7 +14,8 @@ import { exerciseType, optionType } from 'app/shared/interfaces/exam';
 import { contextAuth } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
 import { SUBJECTS_ENUM } from 'app/shared/data/exam';
-import { useSubject } from 'app/hooks/useSubject';
+import { ExamContext } from 'app/contexts/Exam';
+import { contextExam } from 'app/shared/interfaces/exam';
 
 interface ExerciseProps {
 	exercise: exerciseType;
@@ -28,7 +29,7 @@ export default function Exercise(props: ExerciseProps) {
 	const [selected, setSelected] = useState<Array<string>>([]);
 	const { auth } = useContext<contextAuth>(AuthContext);
 	const [open, setOpen] = useState<boolean>(false);
-	const [subject] = useSubject();
+	const { currentSubject } = useContext<contextExam>(ExamContext);
 
 	const theme = useTheme();
 
@@ -62,7 +63,7 @@ export default function Exercise(props: ExerciseProps) {
 	return (
 		<Box className="exercise-exam">
 			<Fragment>
-				{subject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL ? (
+				{currentSubject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL ? (
 					<ScreenshotButtonPC exercise={exercise} />
 				) : (
 					<ScreenshotButton exercise={exercise} />

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link as RouterLink } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { useParams, Link as RouterLink, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -8,36 +8,21 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { exam_types, SUBJECTS_ENUM } from 'app/shared/data/exam';
-import { useSubjects } from 'app/hooks/useSubjects';
 import {
 	subjects as subjectsFull,
 	selectInterface,
 } from 'app/shared/data/ubaxxi';
-
-function getFaculty() {
-	const faculty = localStorage.getItem('faculty');
-	if (faculty === null) {
-		window.location.href = 'https://ubaparciales.com';
-	} else {
-		return faculty;
-	}
-}
-
-function getCareer() {
-	const career = localStorage.getItem('career');
-	if (career === null) {
-		window.location.href = 'https://ubaparciales.com';
-	} else {
-		return career;
-	}
-}
+import { contextExam } from 'app/shared/interfaces/exam';
+import { ExamContext } from 'app/contexts/Exam';
+import { getSubjects } from 'app/utils/subjects';
 
 export default function TrainerForm() {
 	const params = useParams();
 	const [subject, setSubject] = useState<SUBJECTS_ENUM>(params.subject);
 	const [examType, setExamType] = useState<string>('');
 	const [department, setDepartment] = useState<string>('');
-	const [subjects, setSubjects] = useSubjects(getFaculty(), getCareer());
+	const { subjects, setSubjects } = useContext<contextExam>(ExamContext);
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		const arr = subjectsFull.find((sub) => sub.value === subject).departments;
@@ -62,6 +47,11 @@ export default function TrainerForm() {
 		}
 	}, [subjects]);
 
+	useEffect(() => {
+		const subjects_arr = getSubjects();
+		setSubjects(subjects_arr);
+	}, []);
+
 	const enableButton = () => {
 		if (examType === '' || department === '') {
 			return false;
@@ -81,6 +71,7 @@ export default function TrainerForm() {
 							label="Materia"
 							onChange={(e: SelectChangeEvent) => {
 								setSubject(e.target.value);
+								navigate(`/entrenamiento/${e.target.value}`);
 							}}
 						>
 							{subjects.map((subj) => {

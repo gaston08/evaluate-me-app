@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ExerciseMin from './components/ExerciseMin';
@@ -18,11 +18,14 @@ import {
 } from 'app/shared/interfaces/api-response';
 import { exam_types, SUBJECTS_ENUM } from 'app/shared/data/exam';
 import { subjects, selectInterface } from 'app/shared/data/ubaxxi';
+import { getCurrentSubject } from 'app/utils/subjects';
+import { ExamContext } from 'app/contexts/Exam';
+import { contextExam } from 'app/shared/interfaces/exam';
 
 async function getExams(
 	array_id: Array<string>,
-	setExercises: React.Dispatch<React.SetStateAction<Array<exerciseType>>>,
-	setLoading: React.Dispatch<React.SetStateAction<Array<loading>>>,
+	setExercises: Dispatch<SetStateAction<Array<exerciseType>>>,
+	setLoading: Dispatch<SetStateAction<Array<loading>>>,
 ) {
 	const exercises = [];
 
@@ -102,6 +105,14 @@ export default function Trainer() {
 			department,
 		};
 	});
+	const { setCurrentSubject } = useContext<contextExam>(ExamContext);
+
+	useEffect(() => {
+		if (params.subject !== undefined) {
+			const subject = getCurrentSubject(params.subject);
+			setCurrentSubject(subject);
+		}
+	}, [params.subject]);
 
 	useEffect(() => {
 		async function fetchData() {
