@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,6 +7,7 @@ import { contextExam, examResultType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 
 import ExercisesResult from 'app/pages/exam/components/ExercisesResult';
+import Score from './Score';
 
 interface ExamResultProps {
 	labels: {
@@ -23,6 +24,9 @@ export default function ExamResult(props: ExamResultProps) {
 	const { setSelectedOptions } = useContext<contextExam>(ExamContext);
 	const theme = useTheme();
 	const params = useParams();
+	const [score, setScore] = useState<number>(0);
+	const [totalPts, setTotalPts] = useState<number>(10);
+	const [date, setDate] = useState<string>(new Date().toString());
 
 	useEffect(() => {
 		const exam_result = JSON.parse(
@@ -30,7 +34,12 @@ export default function ExamResult(props: ExamResultProps) {
 		) as examResultType | null;
 		if (exam_result !== null) {
 			setSelectedOptions(exam_result.selected_options);
+			setScore(Number(exam_result.score));
+			setTotalPts(Number(exam_result.total_pts));
+			setDate(exam_result.date);
 		}
+
+		window.scrollTo(0, 0);
 	}, [params.id]);
 
 	return (
@@ -53,6 +62,9 @@ export default function ExamResult(props: ExamResultProps) {
 				<Typography variant="h5">
 					{`${labels.examType}, TEMA ${labels.examNumber}, ${labels.department}`}
 				</Typography>
+			</Box>
+			<Box>
+				<Score date={date} score={score} totalPts={totalPts} />
 			</Box>
 			<ExercisesResult />
 		</Box>

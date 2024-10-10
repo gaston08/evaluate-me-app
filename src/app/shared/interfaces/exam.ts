@@ -13,6 +13,9 @@ export interface examResultType {
 	enabled: boolean;
 	selected_options: Array<selectedOptionsInterfacae>;
 	options_to_select: number;
+	score: number;
+	total_pts: number;
+	date: string;
 }
 
 export interface optionType {
