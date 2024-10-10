@@ -1,4 +1,5 @@
 import { useContext, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { contextExam } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
@@ -6,15 +7,16 @@ import OptionItem from './OptionItem';
 
 import { exerciseType, optionType } from 'app/shared/interfaces/exam';
 
-interface OptionsProps {
+interface OptionsPlayProps {
 	exercise: exerciseType;
 	i: number;
 }
 
-export default function Options(props: OptionsProps) {
+export default function OptionsPlay(props: OptionsPlayProps) {
 	const { exercise, i } = props;
-	const { selectedOptions, setSelectedOptions } =
+	const { selectedOptions, setSelectedOptions, numFullSelect } =
 		useContext<contextExam>(ExamContext);
+	const params = useParams();
 
 	const selectOption = useCallback(
 		(optionId: string) => {
@@ -38,7 +40,6 @@ export default function Options(props: OptionsProps) {
 						prev.splice(idx, 1);
 						newSelected = [...prev];
 						newSelected.push({ exerciseId: exercise.id, optionId: optionId });
-						return newSelected;
 					} else {
 						newSelected = [
 							...prev,
@@ -47,13 +48,21 @@ export default function Options(props: OptionsProps) {
 								optionId: optionId,
 							},
 						];
-
-						return newSelected;
 					}
 				} else {
 					newSelected = prev.filter((selOpt) => selOpt.optionId !== optionId);
-					return newSelected;
 				}
+
+				localStorage.setItem(
+					`${params.id}_result`,
+					JSON.stringify({
+						enabled: true,
+						complete: false,
+						selected_options: newSelected,
+						options_to_select: numFullSelect,
+					}),
+				);
+				return newSelected;
 			});
 		},
 		[selectedOptions.length],

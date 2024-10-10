@@ -1,6 +1,6 @@
 import { useState, ReactNode } from 'react';
 import { ExamContext, defaultCurrentExam } from 'app/contexts/Exam';
-import { contextExam } from 'app/shared/interfaces/exam';
+import { contextExam, examStateInterface } from 'app/shared/interfaces/exam';
 import { selectInterface } from 'app/shared/data/ubaxxi';
 
 interface ExamProviderProps {
@@ -17,6 +17,11 @@ export default function ExamProvider(props: ExamProviderProps) {
 	);
 	const [exam, setExam] = useState<contextExam>(defaultCurrentExam);
 	const [numFullSelect, setNumFullSelect] = useState<number>(0);
+	const [examState, setExamState] = useState<examStateInterface>({
+		showInitialForm: false,
+		showSolveExam: false,
+		showExamResult: false,
+	});
 
 	return (
 		<ExamContext.Provider
@@ -31,6 +36,8 @@ export default function ExamProvider(props: ExamProviderProps) {
 				setCurrentSubject,
 				numFullSelect,
 				setNumFullSelect,
+				examState,
+				setExamState,
 			}}
 		>
 			{props.children}

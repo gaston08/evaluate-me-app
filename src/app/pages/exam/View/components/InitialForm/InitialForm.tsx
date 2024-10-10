@@ -19,6 +19,9 @@ import { axiosPost } from 'app/utils/axios';
 import { decodeToken } from 'react-jwt';
 import { examResultType } from 'app/shared/interfaces/exam';
 
+import { ExamContext } from 'app/contexts/Exam';
+import { contextExam } from 'app/shared/interfaces/exam';
+
 import { setUpAuth } from 'app/utils/auth';
 
 interface InitialFormProps {
@@ -41,10 +44,11 @@ function CoffeeIcon() {
 }
 
 export default function InitialForm(props: InitialFormProps) {
-	const { labels, setExamState, id } = props;
+	const { labels, id } = props;
 	const [loading, setLoading] = useState<boolean>(false);
 	const [openDialog, setOpenDialog] = useState<boolean>(false);
 	const { setAuth } = useContext<contextAuth>(AuthContext);
+	const { setExamState } = useContext<contextExam>(ExamContext);
 
 	const enableExam = async () => {
 		setLoading(true);

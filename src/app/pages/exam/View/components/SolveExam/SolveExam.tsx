@@ -5,10 +5,10 @@ import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 import { contextExam, examResultType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
-import Exercises from '../../../components/Exercises';
+import ExercisesPlay from 'app/pages/exam/components/ExercisesPlay';
 import FinishExamButton from './FinishExamButton';
 
-interface SolveExamTempProps {
+interface SolveExamProps {
 	labels: {
 		subject: string;
 		examType: string;
@@ -18,7 +18,7 @@ interface SolveExamTempProps {
 	};
 }
 
-export default function SolveExamTemp(props: SolveExamTempProps) {
+export default function SolveExam(props: SolveExamProps) {
 	const { labels } = props;
 	const { selectedOptions, setSelectedOptions, numFullSelect } =
 		useContext<contextExam>(ExamContext);
@@ -29,24 +29,13 @@ export default function SolveExamTemp(props: SolveExamTempProps) {
 		const exam_result = JSON.parse(
 			localStorage.getItem(`${params.id}_result`),
 		) as examResultType | null;
-		if (exam_result !== null) {
+
+		if (exam_result === null) {
+			setSelectedOptions([]);
+		} else {
 			setSelectedOptions(exam_result.selected_options);
 		}
 	}, [params.id]);
-
-	useEffect(() => {
-		if (selectedOptions.length !== 0) {
-			localStorage.setItem(
-				`${params.id}_result`,
-				JSON.stringify({
-					enabled: true,
-					complete: false,
-					selected_options: selectedOptions,
-					options_to_select: numFullSelect,
-				}),
-			);
-		}
-	}, [selectedOptions]);
 
 	return (
 		<Box>
@@ -69,7 +58,7 @@ export default function SolveExamTemp(props: SolveExamTempProps) {
 					{`${labels.examType}, TEMA ${labels.examNumber}, ${labels.department}`}
 				</Typography>
 			</Box>
-			<Exercises />
+			<ExercisesPlay />
 			<Box sx={{ pb: 2 }}>
 				<FinishExamButton enabled={selectedOptions.length === numFullSelect} />
 			</Box>

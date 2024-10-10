@@ -3,10 +3,15 @@ import { examsUiType } from './ui';
 import { SUBJECTS_ENUM } from 'app/shared/data/exam';
 import { selectInterface } from 'app/shared/data/ubaxxi';
 
+export interface selectedOptionsInterfacae {
+	exerciseId: string;
+	optionId: string;
+}
+
 export interface examResultType {
 	completed: boolean;
 	enabled: boolean;
-	selected_options: Array<{ exerciseId: string; optionId: string }>;
+	selected_options: Array<selectedOptionsInterfacae>;
 	options_to_select: number;
 }
 
@@ -71,6 +76,8 @@ export interface contextExam {
 	setCurrentSubject: React.Dispatch<React.SetStateAction<selectInterface>>;
 	numFullSelect: number;
 	setNumFullSelect: React.Dispatch<React.SetStateAction<number>>;
+	examState: examStateInterface;
+	setExamState: React.Dispatch<React.SetStateAction<examStateInterface>>;
 }
 
 export interface examData {
@@ -80,4 +87,10 @@ export interface examData {
 	score: number;
 	date: string;
 	examsUi: examsUiType;
+}
+
+export interface examStateInterface {
+	showInitialForm: boolean;
+	showSolveExam: boolean;
+	showExamResult: boolean;
 }

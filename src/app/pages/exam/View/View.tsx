@@ -1,7 +1,8 @@
-import { Fragment, useEffect, useState, useContext } from 'react';
+import { Fragment, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import InitialForm from './components/InitialForm';
-import SolveExamTemp from './components/SolveExamTemp';
+import SolveExam from './components/SolveExam';
+import ExamResult from './components/ExamResult';
 import { useExam } from 'app/hooks/useExam';
 
 import { ExamContext } from 'app/contexts/Exam';
@@ -10,22 +11,16 @@ import { contextExam } from 'app/shared/interfaces/exam';
 import { examResultType } from 'app/shared/interfaces/exam';
 import { getCurrentSubject } from 'app/utils/subjects';
 
-interface examState {
-	showInitialForm: boolean;
-	showSolveExam: boolean;
-	showExamResult: boolean;
-}
-
 export default function View() {
-	const { setExam, setCurrentSubject, setNumFullSelect } =
-		useContext<contextExam>(ExamContext);
+	const {
+		setExam,
+		setCurrentSubject,
+		setNumFullSelect,
+		examState,
+		setExamState,
+	} = useContext<contextExam>(ExamContext);
 	const params = useParams();
 	const [loading, exam, examLabels] = useExam(params.id);
-	const [examState, setExamState] = useState<examState>({
-		showInitialForm: false,
-		showSolveExam: false,
-		showExamResult: false,
-	});
 
 	useEffect(() => {
 		if (params.subject !== undefined) {
@@ -97,16 +92,17 @@ export default function View() {
 		<Fragment>
 			<Fragment>
 				{examState.showInitialForm && (
-					<InitialForm
-						setExamState={setExamState}
-						labels={examLabels}
-						id={exam._id}
-					/>
+					<InitialForm labels={examLabels} id={exam._id} />
 				)}
 			</Fragment>
 			<Fragment>
 				{examState.showSolveExam && exam !== null && (
-					<SolveExamTemp exam={exam} labels={examLabels} />
+					<SolveExam labels={examLabels} />
+				)}
+			</Fragment>
+			<Fragment>
+				{examState.showExamResult && exam !== null && (
+					<ExamResult labels={examLabels} />
 				)}
 			</Fragment>
 		</Fragment>

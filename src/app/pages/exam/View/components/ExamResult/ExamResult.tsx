@@ -1,85 +1,60 @@
+import { useContext, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import ReactTimeAgo from 'react-time-ago';
 import { useTheme } from '@mui/material/styles';
-//import Confetti from 'app/components/Confetti';
+import { contextExam, examResultType } from 'app/shared/interfaces/exam';
+import { ExamContext } from 'app/contexts/Exam';
+
+import ExercisesResult from 'app/pages/exam/components/ExercisesResult';
 
 interface ExamResultProps {
-	score: number;
-	totalPts: number;
-	date: string;
+	labels: {
+		subject: string;
+		examType: string;
+		department: string;
+		examNumber: number;
+		year: number;
+	};
 }
 
 export default function ExamResult(props: ExamResultProps) {
-	const score: number = props.score;
-	const totalPts: number = props.totalPts;
-	const date: string = props.date;
-
+	const { labels } = props;
+	const { setSelectedOptions } = useContext<contextExam>(ExamContext);
 	const theme = useTheme();
+	const params = useParams();
 
-	function getDataRender() {
-		let text: string;
-		let color: string;
-		//let confetties: number;
-		const roundedScore = Math.ceil((score / totalPts) * 10);
-		switch (roundedScore) {
-			case 10:
-				text = '¡Perfecto!';
-				color = theme.palette.success.light;
-				//confetties = 500;
-				break;
-			case 9:
-				text = '¡Impresionante!';
-				color = theme.palette.success.light;
-				//confetties = 300;
-				break;
-			case 7:
-			case 8:
-				text = '¡Excelente!';
-				color = theme.palette.success.main;
-				//confetties = 100;
-				break;
-			case 6:
-			case 5:
-			case 4:
-				text = '¡Muy bien!';
-				color = theme.palette.success.main;
-				//confetties = 0;
-				break;
-			case 3:
-			case 2:
-			case 1:
-			case 0:
-				text = 'Ups... Sigue intentando!';
-				color = theme.palette.error.main;
-				//confetties = 0;
-				break;
+	useEffect(() => {
+		const exam_result = JSON.parse(
+			localStorage.getItem(`${params.id}_result`),
+		) as examResultType | null;
+		if (exam_result !== null) {
+			setSelectedOptions(exam_result.selected_options);
 		}
-
-		if (roundedScore >= 7) {
-			const audio = new Audio('/success.mp3');
-			audio.play().catch(console.error);
-		}
-
-		return { text, color };
-	}
-
-	const { text, color } = getDataRender();
+	}, [params.id]);
 
 	return (
-		<Box sx={{ mb: 3 }} id="exam-result">
-			<Typography variant="h4" sx={{ color, mt: 1 }}>
-				{text}
-			</Typography>
-			<Typography variant="h5" sx={{ color, mt: 1, fontWeight: 600 }}>
-				NOTA: {Math.ceil((score / totalPts) * 10)}/10
-			</Typography>
-			<Typography id="date-result">
-				<ReactTimeAgo date={new Date(date)} locale="es-AR" />
-			</Typography>
-			<Box sx={{ position: 'fixed', top: 0 }}>
-				{/*<Confetti confetties={confetties} />*/}
+		<Box>
+			<Box
+				sx={{
+					mb: 3,
+				}}
+				id="exam-info-view"
+			>
+				<Typography
+					variant="h5"
+					sx={{
+						mb: 2,
+						color: theme.palette.text.secondary,
+					}}
+				>
+					{labels.subject}, {labels.year}
+				</Typography>
+				<Typography variant="h5">
+					{`${labels.examType}, TEMA ${labels.examNumber}, ${labels.department}`}
+				</Typography>
 			</Box>
+			<ExercisesResult />
 		</Box>
 	);
 }
