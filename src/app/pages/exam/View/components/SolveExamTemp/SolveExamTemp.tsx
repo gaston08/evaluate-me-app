@@ -42,6 +42,7 @@ export default function SolveExamTemp(props: SolveExamTempProps) {
 					enabled: true,
 					complete: false,
 					selected_options: selectedOptions,
+					options_to_select: numFullSelect,
 				}),
 			);
 		}
