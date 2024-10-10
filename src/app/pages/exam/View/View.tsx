@@ -17,7 +17,8 @@ interface examState {
 }
 
 export default function View() {
-	const { setExam, setCurrentSubject } = useContext<contextExam>(ExamContext);
+	const { setExam, setCurrentSubject, setNumFullSelect } =
+		useContext<contextExam>(ExamContext);
 	const params = useParams();
 	const [loading, exam, examLabels] = useExam(params.id);
 	const [examState, setExamState] = useState<examState>({
@@ -34,14 +35,37 @@ export default function View() {
 	}, [params.subject]);
 
 	useEffect(() => {
-		if (exam !== null) {
-			setExam(exam);
-		}
-
 		const exam_result = JSON.parse(
 			localStorage.getItem(`${params.id}_result`),
 		) as examResultType | null;
-		console.log(exam_result);
+
+		if (exam !== null) {
+			setExam(exam);
+			if (exam_result === null) {
+				let total = 0;
+
+				exam.exercises.forEach((exercise) => {
+					exercise.correctOptions.forEach((correctOpt) => {
+						total += correctOpt.length;
+					});
+				});
+
+				setNumFullSelect(total);
+
+				localStorage.setItem(
+					`${params.id}_result`,
+					JSON.stringify({
+						enabled: false,
+						completed: false,
+						selected_options: [],
+						options_to_select: total,
+					}),
+				);
+			} else {
+				setNumFullSelect(exam_result.options_to_select);
+			}
+		}
+
 		if (exam_result === null) {
 			setExamState({
 				showInitialForm: true,
@@ -81,7 +105,7 @@ export default function View() {
 				)}
 			</Fragment>
 			<Fragment>
-				{examState.showSolveExam && (
+				{examState.showSolveExam && exam !== null && (
 					<SolveExamTemp exam={exam} labels={examLabels} />
 				)}
 			</Fragment>

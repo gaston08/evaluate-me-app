@@ -16,6 +16,7 @@ export default function ExamProvider(props: ExamProviderProps) {
 		null,
 	);
 	const [exam, setExam] = useState<contextExam>(defaultCurrentExam);
+	const [numFullSelect, setNumFullSelect] = useState<number>(0);
 
 	return (
 		<ExamContext.Provider
@@ -28,6 +29,8 @@ export default function ExamProvider(props: ExamProviderProps) {
 				setSubjects,
 				currentSubject,
 				setCurrentSubject,
+				numFullSelect,
+				setNumFullSelect,
 			}}
 		>
 			{props.children}

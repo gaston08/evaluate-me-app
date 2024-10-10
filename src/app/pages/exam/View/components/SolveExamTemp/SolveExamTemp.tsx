@@ -6,6 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { contextExam, examResultType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import Exercises from '../../../components/Exercises';
+import FinishExamButton from './FinishExamButton';
 
 interface SolveExamTempProps {
 	labels: {
@@ -19,7 +20,7 @@ interface SolveExamTempProps {
 
 export default function SolveExamTemp(props: SolveExamTempProps) {
 	const { labels } = props;
-	const { selectedOptions, setSelectedOptions } =
+	const { selectedOptions, setSelectedOptions, numFullSelect } =
 		useContext<contextExam>(ExamContext);
 	const theme = useTheme();
 	const params = useParams();
@@ -68,6 +69,9 @@ export default function SolveExamTemp(props: SolveExamTempProps) {
 				</Typography>
 			</Box>
 			<Exercises />
+			<Box sx={{ pb: 2 }}>
+				<FinishExamButton enabled={selectedOptions.length === numFullSelect} />
+			</Box>
 		</Box>
 	);
 }

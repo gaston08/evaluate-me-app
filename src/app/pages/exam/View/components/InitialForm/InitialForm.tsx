@@ -17,6 +17,7 @@ import { contextAuth, userType } from 'app/shared/interfaces/auth';
 import { AuthContext } from 'app/contexts/Auth';
 import { axiosPost } from 'app/utils/axios';
 import { decodeToken } from 'react-jwt';
+import { examResultType } from 'app/shared/interfaces/exam';
 
 import { setUpAuth } from 'app/utils/auth';
 
@@ -71,15 +72,21 @@ export default function InitialForm(props: InitialFormProps) {
 							showExamResult: false,
 						});
 
-						localStorage.setItem(
-							`${id}_result`,
-							JSON.stringify({
-								enabled: true,
-								completed: false,
-								selected_options: [],
-								options_to_select: 0,
-							}),
-						);
+						const exam_result = JSON.parse(
+							localStorage.getItem(`${id}_result`),
+						) as examResultType | null;
+
+						if (exam_result !== null) {
+							localStorage.setItem(
+								`${id}_result`,
+								JSON.stringify({
+									...exam_result,
+									enabled: true,
+									completed: false,
+									selected_options: [],
+								}),
+							);
+						}
 					} else {
 						setUpAuth('', false, setAuth);
 					}

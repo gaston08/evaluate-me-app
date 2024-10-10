@@ -69,6 +69,8 @@ export interface contextExam {
 	setSubjects: React.Dispatch<React.SetStateAction<Array<selectInterface>>>;
 	currentSubject: selectInterface | null;
 	setCurrentSubject: React.Dispatch<React.SetStateAction<selectInterface>>;
+	numFullSelect: number;
+	setNumFullSelect: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export interface examData {
