@@ -1,7 +1,14 @@
+import { useContext } from 'react';
 import Box from '@mui/material/Box';
-import Option from './Option';
+import OptionItem from './OptionItem';
+import { contextExam } from 'app/shared/interfaces/exam';
+import { ExamContext } from 'app/contexts/Exam';
 
-import { exerciseType, optionType } from 'app/shared/interfaces/exam';
+import {
+	exerciseType,
+	optionType,
+	selectedOptionsInterfacae,
+} from 'app/shared/interfaces/exam';
 
 interface CodeOptionsProps {
 	exercise: exerciseType;
@@ -10,6 +17,8 @@ interface CodeOptionsProps {
 
 export default function CodeOptions(props: CodeOptionsProps) {
 	const { exercise, i } = props;
+	const { selectedOptions } = useContext<contextExam>(ExamContext);
+
 	return (
 		<Box
 			component="table"
@@ -24,14 +33,16 @@ export default function CodeOptions(props: CodeOptionsProps) {
 			<tbody>
 				{exercise.options[i].map((option: optionType) => {
 					return (
-						<Option
+						<OptionItem
 							key={option.id}
-							exerciseId={exercise.id}
 							option={option}
-							correctOptionsLength={exercise.correctOptions[i].length}
-							optionsIdx={i}
-							isSelected={true}
-							isCorrect={exercise.correctOptions[i].includes(option.id)}
+							isSelected={selectedOptions.some(
+								(selectedOpt) => selectedOpt.optionId === option.id,
+							)}
+							isCorrect={selectedOptions.some(
+								(selectedOpt: selectedOptionsInterfacae) =>
+									exercise.correctOptions[i].includes(selectedOpt.optionId),
+							)}
 						/>
 					);
 				})}

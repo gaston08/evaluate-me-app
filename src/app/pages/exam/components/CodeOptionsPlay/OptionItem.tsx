@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 
-interface OptionProps {
+interface OptionItemProps {
 	isSelected: boolean;
 	option: {
 		title: string;
@@ -10,15 +10,13 @@ interface OptionProps {
 		python_code: boolean;
 		text: string;
 	};
+	selectOption: (optionId: string, index: string) => void;
+	index: string;
 }
 
-export default function Option(props: OptionProps) {
-	const { isSelected, option } = props;
+export default function OptionItem(props: OptionItemProps) {
+	const { isSelected, option, selectOption, index } = props;
 	const { title, python_code } = option;
-
-	const selectOption = () => {
-		console.log('seleccionar opción');
-	};
 
 	let bgColor;
 
@@ -38,7 +36,9 @@ export default function Option(props: OptionProps) {
 					borderBottom: bgColor === 'transparent' ? `2px solid black` : '',
 				}}
 				className="highlight-code"
-				onClick={selectOption}
+				onClick={() => {
+					selectOption(option.id, index);
+				}}
 			>
 				<td>
 					<>

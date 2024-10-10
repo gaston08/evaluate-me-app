@@ -8,7 +8,7 @@ interface OptionItemProps {
 }
 
 export default function OptionItem(props: OptionItemProps) {
-	const { isSelected, option, selectOption } = props;
+	const { isSelected, option, selectOption, index } = props;
 
 	let bgColor;
 	let hoverColor;
@@ -35,7 +35,7 @@ export default function OptionItem(props: OptionItemProps) {
 				borderBottom: '1px solid #ccc',
 			}}
 			onClick={() => {
-				selectOption(option.id);
+				selectOption(option.id, index);
 			}}
 		>
 			<div dangerouslySetInnerHTML={{ __html: option.title }}></div>

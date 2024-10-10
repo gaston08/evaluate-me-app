@@ -1,4 +1,5 @@
-import { Fragment, useContext } from 'react';
+import { Fragment, useContext, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import ScreenshotButton from 'app/components/ScreenshotButton';
 import ScreenshotButtonPC from 'app/components/ScreenshotButtonPC';
@@ -20,7 +21,56 @@ interface ExercisePlayProps {
 
 export default function ExercisePlay(props: ExercisePlayProps) {
 	const { exercise } = props;
-	const { currentSubject } = useContext<contextExam>(ExamContext);
+	const { currentSubject, setSelectedOptions, numFullSelect } =
+		useContext<contextExam>(ExamContext);
+	const params = useParams();
+
+	const selectOption = useCallback((optionId: string, index: number) => {
+		let newSelected = [];
+
+		setSelectedOptions((prev) => {
+			if (prev.findIndex((selOpt) => selOpt.optionId === optionId) === -1) {
+				const num_selected = prev.filter(
+					(selOpt) =>
+						selOpt.exerciseId === exercise.id &&
+						exercise.options[index].some((opt) => opt.id === selOpt.optionId),
+				).length;
+
+				if (num_selected === exercise.correctOptions[index].length) {
+					const idx = prev.findIndex(
+						(selOpt) =>
+							selOpt.exerciseId === exercise.id &&
+							exercise.options[index].some((opt) => opt.id === selOpt.optionId),
+					);
+
+					prev.splice(idx, 1);
+					newSelected = [...prev];
+					newSelected.push({ exerciseId: exercise.id, optionId: optionId });
+				} else {
+					newSelected = [
+						...prev,
+						{
+							exerciseId: exercise.id,
+							optionId: optionId,
+						},
+					];
+				}
+			} else {
+				newSelected = prev.filter((selOpt) => selOpt.optionId !== optionId);
+			}
+
+			localStorage.setItem(
+				`${params.id}_result`,
+				JSON.stringify({
+					enabled: true,
+					complete: false,
+					selected_options: newSelected,
+					options_to_select: numFullSelect,
+				}),
+			);
+			return newSelected;
+		});
+	}, []);
 
 	return (
 		<Box className="exercise-exam">
@@ -46,45 +96,22 @@ export default function ExercisePlay(props: ExercisePlayProps) {
 
 							<Fragment>
 								{exercise.question[i].code ? (
-									<CodeOptionsPlay exercise={exercise} i={i} />
+									<CodeOptionsPlay
+										exercise={exercise}
+										index={i}
+										selectOption={selectOption}
+									/>
 								) : (
-									<OptionsPlay exercise={exercise} i={i} />
+									<OptionsPlay
+										exercise={exercise}
+										index={i}
+										selectOption={selectOption}
+									/>
 								)}
 							</Fragment>
 						</Box>
 					);
 				})}
-			</Fragment>
-			<Fragment>
-				<Box sx={{ pl: 2, mt: 2 }} id="exercise-feedback-view">
-					<Fragment>
-						{/*'a' !== '' && (
-							<Alert severity="success" className="alert-mui">
-								<AlertTitle>Correcto!</AlertTitle>
-								<div
-									dangerouslySetInnerHTML={{
-										__html: 'ok',
-									}}
-								></div>
-							</Alert>
-						)*/}
-					</Fragment>
-					<Fragment>
-						{/*'a' !== '' && (
-							<Alert
-								severity={warningAlert ? 'warning' : 'error'}
-								className="alert-mui"
-							>
-								<AlertTitle>Incorrecto.</AlertTitle>
-								<div
-									dangerouslySetInnerHTML={{
-										__html: 'ok',
-									}}
-								></div>
-							</Alert>
-						)*/}
-					</Fragment>
-				</Box>
 			</Fragment>
 		</Box>
 	);

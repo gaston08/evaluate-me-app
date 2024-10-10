@@ -41,7 +41,7 @@ export default function Blog(props: BlogProps) {
 	const { showSidebar, requireAuth, showTokens } = props;
 	const { setAuth, auth } = useContext<contextAuth>(AuthContext);
 	const { examsUi, setExamsUi } = useContext<contextUi>(UiContext);
-	const { currentSubject } = useContext<contextExam>(ExamContext);
+	const { currentSubject, examState } = useContext<contextExam>(ExamContext);
 	const [loading, setLoading] = useState<boolean>(true);
 	const navigate = useNavigate();
 	const location = useLocation() as LocationState;
@@ -49,13 +49,15 @@ export default function Blog(props: BlogProps) {
 
 	useEffect(() => {
 		if (location.pathname.includes('/tests/')) {
-			setExamsUi((prev) => {
-				return {
-					...prev,
-					isTrainer: false,
-					isTest: true,
-				};
-			});
+			if (examState.showSolveExam || examState.showExamResult) {
+				setExamsUi((prev) => {
+					return {
+						...prev,
+						isTrainer: false,
+						isTest: true,
+					};
+				});
+			}
 		} else if (
 			location.pathname.includes('/entrenamiento/') &&
 			params.department !== undefined
@@ -76,7 +78,7 @@ export default function Blog(props: BlogProps) {
 				};
 			});
 		}
-	}, [location.pathname]);
+	}, [location.pathname, examState]);
 
 	useEffect(() => {
 		if (currentSubject !== null) {
