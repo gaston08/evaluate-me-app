@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useCallback } from 'react';
 import Box from '@mui/material/Box';
 import { contextExam } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
@@ -16,43 +16,48 @@ export default function Options(props: OptionsProps) {
 	const { selectedOptions, setSelectedOptions } =
 		useContext<contextExam>(ExamContext);
 
-	const selectOption = (optionId: string) => {
-		let newSelected = [];
+	const selectOption = useCallback(
+		(optionId: string) => {
+			let newSelected = [];
 
-		setSelectedOptions((prev) => {
-			if (prev.findIndex((selOpt) => selOpt.optionId === optionId) === -1) {
-				const num_selected = prev.filter(
-					(selOpt) =>
-						selOpt.exerciseId === exercise.id &&
-						exercise.options[i].some((opt) => opt.id === selOpt.optionId),
-				).length;
-
-				if (num_selected === exercise.correctOptions[i].length) {
-					const idx = prev.findIndex(
+			setSelectedOptions((prev) => {
+				if (prev.findIndex((selOpt) => selOpt.optionId === optionId) === -1) {
+					const num_selected = prev.filter(
 						(selOpt) =>
 							selOpt.exerciseId === exercise.id &&
 							exercise.options[i].some((opt) => opt.id === selOpt.optionId),
-					);
-					newSelected = prev.splice(idx, 1);
-					newSelected.push({ exerciseId: exercise.id, optionId: optionId });
-					return newSelected;
-				} else {
-					newSelected = [
-						...prev,
-						{
-							exerciseId: exercise.id,
-							optionId: optionId,
-						},
-					];
+					).length;
 
+					if (num_selected === exercise.correctOptions[i].length) {
+						const idx = prev.findIndex(
+							(selOpt) =>
+								selOpt.exerciseId === exercise.id &&
+								exercise.options[i].some((opt) => opt.id === selOpt.optionId),
+						);
+
+						prev.splice(idx, 1);
+						newSelected = [...prev];
+						newSelected.push({ exerciseId: exercise.id, optionId: optionId });
+						return newSelected;
+					} else {
+						newSelected = [
+							...prev,
+							{
+								exerciseId: exercise.id,
+								optionId: optionId,
+							},
+						];
+
+						return newSelected;
+					}
+				} else {
+					newSelected = prev.filter((selOpt) => selOpt.optionId !== optionId);
 					return newSelected;
 				}
-			} else {
-				newSelected = prev.filter((selOpt) => selOpt.optionId !== optionId);
-				return newSelected;
-			}
-		});
-	};
+			});
+		},
+		[selectedOptions.length],
+	);
 
 	return (
 		<Box
