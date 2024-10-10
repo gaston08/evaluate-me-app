@@ -56,8 +56,8 @@ export default function FinishExamButton(props: FinishExamButtonProps) {
 				JSON.stringify({
 					...exam_result,
 					enabled: false,
-					score,
 					completed: true,
+					score,
 					total_pts: exam.totalPts,
 					date: new Date().toString(),
 				}),
