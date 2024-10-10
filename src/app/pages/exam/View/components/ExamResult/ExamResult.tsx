@@ -7,6 +7,7 @@ import { contextExam, examResultType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 
 import ExercisesResult from 'app/pages/exam/components/ExercisesResult';
+import Loader from 'app/components/Loader';
 import Score from './Score';
 
 interface ExamResultProps {
@@ -27,6 +28,13 @@ export default function ExamResult(props: ExamResultProps) {
 	const [score, setScore] = useState<number>(0);
 	const [totalPts, setTotalPts] = useState<number>(10);
 	const [date, setDate] = useState<string>(new Date().toString());
+	const [showLoader, setShowLoader] = useState<boolean>(true);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setShowLoader(false);
+		}, 1500);
+	}, []);
 
 	useEffect(() => {
 		const exam_result = JSON.parse(
@@ -44,6 +52,7 @@ export default function ExamResult(props: ExamResultProps) {
 
 	return (
 		<Box>
+			<Loader open={showLoader} />
 			<Box
 				sx={{
 					mb: 3,

@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -7,6 +7,8 @@ import { contextExam, examResultType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import ExercisesPlay from 'app/pages/exam/components/ExercisesPlay';
 import FinishExamButton from './FinishExamButton';
+
+import Loader from 'app/components/Loader';
 
 interface SolveExamProps {
 	labels: {
@@ -24,6 +26,13 @@ export default function SolveExam(props: SolveExamProps) {
 		useContext<contextExam>(ExamContext);
 	const theme = useTheme();
 	const params = useParams();
+	const [showLoader, setShowLoader] = useState<boolean>(true);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setShowLoader(false);
+		}, 1500);
+	}, []);
 
 	useEffect(() => {
 		const exam_result = JSON.parse(
@@ -39,6 +48,7 @@ export default function SolveExam(props: SolveExamProps) {
 
 	return (
 		<Box>
+			<Loader open={showLoader} />
 			<Box
 				sx={{
 					mb: 3,
