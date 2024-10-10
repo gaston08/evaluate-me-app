@@ -143,13 +143,7 @@ export default function Blog(props: BlogProps) {
 	};
 
 	useEffect(() => {
-		if (location.state?.omitAuth) {
-			setLoading(false);
-			console.log('OMIT');
-			// omit auth
-		} else {
-			checkAuth();
-		}
+		checkAuth();
 	}, [location.pathname]);
 
 	if (loading) {
