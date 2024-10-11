@@ -83,7 +83,7 @@ export default function FinishExamButton(props: FinishExamButtonProps) {
 			</Button>
 			<Fragment>
 				{!enabled && (
-					<Box>
+					<Box id="finish-exam-button-error">
 						<Typography color="error">
 							Faltan ejercicios por resolver.
 						</Typography>
