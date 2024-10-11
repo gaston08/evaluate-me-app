@@ -10,6 +10,8 @@ import { useStopwatch } from 'react-timer-hook';
 import { contextExam } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 
+import { SUBJECTS_ENUM } from 'app/shared/data/exam';
+
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
   width: '100%',
@@ -27,6 +29,7 @@ export default function ExamProgress() {
   const {
     selectedOptions: { length: selectedLength },
     numFullSelect,
+    currentSubject,
   } = useContext<contextExam>(ExamContext);
   const [progress, setProgress] = useState<number>(0);
   const { seconds, minutes, hours } = useStopwatch({
@@ -57,8 +60,11 @@ export default function ExamProgress() {
         pl: 2,
         borderRadius: 10,
         zIndex: 1000,
-        backgroundColor: 'black',
         color: 'white',
+        backgroundColor:
+          currentSubject.value === SUBJECTS_ENUM.PENSAMIENTO_COMPUTACIONAL
+            ? 'black'
+            : '#777',
       }}
     >
       <Typography>{progress}%</Typography>
