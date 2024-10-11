@@ -6,7 +6,8 @@ import { useTheme } from '@mui/material/styles';
 import { contextExam, examResultType } from 'app/shared/interfaces/exam';
 import { ExamContext } from 'app/contexts/Exam';
 import ExercisesPlay from 'app/pages/exam/components/ExercisesPlay';
-import FinishExamButton from './FinishExamButton';
+import FinishExamButton from './components/FinishExamButton';
+import ExamProgress from './components/ExamProgress';
 
 import Loader from 'app/components/Loader';
 
@@ -48,6 +49,7 @@ export default function SolveExam(props: SolveExamProps) {
 
 	return (
 		<Box>
+			<ExamProgress />
 			<Loader open={showLoader} />
 			<Box
 				sx={{

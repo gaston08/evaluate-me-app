@@ -10,16 +10,7 @@ interface MainProps {
 export default function Main(props: MainProps) {
   const { xs, md } = props;
   return (
-    <Grid
-      item
-      xs={xs}
-      md={md}
-      sx={{
-        '& .markdown': {
-          py: 3,
-        },
-      }}
-    >
+    <Grid item xs={xs} md={md}>
       <Outlet />
     </Grid>
   );

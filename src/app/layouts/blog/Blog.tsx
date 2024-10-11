@@ -167,7 +167,7 @@ export default function Blog(props: BlogProps) {
 					<TokensMenu coffees={auth.coffees} />
 				) : null}
 				<main>
-					<Grid container spacing={5} sx={{ mt: 3 }}>
+					<Grid container spacing={5} sx={{ mt: 0 }}>
 						<Main xs={12} md={showSidebar ? 8 : 12} />
 
 						{showSidebar ? <Sidebar /> : null}
