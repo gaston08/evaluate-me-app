@@ -127,7 +127,7 @@ export default function ScreenshotButtonPC(props: ScreenshotButtonProps) {
 																	p: 2,
 																	border: 'none',
 																	width: '100%',
-																	borderBottom: '1px solid #ccc',
+																	borderBottom: '1px solid black',
 																}}
 															></Box>
 														) : (
