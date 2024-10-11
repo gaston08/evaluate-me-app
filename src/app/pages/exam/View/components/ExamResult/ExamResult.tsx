@@ -8,7 +8,8 @@ import { ExamContext } from 'app/contexts/Exam';
 
 import ExercisesResult from 'app/pages/exam/components/ExercisesResult';
 import Loader from 'app/components/Loader';
-import Score from './Score';
+import Score from './components/Score';
+import RetakeExamButton from './components/RetakeExamButton';
 
 interface ExamResultProps {
 	labels: {
@@ -75,7 +76,13 @@ export default function ExamResult(props: ExamResultProps) {
 			<Box>
 				<Score date={date} score={score} totalPts={totalPts} />
 			</Box>
+			<Box>
+				<RetakeExamButton />
+			</Box>
 			<ExercisesResult />
+			<Box>
+				<RetakeExamButton />
+			</Box>
 		</Box>
 	);
 }
