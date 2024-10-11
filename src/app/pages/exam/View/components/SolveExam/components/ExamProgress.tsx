@@ -12,7 +12,7 @@ import { ExamContext } from 'app/contexts/Exam';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
-  width: 150,
+  width: '100%',
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: theme.palette.grey[500],
@@ -48,8 +48,17 @@ export default function ExamProgress() {
         justifyContent: 'center',
         alignItems: 'center',
         gap: 2,
-        mt: -3,
+        mt: -4,
         mb: 3,
+        width: '250px',
+        ml: 'auto',
+        mr: 'auto',
+        pr: 2,
+        pl: 2,
+        borderRadius: 10,
+        zIndex: 1000,
+        backgroundColor: 'black',
+        color: 'white',
       }}
     >
       <Typography>{progress}%</Typography>
