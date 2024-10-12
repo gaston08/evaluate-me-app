@@ -45,7 +45,7 @@ async function getExams(
 			ids: array_id,
 		});
 		if (result.ok) {
-			if (result.data.exams.length > 3) {
+			if (result.data.exams.length >= 6) {
 				try {
 					result.data.exams.forEach((exam) => {
 						localStorage.setItem(exam._id, JSON.stringify(exam));
