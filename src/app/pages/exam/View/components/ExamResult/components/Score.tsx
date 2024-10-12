@@ -59,14 +59,16 @@ export default function Score(props: ScoreProps) {
 				break;
 		}
 
-		if (roundedScore >= 7) {
-			const audio = new Audio(audioUrl);
-			audio.play().catch(console.error);
-		}
+		setTimeout(() => {
+			if (roundedScore >= 7) {
+				const audio = new Audio(audioUrl);
+				audio.play().catch(console.error);
+			}
 
-		setText(text);
-		setColor(color);
-		setConfetties(confetties);
+			setText(text);
+			setColor(color);
+			setConfetties(confetties);
+		}, 1500);
 	}, [score, totalPts]);
 
 	return (
