@@ -45,10 +45,22 @@ async function getExams(
 			ids: array_id,
 		});
 		if (result.ok) {
-			result.data.exams.forEach((exam) => {
-				localStorage.setItem(exam._id, JSON.stringify(exam));
-				exercises.push(...exam.exercises);
-			});
+			if (result.data.exams.length > 3) {
+				try {
+					result.data.exams.forEach((exam) => {
+						localStorage.setItem(exam._id, JSON.stringify(exam));
+						exercises.push(...exam.exercises);
+					});
+					console.log('persisted on localStorage');
+				} catch {
+					console.log('can not store in local storage');
+				}
+			} else {
+				result.data.exams.forEach((exam) => {
+					exercises.push(...exam.exercises);
+				});
+			}
+
 			setExercises(exercises);
 		} else {
 			console.log(result);
