@@ -29,7 +29,12 @@ export default function ExercisePlay(props: ExercisePlayProps) {
 		let newSelected = [];
 
 		setSelectedOptions((prev) => {
-			if (prev.findIndex((selOpt) => selOpt.optionId === optionId) === -1) {
+			if (
+				prev.findIndex(
+					(selOpt) =>
+						selOpt.optionId === optionId && selOpt.exerciseId === exercise.id,
+				) === -1
+			) {
 				const num_selected = prev.filter(
 					(selOpt) =>
 						selOpt.exerciseId === exercise.id &&
@@ -37,6 +42,7 @@ export default function ExercisePlay(props: ExercisePlayProps) {
 				).length;
 
 				if (num_selected === exercise.correctOptions[index].length) {
+					// remove prev option
 					const idx = prev.findIndex(
 						(selOpt) =>
 							selOpt.exerciseId === exercise.id &&
@@ -47,6 +53,7 @@ export default function ExercisePlay(props: ExercisePlayProps) {
 					newSelected = [...prev];
 					newSelected.push({ exerciseId: exercise.id, optionId: optionId });
 				} else {
+					// just add a new option
 					newSelected = [
 						...prev,
 						{
@@ -56,7 +63,10 @@ export default function ExercisePlay(props: ExercisePlayProps) {
 					];
 				}
 			} else {
-				newSelected = prev.filter((selOpt) => selOpt.optionId !== optionId);
+				newSelected = prev.filter(
+					(selOpt) =>
+						selOpt.optionId !== optionId && selOpt.exerciseId !== exercise.id,
+				);
 			}
 
 			localStorage.setItem(

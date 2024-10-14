@@ -33,11 +33,14 @@ export default function Options(props: OptionsProps) {
 						key={option.id}
 						option={option}
 						isSelected={selectedOptions.some(
-							(selectedOpt) => selectedOpt.optionId === option.id,
+							(selectedOpt) =>
+								selectedOpt.optionId === option.id &&
+								selectedOpt.exerciseId === exercise.id,
 						)}
 						isCorrect={selectedOptions.some(
 							(selectedOpt: selectedOptionsInterfacae) =>
-								exercise.correctOptions[i].includes(selectedOpt.optionId),
+								exercise.correctOptions[i].includes(selectedOpt.optionId) &&
+								exercise.id === selectedOpt.exerciseId,
 						)}
 					/>
 				);

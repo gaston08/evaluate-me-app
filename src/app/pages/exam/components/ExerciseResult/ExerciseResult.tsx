@@ -31,8 +31,10 @@ export default function ExerciseResult(props: ExerciseResultProps) {
 		exercise.correctOptions.forEach((correctOptArr) => {
 			const is_correct = correctOptArr.every((optId) => {
 				return (
-					selectedOptions.find((selOpt) => selOpt.optionId === optId) !==
-					undefined
+					selectedOptions.find(
+						(selOpt) =>
+							selOpt.optionId === optId && selOpt.exerciseId === exercise.id,
+					) !== undefined
 				);
 			});
 

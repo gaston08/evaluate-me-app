@@ -25,8 +25,10 @@ function getScore(
 		exercise.correctOptions.forEach((correctOptArr) => {
 			correctOptArr.forEach((optId) => {
 				if (
-					selectedOptions.find((selOpt) => selOpt.optionId === optId) !==
-					undefined
+					selectedOptions.find(
+						(selOpt) =>
+							selOpt.optionId === optId && selOpt.exerciseId === exercise.id,
+					) !== undefined
 				) {
 					score += Number(exercise.pts);
 				}

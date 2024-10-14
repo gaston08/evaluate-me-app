@@ -36,7 +36,9 @@ export default function CodeOptionsPlay(props: CodeOptionsPlayProps) {
 							index={index}
 							option={option}
 							isSelected={selectedOptions.some(
-								(selectedOpt) => selectedOpt.optionId === option.id,
+								(selectedOpt) =>
+									selectedOpt.optionId === option.id &&
+									selectedOpt.exerciseId === exercise.id,
 							)}
 							selectOption={selectOption}
 						/>
