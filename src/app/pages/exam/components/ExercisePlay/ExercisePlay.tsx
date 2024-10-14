@@ -63,10 +63,14 @@ export default function ExercisePlay(props: ExercisePlayProps) {
 					];
 				}
 			} else {
-				newSelected = prev.filter(
+				// remove option by toggle
+				const idx = prev.findIndex(
 					(selOpt) =>
-						selOpt.optionId !== optionId && selOpt.exerciseId !== exercise.id,
+						selOpt.optionId === optionId && selOpt.exerciseId === exercise.id,
 				);
+
+				prev.splice(idx, 1);
+				newSelected = [...prev];
 			}
 
 			localStorage.setItem(
