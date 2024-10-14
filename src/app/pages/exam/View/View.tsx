@@ -80,6 +80,12 @@ export default function View() {
 					showSolveExam: true,
 					showExamResult: false,
 				});
+			} else {
+				setExamState({
+					showInitialForm: true,
+					showSolveExam: false,
+					showExamResult: false,
+				});
 			}
 		}
 	}, [params.id, exam]);
