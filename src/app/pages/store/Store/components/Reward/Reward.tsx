@@ -108,7 +108,7 @@ export default function Reward(props: RewardProps) {
 	};
 
 	return (
-		<Card sx={{ minWidth: 275, backgroundColor: 'white' }}>
+		<Card sx={{ minWidth: 275, backgroundColor: 'white', mt: 5 }}>
 			<CardContent sx={{ pb: 0 }}>
 				<Typography variant="h5" component="div">
 					{title}

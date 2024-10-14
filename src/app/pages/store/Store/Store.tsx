@@ -1,6 +1,7 @@
 import { Fragment, useContext, useState, useEffect } from 'react';
 import Reward from './components/Reward';
 import Prices from './components/Prices';
+import CoffeesQuestion from './components/CoffeesQuestion';
 import Box from '@mui/material/Box';
 import { AuthContext } from 'app/contexts/Auth';
 import { contextAuth } from 'app/shared/interfaces/auth';
@@ -51,6 +52,8 @@ export default function Store() {
 	return (
 		<Fragment>
 			<Box sx={{ pb: 2, maxWidth: 850 }}>
+				<CoffeesQuestion />
+				<Prices />
 				<Reward
 					key={invitations_challenges[current].id}
 					id={invitations_challenges[current].id}
@@ -70,7 +73,6 @@ export default function Store() {
 						)
 					}
 				/>
-				<Prices />
 			</Box>
 			<SimpleDialog open={open} setOpen={setOpen} />
 		</Fragment>

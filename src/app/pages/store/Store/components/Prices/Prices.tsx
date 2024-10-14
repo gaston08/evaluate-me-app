@@ -10,10 +10,10 @@ import { coffees_prices } from './prices';
 
 export default function Prices() {
 	return (
-		<Card sx={{ minWidth: 275, mt: 5, backgroundColor: 'white' }}>
+		<Card sx={{ minWidth: 275, mt: 4, backgroundColor: 'white' }}>
 			<CardContent sx={{ pb: 0 }}>
 				<Typography variant="h5" component="div">
-					Compra instantánea
+					Comprá cafecitos!
 				</Typography>
 				<Typography sx={{ color: 'text.secondary', mb: 1.5 }}>
 					Realizá una transferencia y recibí tus cafecitos al instante.
