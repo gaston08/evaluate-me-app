@@ -22,18 +22,22 @@ function getScore(
 ) {
 	let score: number = 0;
 	exercises.forEach((exercise) => {
-		exercise.correctOptions.forEach((correctOptArr) => {
-			correctOptArr.forEach((optId) => {
-				if (
+		const sumScore = exercise.correctOptions.every((correctOptArr) => {
+			return correctOptArr.every((optId) => {
+				return (
 					selectedOptions.find(
 						(selOpt) =>
 							selOpt.optionId === optId && selOpt.exerciseId === exercise.id,
 					) !== undefined
-				) {
-					score += Number(exercise.pts);
-				}
+				);
 			});
 		});
+
+		console.log(sumScore);
+
+		if (sumScore) {
+			score += Number(exercise.pts);
+		}
 	});
 
 	return score.toFixed(2);
@@ -53,6 +57,11 @@ export default function FinishExamButton(props: FinishExamButtonProps) {
 		if (exam_result !== null) {
 			const score = getScore(exam.exercises, selectedOptions);
 
+			let total_pts = 0;
+			exam.exercises.forEach((ex) => {
+				total_pts += Number(ex.pts);
+			});
+
 			localStorage.setItem(
 				`${params.id}_result`,
 				JSON.stringify({
@@ -60,7 +69,7 @@ export default function FinishExamButton(props: FinishExamButtonProps) {
 					enabled: false,
 					completed: true,
 					score,
-					total_pts: exam.totalPts,
+					total_pts: total_pts,
 					date: new Date().toString(),
 				}),
 			);
