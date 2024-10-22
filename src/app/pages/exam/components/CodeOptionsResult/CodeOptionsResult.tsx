@@ -44,7 +44,8 @@ export default function CodeOptions(props: CodeOptionsProps) {
 							isCorrect={selectedOptions.some(
 								(selectedOpt: selectedOptionsInterfacae) =>
 									exercise.correctOptions[i].includes(selectedOpt.optionId) &&
-									exercise.id === selectedOpt.exerciseId,
+									exercise.id === selectedOpt.exerciseId &&
+									selectedOpt.optionId === option.id,
 							)}
 						/>
 					);
